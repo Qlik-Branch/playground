@@ -1,0 +1,23 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Qlik-Branch/playground.git"
+  },
+  "author": "Developer Relations",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qlik-Branch/playground/issues"
+  },
+  "homepage": "https://github.com/Qlik-Branch/playground"
+}
