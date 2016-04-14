@@ -1,0 +1,20 @@
+@import "./fonts.less";
+@import "./colours.less";
+
+body{
+  -webkit-font-smoothing: antialiased;
+  font-family: proxima-nova, arial, sans-serif;
+  background-color: @body-grey;
+  color: white;
+  margin: 0;
+}
+
+
+@import "./header.less";
+@import "./footer.less";
+
+.content{
+  min-height: ~"calc(100% - 250px)";
+  padding: 15px 20px;
+  box-sizing: border-box;
+}

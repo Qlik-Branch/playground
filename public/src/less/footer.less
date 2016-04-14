@@ -1,0 +1,63 @@
+.footer{
+  font-size: 11px;
+  .footer-main{
+    padding: 20px;
+    background-color: @header-grey;
+    min-height: 120px;
+    box-sizing: border-box;
+    .footer-logo{
+      background: url('/resources/playground-logo-small.png') left top no-repeat;
+      height: 20px;
+      background-size: contain;
+      margin-bottom: 20px;
+    }
+    .footer-block-container{
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: table-row;
+      .footer-block{
+        display: table-cell;
+        vertical-align: top;
+        width: 25%;
+        box-sizing: border-box;
+        padding: 0 20px;
+        &:first-of-type{
+          padding-left: 0;
+        }
+        &:last-of-type{
+          padding-right: 0;
+        }
+      }
+      .footer-list{
+        width: 180px;
+        float: right;
+        ul{
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+          li{
+            height: 15px;
+            line-height: 15px;
+          }
+        }
+        .footer-list-header{
+          display: block;
+          height: 20px;
+          line-height: 20px;
+          font-size: 13px;
+          font-weight: bold;
+          border-bottom: 2px solid @orange;
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+  .footer-company{
+    padding: 5px 20px;
+    height: 50px;
+    line-height: 40px;
+    background-color: @footer-grey;
+    box-sizing: border-box;
+  }
+}
