@@ -3,8 +3,11 @@ var Showcase = React.createClass({
     return (
       <div>
         <Header />
-        <div>Showcase</div>
-      </div>      
+          <div className="content">
+            <h1>Showcase</h1>            
+          </div>
+          <Footer />
+      </div>
     )
   }
 });

@@ -13,8 +13,11 @@ var Login = React.createClass({
     return (
       <div>
         <Header />
-        <div>Login Page</div>
-        <a href="/auth/github">Login</a>
+        <div className="content">
+          <h1>Login Page</h1>
+          <a href="/auth/github">Login</a>
+        </div>
+        <Footer />
       </div>
     )
   }

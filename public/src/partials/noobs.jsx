@@ -3,7 +3,10 @@ var Noobs = React.createClass({
     return (
       <div>
         <Header />
-        <div>Noobs</div>
+        <div className="content">
+          <h1>N00bs</h1>            
+        </div>
+        <Footer />
       </div>
     )
   }

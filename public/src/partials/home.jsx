@@ -3,7 +3,10 @@ var Home = React.createClass({
     return (
       <div>
         <Header />
-        <div>Home Page</div>
+        <div className="content">
+          <h1>Home Page</h1>
+        </div>
+        <Footer />
       </div>
     )
   }
