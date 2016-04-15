@@ -127,7 +127,10 @@ var Home = React.createClass({
     return (
       <div>
         <Header />
-        <div>Home Page</div>
+        <div className="content">
+          <h1>Home Page</h1>
+        </div>
+        <Footer />
       </div>
     )
   }
@@ -148,8 +151,11 @@ var Login = React.createClass({
     return (
       <div>
         <Header />
-        <div>Login Page</div>
-        <a href="/auth/github">Login</a>
+        <div className="content">
+          <h1>Login Page</h1>
+          <a href="/auth/github">Login</a>
+        </div>
+        <Footer />
       </div>
     )
   }
@@ -160,7 +166,10 @@ var Noobs = React.createClass({
     return (
       <div>
         <Header />
-        <div>Noobs</div>
+        <div className="content">
+          <h1>N00bs</h1>            
+        </div>
+        <Footer />
       </div>
     )
   }
@@ -186,8 +195,11 @@ var Showcase = React.createClass({
     return (
       <div>
         <Header />
-        <div>Showcase</div>
-      </div>      
+          <div className="content">
+            <h1>Showcase</h1>            
+          </div>
+          <Footer />
+      </div>
     )
   }
 });

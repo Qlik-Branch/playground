@@ -229,9 +229,14 @@ var Home = React.createClass({
       React.createElement(Header, null),
       React.createElement(
         "div",
-        null,
-        "Home Page"
-      )
+        { className: "content" },
+        React.createElement(
+          "h1",
+          null,
+          "Home Page"
+        )
+      ),
+      React.createElement(Footer, null)
     );
   }
 });
@@ -255,14 +260,19 @@ var Login = React.createClass({
       React.createElement(Header, null),
       React.createElement(
         "div",
-        null,
-        "Login Page"
+        { className: "content" },
+        React.createElement(
+          "h1",
+          null,
+          "Login Page"
+        ),
+        React.createElement(
+          "a",
+          { href: "/auth/github" },
+          "Login"
+        )
       ),
-      React.createElement(
-        "a",
-        { href: "/auth/github" },
-        "Login"
-      )
+      React.createElement(Footer, null)
     );
   }
 });
@@ -277,9 +287,14 @@ var Noobs = React.createClass({
       React.createElement(Header, null),
       React.createElement(
         "div",
-        null,
-        "Noobs"
-      )
+        { className: "content" },
+        React.createElement(
+          "h1",
+          null,
+          "N00bs"
+        )
+      ),
+      React.createElement(Footer, null)
     );
   }
 });
@@ -317,9 +332,14 @@ var Showcase = React.createClass({
       React.createElement(Header, null),
       React.createElement(
         "div",
-        null,
-        "Showcase"
-      )
+        { className: "content" },
+        React.createElement(
+          "h1",
+          null,
+          "Showcase"
+        )
+      ),
+      React.createElement(Footer, null)
     );
   }
 });
