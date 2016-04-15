@@ -186,6 +186,39 @@ var FooterList = React.createClass({
   }
 });
 
+var AppList = React.createClass({
+  displayName: "AppList",
+
+  getApps: function getApps() {
+    $.get({
+      url: this.props.url,
+      success: function (data) {
+        this.setState({ data: data });
+      }.bind(this)
+    });
+  },
+  getInitialState: function getInitialState() {
+    return { data: [] };
+  },
+  componentDidMount: function componentDidMount() {
+    this.getApps();
+  },
+  render: function render() {
+    var nodes = this.state.data.map(function (app, i) {
+      return React.createElement(
+        "div",
+        { className: "app-summary", key: i },
+        app.name
+      );
+    });
+    return React.createElement(
+      "div",
+      { className: "app-list" },
+      nodes
+    );
+  }
+});
+
 var Home = React.createClass({
   displayName: "Home",
 
@@ -262,7 +295,12 @@ var GettingStarted = React.createClass({
       React.createElement(
         "div",
         { className: "content" },
-        "GettingStarted"
+        React.createElement(
+          "h1",
+          null,
+          "Sample Apps"
+        ),
+        React.createElement(AppList, { url: "/api/sampleapps" })
       ),
       React.createElement(Footer, null)
     );

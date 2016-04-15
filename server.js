@@ -1,7 +1,8 @@
 var express = require('express'),
     app = express(),
     passport = require('passport'),
-    expressSession = require('express-session');
+    expressSession = require('express-session'),
+    mongoose = require('mongoose');
 
 try{
   var config = require('./config');
@@ -17,6 +18,8 @@ catch(err){
   //config file doesn't exist
   console.log("No configuration file found.");
 }
+
+mongoose.connect(process.env.mongoconnectionstring);
 
 //configure passport strategies
 require(__dirname +'/server/controllers/passport/passport.js')(passport);

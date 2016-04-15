@@ -93,6 +93,35 @@ var FooterList = React.createClass({
   }
 });
 
+var AppList = React.createClass({
+  getApps: function(){
+    $.get({
+      url: this.props.url,
+      success: function(data){
+        this.setState({data: data});
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function(){
+    this.getApps();
+  },
+  render: function(){
+    var nodes = this.state.data.map(function(app, i){
+      return (
+        <div className="app-summary" key={i}>{app.name}</div>
+      );
+    });
+    return (
+      <div className="app-list">
+        {nodes}
+      </div>
+    )
+  }
+});
+
 var Home = React.createClass({
   render: function(){
     return (
@@ -142,8 +171,11 @@ var GettingStarted = React.createClass({
     return (
       <div>
         <Header />
-        <div className="content">GettingStarted</div>
-        <Footer />        
+        <div className="content">
+          <h1>Sample Apps</h1>
+          <AppList url="/api/sampleapps"/>
+        </div>
+        <Footer />
       </div>
     )
   }

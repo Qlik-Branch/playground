@@ -3,8 +3,11 @@ var GettingStarted = React.createClass({
     return (
       <div>
         <Header />
-        <div className="content">GettingStarted</div>
-        <Footer />        
+        <div className="content">
+          <h1>Sample Apps</h1>
+          <AppList url="/api/sampleapps"/>
+        </div>
+        <Footer />
       </div>
     )
   }
