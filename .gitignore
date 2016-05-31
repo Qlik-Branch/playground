@@ -1,2 +1,4 @@
 /node_modules
 config.js
+client.pem
+client_key.pem

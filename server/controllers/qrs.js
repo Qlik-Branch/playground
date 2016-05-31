@@ -62,6 +62,7 @@ module.exports = {
         }
         else{
           ////do something here
+          res.status(400);
           res.json({err: "API Key not valid"});
         }
       }

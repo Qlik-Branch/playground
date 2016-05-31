@@ -1,0 +1,21 @@
+<div class="header">
+  <ul role="nav" class="navmenu">
+    <li class="home">
+      <a [routerLink]="['/home']"><span class="lui-icon lui-icon--home"></span></a>
+    </li>
+    <li>
+      <a [routerLink]="['/noobs']">Qlik for noobs</a>
+    </li>
+    <li>
+      <a [routerLink]="['/gettingstarted']">Getting started</a>
+    </li>
+    <li>
+      <a [routerLink]="['/showcase']">Showcase</a>
+    </li>
+  </ul>
+  <div class="loginmenu">
+    <button class="lui-button  lui-button--inverse"><span class="lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
+    <button *ngIf="!user" class="lui-button lui-button--warning"><a href="/auth/github">Login</a></button>
+    <button *ngIf="user" class="lui-button lui-button--warning"><a href="/auth/github">{{user.displayName}}</a></button>
+  </div>
+</div>

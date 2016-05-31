@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     includes: {
       files:{
-        src: ['playground-raw.js'],
+        src: ['main.js'],
         dest: 'public/build/',
         cwd: 'public/src/js'
       }
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     },
     watch: {
       styles: {
-        files: ['public/src/less/**/*.less','public/src/js/**/*.js', 'public/src/partials/**/*.jsx'], // which files to watch
+        files: ['public/src/less/**/*.less','public/src/js/**/*.js', 'server/**/*.js'], // which files to watch
         tasks: ['includes', 'babel', 'less', 'express'],
         options: {
           nospawn: true,
@@ -48,19 +48,19 @@ module.exports = function(grunt) {
     babel: {
   		options: {
   			sourceMap: false,
-  			presets: ['babel-preset-es2015','react']
+  			presets: ['babel-preset-es2015']
   		},
   		dist: {
   			files: {
-  				'public/build/playground.js': 'public/build/playground-raw.js'
+  				'public/build/playground.js': 'public/build/main.js'
   			}
   		}
   	}
   });
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-includes');
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
-  grunt.loadNpmTasks('grunt-babel');
-  grunt.registerTask('default', ['includes', 'babel', 'less', 'express', 'watch' ] );
+  grunt.registerTask('default', ['less', 'includes', 'babel', 'express', 'watch' ] );
 };
