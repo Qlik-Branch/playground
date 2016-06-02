@@ -21,7 +21,7 @@
     }
   });
 
-  
+
   //component declarations
   var Header = ng.core.Component({
     selector: 'playground-header',
@@ -88,6 +88,16 @@
     }
   });
 
+  let ComingSoon = ng.core.Component({
+    selector: 'coming-soon',
+    template: '<div class=\'coming-soon\'>Coming Soon</div>'
+  })
+  .Class({
+    constructor: function(){
+      
+    }
+  });
+
   var Home = ng.core.Component({
     selector: 'playground-home',
     templateUrl: '/views/home.html'
@@ -108,10 +118,22 @@
     }
   });
 
-  var GettingStarted = ng.core.Component({
-    selector: 'playground-getting-started',
-    viewProviders: [ng.http.HTTP_PROVIDERS],
-    templateUrl: '/views/getting-started.html'
+  var GettingStartedMain = ng.core.Component({
+    selector: 'playground-getting-started-main',
+    directives: [ng.router.ROUTER_DIRECTIVES, ComingSoon],
+    templateUrl: '/views/getting-started/getting-started-main.html'
+  })
+  .Class({
+    constructor: function(){
+
+    }
+  })
+
+  var GettingStartedExamples = ng.core.Component({
+    selector: 'playground-getting-started-examples',
+    directives: [],
+    viewProviders: [],
+    templateUrl: '/views/getting-started/getting-started-examples.html'
   })
   .Class({
     constructor: [ng.http.Http, function(http){
@@ -120,6 +142,33 @@
       });
     }]
   })
+
+  var GettingStarted = ng.core.Class({
+    constructor: function(){
+
+    }
+  })
+
+  GettingStarted = ng.core.Component({
+    selector: 'playground-getting-started',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/getting-started/getting-started.html'
+  })(GettingStarted);
+
+  GettingStarted = ng.router.Routes([
+    {
+      path: "/exampleapps",
+      component: GettingStartedExamples
+    },
+    {
+      path: "/",
+      component: GettingStartedMain
+    },
+    {
+      path: '/**',
+      redirectTo: ['/']
+    }
+  ])(GettingStarted);
 
   var Showcase = ng.core.Component({
     selector: 'playground-showcase',

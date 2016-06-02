@@ -49,7 +49,7 @@ app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
 
 //all other routes should be dealt with by the client
-app.get('/:page', function(req, res){
+app.get('/*', function(req, res){
   console.log(req.params.page);
   res.render(__dirname+'/server/views/index.jade', {});
 });
