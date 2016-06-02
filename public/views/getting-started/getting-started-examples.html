@@ -1,0 +1,14 @@
+<div class="getting-started-examples">
+  <div class="row example-apps-container">
+    <div *ngFor="let item of apps" class="col-md-3 example-apps-card-container">
+      <div class="card grey border border-med">
+        <div class="card-icon">
+          <span class="lui-icon lui-icon--sheet"></span>
+        </div>
+        <div class="card-title">
+          {{item.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

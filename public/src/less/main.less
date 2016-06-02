@@ -1,4 +1,5 @@
 @import "./fonts.less";
+@import "../../../node_modules/@qlik/leonardo-ui/dist/colors.less";
 @import "./colours.less";
 
 body{
@@ -13,8 +14,61 @@ body{
 @import "./header.less";
 @import "./footer.less";
 
+
+h1{
+  font-size: 32px;
+  font-weight: normal;
+}
+
 .content{
   min-height: ~"calc(100% - 250px)";
   padding: 15px 20px;
   box-sizing: border-box;
 }
+
+.card{
+  height: 100%;
+  width: 100%;
+  border-radius: 7px;
+  padding: 20px;
+  .card-icon{
+    width: 100%;
+    span{
+      display: block;
+      &::before{
+        display: block;
+        text-align: center;
+        font-size: 80px;
+      }
+    }
+  }
+  .card-title{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .card-text{
+    text-align: justify;
+  }
+  .card-link{
+    display: block;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px solid @white;
+    height: 30px;
+    line-height: 30px;
+    color: @white;
+  }
+}
+
+.border{
+  border: 1px solid;
+  &.border-med{
+    border-width: 2px;
+  }
+  &.border-thick{
+    border-width: 4px;
+  }
+}
+
+@import "./coming-soon.less";
+@import "./getting-started.less";
