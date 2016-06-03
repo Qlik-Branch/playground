@@ -1,4 +1,4 @@
-var AppComponent = function(){};
+let AppComponent = function(){};
 AppComponent.annotations = [
   new ng.core.Component({
     selector: 'app-component',

@@ -1,0 +1,28 @@
+<div class="">
+  <div class="row">
+    <div class="example-app-detail col-md-12">
+      <h1>{{selectedApp.name}}</h1>
+      <p>
+        {{selectedApp.description}}
+      </p>
+      <button class="lui-button lui-button--warning" type="button" name="button">Explore the app</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Configuration</h2>
+      <pre>
+        <code id="{{appId}}_config" class="hljs javascript">{{config}}</code>
+      </pre>
+    </div>
+    <div class="col-md-6">
+      <h2>Sample Projects</h2>
+      <ul class="plainlist sample-project-list">
+        <li *ngFor="let info of sampleProjects; let i = index">
+          <button id="sampleproject_{{i}}" class="lui-button lui-button--inverse lui-button--full-width" type="button" name="button" (click)="openCloneInfo(i)">{{info.name}}</button>
+        </li>
+      </ul>
+      <clone-info id="sample_project_clone_info" [info]="selectedProject"></clone-info>
+    </div>
+  </div>
+</div>

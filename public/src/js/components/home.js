@@ -1,4 +1,4 @@
-var Home = ng.core.Component({
+let Home = ng.core.Component({
   selector: 'playground-home',
   templateUrl: '/views/home.html'
 })

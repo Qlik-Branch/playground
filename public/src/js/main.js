@@ -2,14 +2,18 @@
 
   //service declarations
   include "./services/user-service.js"
+  include "./services/example-apps-service.js"
 
   //component declarations
   include "./components/header.js"
   include "./components/footer-list.js"
   include "./components/footer.js"
   include "./components/coming-soon.js"
+  include "./components/clone-info.js"
   include "./components/home.js"
   include "./components/noobs.js"
+  include "./components/getting-started/example-app-details.js"
+  include "./components/getting-started/example-app-list.js"
   include "./components/getting-started/getting-started-main.js"
   include "./components/getting-started/getting-started-examples.js"
   include "./components/getting-started/getting-started.js"

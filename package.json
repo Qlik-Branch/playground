@@ -20,6 +20,7 @@
     "express-session": "^1.13.0",
     "grunt-babel": "^6.0.0",
     "grunt-es6-transpiler": "^1.0.2",
+    "highlightjs": "^8.7.0",
     "jade": "^1.11.0",
     "jquery": "^2.2.3",
     "mongoose": "^4.4.12",

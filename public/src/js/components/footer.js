@@ -1,16 +1,4 @@
-// var FooterComponent = function(){}
-// FooterComponent.prototype.ngOnInit = function () {
-//
-// };
-// FooterComponent.annotations = [
-//   new ng.core.Component({
-//     selector: 'playground-footer',
-//     directives: [ng.router.ROUTER_DIRECTIVES, FooterList],
-//     templateUrl: '/views/footer.html'
-//   })
-// ];
-
-var FooterComponent = ng.core.Component({
+let FooterComponent = ng.core.Component({
   selector: 'playground-footer',
   directives: [ng.router.ROUTER_DIRECTIVES, FooterList],
   templateUrl: '/views/footer.html'

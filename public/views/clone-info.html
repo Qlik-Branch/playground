@@ -1,0 +1,17 @@
+<div class="dialog-content" style="display: none;">
+	<div class="lui-dialog  lui-dialog--inverse" style="width: 400px;">
+		<div class="lui-dialog__header">
+			<div class="lui-dialog__title">{{info.name}}</div>
+		</div>
+		<div class="lui-dialog__body">
+      <div class="frame  lui-bg-inverse">
+      	<input class="lui-input lui-input--inverse" value="{{info['github-repo']}}"/>
+      </div>
+      <button class="lui-button  lui-button--inverse lui-button--full-width">Open in GitHub Desktop</button>
+      <button class="lui-button  lui-button--inverse lui-button--full-width">Download Zip</button>
+		</div>
+		<div class="lui-dialog__footer">
+			<button class="lui-button  lui-button--inverse" (click)="close()">OK</button>
+		</div>
+	</div>
+</div>
