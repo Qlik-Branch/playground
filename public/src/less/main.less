@@ -19,6 +19,14 @@ h1{
   font-size: 32px;
   font-weight: normal;
 }
+h2{
+  font-size: 26px;
+  font-weight: normal;
+}
+
+pre, code{
+  background-color: @footer-grey !important;
+}
 
 .content{
   min-height: ~"calc(100% - 250px)";
@@ -26,11 +34,22 @@ h1{
   box-sizing: border-box;
 }
 
+.plainlist{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
 .card{
+  display: block;
   height: 100%;
   width: 100%;
   border-radius: 7px;
   padding: 20px;
+  text-decoration: none;
+  &:hover{
+    text-decoration: none;
+  }
   .card-icon{
     width: 100%;
     span{

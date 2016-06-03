@@ -1,4 +1,4 @@
-var FooterList = ng.core.Component({
+let FooterList = ng.core.Component({
   selector: 'playground-footer-list',
   inputs: ['data: data'],
   directives: [ng.router.ROUTER_DIRECTIVES],
@@ -6,6 +6,6 @@ var FooterList = ng.core.Component({
 })
 .Class({
   constructor: function(){
-    
+
   }
 });

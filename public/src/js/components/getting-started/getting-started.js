@@ -12,12 +12,12 @@ GettingStarted = ng.core.Component({
 
 GettingStarted = ng.router.Routes([
   {
-    path: "/exampleapps",
-    component: GettingStartedExamples
-  },
-  {
     path: "/",
     component: GettingStartedMain
+  },  
+  {
+    path: "/exampleapps",
+    component: GettingStartedExamples
   },
   {
     path: '/**',

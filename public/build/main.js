@@ -21,23 +21,49 @@
     }
   });
 
+  let ExampleAppService =
+  ng.core.Injectable({
+
+  })
+  .Class({
+    constructor: [ng.http.Http, function(http){
+      this.http = http;
+      this.exampleApps;
+    }],
+    getExampleApps: function(callbackFn){
+      if(this.exampleApps){
+        callbackFn(this.exampleApps);
+      }
+      else{
+        this.http.get('/configs/example-apps.json').subscribe(response => {
+          if(response._body!==""){
+            callbackFn(JSON.parse(response._body));
+          }
+          else{
+            callbackFn();
+          }
+        });
+      }
+    }
+  });
+
 
   //component declarations
-  var Header = ng.core.Component({
+  let Header = ng.core.Component({
     selector: 'playground-header',
     directives: [ng.router.ROUTER_DIRECTIVES],
     providers: [UserService],
     templateUrl: '/views/header.html'
   })
   .Class({
-    constructor: [UserService, function(userService){    
+    constructor: [UserService, function(userService){
       userService.getUser((user) => {
         this.user = user;
       });
     }]
   });
 
-  var FooterList = ng.core.Component({
+  let FooterList = ng.core.Component({
     selector: 'playground-footer-list',
     inputs: ['data: data'],
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -45,23 +71,11 @@
   })
   .Class({
     constructor: function(){
-      
+
     }
   });
 
-  // var FooterComponent = function(){}
-  // FooterComponent.prototype.ngOnInit = function () {
-  //
-  // };
-  // FooterComponent.annotations = [
-  //   new ng.core.Component({
-  //     selector: 'playground-footer',
-  //     directives: [ng.router.ROUTER_DIRECTIVES, FooterList],
-  //     templateUrl: '/views/footer.html'
-  //   })
-  // ];
-
-  var FooterComponent = ng.core.Component({
+  let FooterComponent = ng.core.Component({
     selector: 'playground-footer',
     directives: [ng.router.ROUTER_DIRECTIVES, FooterList],
     templateUrl: '/views/footer.html'
@@ -98,7 +112,36 @@
     }
   });
 
-  var Home = ng.core.Component({
+  let CloneInfo = ng.core.Component({
+    selector: 'clone-info',
+    templateUrl: '/views/clone-info.html',
+    inputs:[
+      'info'
+    ]
+  })
+  .Class({
+    constructor: [function(){
+      this.info = null;
+      this.dialog;
+    }],
+    show: function(triggerElementId, popupElementId){
+      var triggerElement = document.getElementById(triggerElementId);
+      var popupElement = document.getElementById(popupElementId);
+      this.dialog = leonardoui.popover({
+        content: popupElement,
+        shadow: true,
+        closeOnEscape: false,
+        dock: "bottom",
+        alignTo: triggerElement
+      });
+    },
+    close: function(){
+      this.dialog.close();
+      this.dialog = null;
+    }
+  });
+
+  let Home = ng.core.Component({
     selector: 'playground-home',
     templateUrl: '/views/home.html'
   })
@@ -108,7 +151,7 @@
     }
   });
 
-  var Noobs = ng.core.Component({
+  let Noobs = ng.core.Component({
     selector: 'playground-noobs',
     templateUrl: '/views/noobs.html'
   })
@@ -118,7 +161,55 @@
     }
   });
 
-  var GettingStartedMain = ng.core.Component({
+  let ExampleAppDetails = ng.core.Component({
+    selector: 'example-app-details',
+    directives: [CloneInfo],
+    viewProviders: [ng.router.ROUTER_PROVIDERS, ExampleAppService],
+    templateUrl: '/views/getting-started/example-app-details.html'
+  })
+  .Class({
+    constructor: [ng.router.RouteSegment, ExampleAppService, function(routeSegment, exampleAppService){
+      this.routeSegment = routeSegment;
+      this.appId = routeSegment.parameters.id;
+      this.selectedApp = {};
+      this.sampleProjects = [];
+      this.selectedProject = {};
+      exampleAppService.getExampleApps((apps)=>{
+        this.selectedApp = apps[this.appId];
+        this.config = JSON.stringify(this.selectedApp.config, null, ' ');
+        this.sampleProjects = this.selectedApp['sample-projects'];
+        if(this.sampleProjects.length > 0){
+          this.selectedProject = this.sampleProjects[0];
+        }
+      })
+    }],
+    openCloneInfo: function(projectIndex){
+      this.selectedProject = this.sampleProjects[projectIndex];
+      var popupElement = document.getElementById("sample_project_clone_info");
+      var dialog = leonardoui.dialog({
+        content: popupElement,
+        shadow: true,
+        closeOnEscape: false      
+      });
+    }
+  })
+
+  let ExampleAppList = ng.core.Component({
+    selector: 'example-app-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [ExampleAppService],
+    templateUrl: '/views/getting-started/example-app-list.html'
+  })
+  .Class({
+    constructor: [ExampleAppService, function(exampleAppService){
+      exampleAppService.getExampleApps((apps)=>{
+        this.apps = apps;
+        this.appKeys = Object.keys(apps);
+      });
+    }]
+  })
+
+  let GettingStartedMain = ng.core.Component({
     selector: 'playground-getting-started-main',
     directives: [ng.router.ROUTER_DIRECTIVES, ComingSoon],
     templateUrl: '/views/getting-started/getting-started-main.html'
@@ -129,19 +220,31 @@
     }
   })
 
-  var GettingStartedExamples = ng.core.Component({
+  let GettingStartedExamples = ng.core.Component({
     selector: 'playground-getting-started-examples',
-    directives: [],
-    viewProviders: [],
+    directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/getting-started/getting-started-examples.html'
   })
   .Class({
-    constructor: [ng.http.Http, function(http){
-      http.get('/api/sampleapps').subscribe(response => {
-        this.apps = JSON.parse(response._body);
-      });
-    }]
+    constructor: function(){
+
+    }
   })
+
+  GettingStartedExamples = ng.router.Routes([
+    {
+      path: "/",
+      component: ExampleAppList
+    },
+    {
+      path: "/:id",
+      component: ExampleAppDetails
+    },
+    {
+      path: '/**',
+      redirectTo: ['/']
+    }
+  ])(GettingStartedExamples);
 
   var GettingStarted = ng.core.Class({
     constructor: function(){
@@ -157,12 +260,12 @@
 
   GettingStarted = ng.router.Routes([
     {
-      path: "/exampleapps",
-      component: GettingStartedExamples
-    },
-    {
       path: "/",
       component: GettingStartedMain
+    },  
+    {
+      path: "/exampleapps",
+      component: GettingStartedExamples
     },
     {
       path: '/**',
@@ -170,7 +273,7 @@
     }
   ])(GettingStarted);
 
-  var Showcase = ng.core.Component({
+  let Showcase = ng.core.Component({
     selector: 'playground-showcase',
     templateUrl: '/views/showcase.html'
   })
@@ -181,7 +284,7 @@
   });
 
 
-  var AppComponent = function(){};
+  let AppComponent = function(){};
   AppComponent.annotations = [
     new ng.core.Component({
       selector: 'app-component',

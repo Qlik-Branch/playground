@@ -1,4 +1,4 @@
-var Showcase = ng.core.Component({
+let Showcase = ng.core.Component({
   selector: 'playground-showcase',
   templateUrl: '/views/showcase.html'
 })

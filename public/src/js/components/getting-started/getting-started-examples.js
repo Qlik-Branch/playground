@@ -1,13 +1,25 @@
-var GettingStartedExamples = ng.core.Component({
+let GettingStartedExamples = ng.core.Component({
   selector: 'playground-getting-started-examples',
-  directives: [],
-  viewProviders: [],
+  directives: [ng.router.ROUTER_DIRECTIVES],
   templateUrl: '/views/getting-started/getting-started-examples.html'
 })
 .Class({
-  constructor: [ng.http.Http, function(http){
-    http.get('/api/sampleapps').subscribe(response => {
-      this.apps = JSON.parse(response._body);
-    });
-  }]
+  constructor: function(){
+
+  }
 })
+
+GettingStartedExamples = ng.router.Routes([
+  {
+    path: "/",
+    component: ExampleAppList
+  },
+  {
+    path: "/:id",
+    component: ExampleAppDetails
+  },
+  {
+    path: '/**',
+    redirectTo: ['/']
+  }
+])(GettingStartedExamples);
