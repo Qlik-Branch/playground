@@ -19,10 +19,22 @@
       <h2>Sample Projects</h2>
       <ul class="plainlist sample-project-list">
         <li *ngFor="let info of sampleProjects; let i = index">
-          <button id="sampleproject_{{i}}" class="lui-button lui-button--inverse lui-button--full-width" type="button" name="button" (click)="openCloneInfo(i)">{{info.name}}</button>
+          <label class="orange">{{info.name}}</label>
+          <p>
+            {{info.description}}
+          </p>
+          <div class="sample-project-clone">
+            <div class="frame  lui-bg-inverse">
+              <input id='{{i}}_clone_url' class="lui-input  lui-input--inverse" name="name" value="{{info['clone-url']}}">
+            </div>
+            <button class="copy-to-clipboard lui-button lui-button--inverse" name="button" (click)="copyToClipboard(i)"><span class="lui-icon lui-icon--copy"></span></button>
+          </div>
+          <div class="sample-project-buttons">
+            <button class="inline-block lui-button lui-button--warning" type="button" name="button"><a href="github-mac://openRepo/{{info['github-repo']}}">Open in GitHub Desktop</a></button>
+            <button class="inline-block lui-button lui-button--warning" type="button" name="button"><a href="{{info['github-repo']}}/archive/master.zip">Download Zip</a></button>
+          </div>
         </li>
       </ul>
-      <clone-info id="sample_project_clone_info" [info]="selectedProject"></clone-info>
     </div>
   </div>
 </div>

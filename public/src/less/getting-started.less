@@ -15,10 +15,24 @@
 
     }
     .sample-project-list{
-      li{        
+      li{
         margin-bottom: 5px;
-        min-width: 200px;
-        width: 50%;
+        .sample-project-clone{
+          position: relative;
+          .copy-to-clipboard{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            min-width: 30px;
+            height: 28px;
+            padding: 0;
+          }
+        }
+        .sample-project-buttons{
+          margin-top: 4px;
+          text-align: right;
+        }
       }
     }
 }
