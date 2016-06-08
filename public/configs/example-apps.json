@@ -10,15 +10,21 @@
     "sample-projects":[
       {
         "name": "Basic Template",
-        "github-repo": "https://github.com/Qlik-Branch/playground-basic.git"
+        "description": "An empty template for you to play with",
+        "github-repo": "https://github.com/Qlik-Branch/playground-basic",
+        "clone-url": "https://github.com/Qlik-Branch/playground-basic.git"
       },
       {
         "name": "Search Template",
-        "github-repo": "https://github.com/Qlik-Branch/playground-branch-search.git"
+        "description": "A simple search page....",
+        "github-repo": "https://github.com/Qlik-Branch/playground-branch-search",
+        "clone-url": "https://github.com/Qlik-Branch/playground-branch-search.git"
       }
       ,{
         "name": "Dashboard Template",
-        "github-repo": "https://github.com/Qlik-Branch/playground-branch-dashboard.git"
+        "description": "An example dashboard.....",
+        "github-repo": "https://github.com/Qlik-Branch/playground-branch-dashboard",
+        "clone-url": "https://github.com/Qlik-Branch/playground-branch-dashboard.git"
       }
     ]
   }

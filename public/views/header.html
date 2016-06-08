@@ -14,8 +14,10 @@
     </li>
   </ul>
   <div class="loginmenu">
-    <button class="lui-button  lui-button--inverse"><span class="lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
-    <button *ngIf="!user" class="lui-button lui-button--warning"><a href="/auth/github">Login</a></button>
-    <button *ngIf="user" class="lui-button lui-button--warning"><a href="/auth/github">{{user.displayName}}</a></button>
+    <button class="lui-button  lui-button--inverse"><span class="inline-block lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
+    <div class="horizontal-spacer horizontal-spacer-medium"></div>
+    <button *ngIf="!user" class="inline-block lui-button lui-button--warning"><a href="/auth/github">Login</a></button>
+    <button *ngIf="user" class="inline-block lui-button lui-button--warning"><a href="/auth/github">{{user.displayName}}</a></button>
+    <div class="horizontal-spacer horizontal-spacer-medium"></div>
   </div>
 </div>

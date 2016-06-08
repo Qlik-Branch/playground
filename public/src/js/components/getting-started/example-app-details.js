@@ -1,6 +1,6 @@
 let ExampleAppDetails = ng.core.Component({
   selector: 'example-app-details',
-  directives: [CloneInfo],
+  directives: [],
   viewProviders: [ng.router.ROUTER_PROVIDERS, ExampleAppService],
   templateUrl: '/views/getting-started/example-app-details.html'
 })
@@ -20,13 +20,9 @@ let ExampleAppDetails = ng.core.Component({
       }
     })
   }],
-  openCloneInfo: function(projectIndex){
-    this.selectedProject = this.sampleProjects[projectIndex];
-    var popupElement = document.getElementById("sample_project_clone_info");
-    var dialog = leonardoui.dialog({
-      content: popupElement,
-      shadow: true,
-      closeOnEscape: false      
-    });
+  copyToClipboard: function(index){
+    var itemInput = document.getElementById(index+"_clone_url");
+    itemInput.select();
+    document.execCommand('copy');
   }
 })

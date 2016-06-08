@@ -28,6 +28,31 @@ pre, code{
   background-color: @footer-grey !important;
 }
 
+button{  
+  a{
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.horizontal-spacer{
+  display: inline-block;
+  &.horizontal-spacer-small{
+    width: 10px;
+  }
+  &.horizontal-spacer-medium{
+    width: 20px;
+  }
+  &.horizontal-spacer-large{
+    width: 50px;
+  }
+}
+
+.inline-block{
+  display: inline-block;
+}
+
 .content{
   min-height: ~"calc(100% - 250px)";
   padding: 15px 20px;

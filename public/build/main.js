@@ -112,35 +112,6 @@
     }
   });
 
-  let CloneInfo = ng.core.Component({
-    selector: 'clone-info',
-    templateUrl: '/views/clone-info.html',
-    inputs:[
-      'info'
-    ]
-  })
-  .Class({
-    constructor: [function(){
-      this.info = null;
-      this.dialog;
-    }],
-    show: function(triggerElementId, popupElementId){
-      var triggerElement = document.getElementById(triggerElementId);
-      var popupElement = document.getElementById(popupElementId);
-      this.dialog = leonardoui.popover({
-        content: popupElement,
-        shadow: true,
-        closeOnEscape: false,
-        dock: "bottom",
-        alignTo: triggerElement
-      });
-    },
-    close: function(){
-      this.dialog.close();
-      this.dialog = null;
-    }
-  });
-
   let Home = ng.core.Component({
     selector: 'playground-home',
     templateUrl: '/views/home.html'
@@ -163,7 +134,7 @@
 
   let ExampleAppDetails = ng.core.Component({
     selector: 'example-app-details',
-    directives: [CloneInfo],
+    directives: [],
     viewProviders: [ng.router.ROUTER_PROVIDERS, ExampleAppService],
     templateUrl: '/views/getting-started/example-app-details.html'
   })
@@ -183,14 +154,10 @@
         }
       })
     }],
-    openCloneInfo: function(projectIndex){
-      this.selectedProject = this.sampleProjects[projectIndex];
-      var popupElement = document.getElementById("sample_project_clone_info");
-      var dialog = leonardoui.dialog({
-        content: popupElement,
-        shadow: true,
-        closeOnEscape: false      
-      });
+    copyToClipboard: function(index){
+      var itemInput = document.getElementById(index+"_clone_url");
+      itemInput.select();
+      document.execCommand('copy');
     }
   })
 
