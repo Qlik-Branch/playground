@@ -24,15 +24,58 @@
       this.exampleApps;
     }],
     getExampleApps: function getExampleApps(callbackFn) {
+      var _this = this;
+
       if (this.exampleApps) {
         callbackFn(this.exampleApps);
       } else {
-        this.http.get('/configs/example-apps.json').subscribe(function (response) {
+        this.http.get('/api/exampleapps').subscribe(function (response) {
           if (response._body !== "") {
+            _this.exampleApps = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
           } else {
             callbackFn();
           }
+        });
+      }
+    }
+  });
+
+  var DataConnectionService = ng.core.Injectable({}).Class({
+    constructor: [ng.http.Http, function (http) {
+      this.http = http;
+      this.dataConnections;
+    }],
+    getDataConnections: function getDataConnections(callbackFn) {
+      var _this2 = this;
+
+      if (this.dataConnections) {
+        callbackFn(this.dataConnections);
+      } else {
+        this.http.get('/api/dataconnections').subscribe(function (response) {
+          if (response._body !== "") {
+            _this2.dataConnections = JSON.parse(response._body);
+            callbackFn(JSON.parse(response._body));
+          } else {
+            callbackFn();
+          }
+        });
+      }
+    },
+    getConnectionDictionary: function getConnectionDictionary(index, callbackFn) {
+      var _this3 = this;
+
+      if (this.dataConnections) {
+        var dictionaryUrl = this.dataConnections[index].dictionary;
+        this.http.get(dictionaryUrl).subscribe(function (response) {
+          callbackFn(JSON.parse(response._body));
+        });
+      } else {
+        this.getDataConnections(function (response) {
+          var dictionaryUrl = _this3.dataConnections[index].dictionary;
+          _this3.http.get(dictionaryUrl).subscribe(function (response) {
+            callbackFn(JSON.parse(response._body));
+          });
         });
       }
     }
@@ -46,10 +89,10 @@
     templateUrl: '/views/header.html'
   }).Class({
     constructor: [UserService, function (userService) {
-      var _this = this;
+      var _this4 = this;
 
       userService.getUser(function (user) {
-        _this.user = user;
+        _this4.user = user;
       });
     }]
   });
@@ -117,7 +160,7 @@
     templateUrl: '/views/getting-started/example-app-details.html'
   }).Class({
     constructor: [ng.router.RouteSegment, ExampleAppService, function (routeSegment, exampleAppService) {
-      var _this2 = this;
+      var _this5 = this;
 
       this.routeSegment = routeSegment;
       this.appId = routeSegment.parameters.id;
@@ -125,11 +168,11 @@
       this.sampleProjects = [];
       this.selectedProject = {};
       exampleAppService.getExampleApps(function (apps) {
-        _this2.selectedApp = apps[_this2.appId];
-        _this2.config = JSON.stringify(_this2.selectedApp.config, null, ' ');
-        _this2.sampleProjects = _this2.selectedApp['sample-projects'];
-        if (_this2.sampleProjects.length > 0) {
-          _this2.selectedProject = _this2.sampleProjects[0];
+        _this5.selectedApp = apps[_this5.appId];
+        _this5.config = JSON.stringify(_this5.selectedApp.config, null, ' ');
+        _this5.sampleProjects = _this5.selectedApp['sample-projects'];
+        if (_this5.sampleProjects.length > 0) {
+          _this5.selectedProject = _this5.sampleProjects[0];
         }
       });
     }],
@@ -147,11 +190,49 @@
     templateUrl: '/views/getting-started/example-app-list.html'
   }).Class({
     constructor: [ExampleAppService, function (exampleAppService) {
-      var _this3 = this;
+      var _this6 = this;
 
       exampleAppService.getExampleApps(function (apps) {
-        _this3.apps = apps;
-        _this3.appKeys = Object.keys(apps);
+        _this6.apps = apps;
+        _this6.appKeys = Object.keys(apps);
+      });
+    }]
+  });
+
+  var DataConnectionDetails = ng.core.Component({
+    selector: 'data-connection-details',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [ng.router.ROUTER_PROVIDERS],
+    templateUrl: '/views/getting-started/data-connection-details.html'
+  }).Class({
+    constructor: [ng.router.RouteSegment, DataConnectionService, function (routeSegment, dataConnectionService) {
+      var _this7 = this;
+
+      this.routeSegment = routeSegment;
+      this.connectionId = routeSegment.parameters.id;
+      this.connectionDictionary = {};
+      dataConnectionService.getConnectionDictionary(this.connectionId, function (info) {
+        _this7.connectionDictionary = info;
+        console.log(info);
+      });
+    }],
+    authorizeConnection: function authorizeConnection(connId) {
+      dataConnectionService.authorizeConnection(connId, function (result) {});
+    }
+  });
+
+  var DataConnectionList = ng.core.Component({
+    selector: 'data-connection-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [],
+    templateUrl: '/views/getting-started/data-connection-list.html'
+  }).Class({
+    constructor: [DataConnectionService, function (dataConnectionService) {
+      var _this8 = this;
+
+      dataConnectionService.getDataConnections(function (conns) {
+        _this8.conns = conns;
+        _this8.connKeys = Object.keys(conns);
       });
     }]
   });
@@ -183,6 +264,25 @@
     redirectTo: ['/']
   }])(GettingStartedExamples);
 
+  var GettingStartedConnect = ng.core.Component({
+    selector: 'playground-getting-started-connect',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/getting-started/getting-started-connect.html'
+  }).Class({
+    constructor: function constructor() {}
+  });
+
+  GettingStartedConnect = ng.router.Routes([{
+    path: "/",
+    component: DataConnectionList
+  }, {
+    path: "/:id",
+    component: DataConnectionDetails
+  }, {
+    path: '/**',
+    redirectTo: ['/']
+  }])(GettingStartedConnect);
+
   var GettingStarted = ng.core.Class({
     constructor: function constructor() {}
   });
@@ -190,6 +290,7 @@
   GettingStarted = ng.core.Component({
     selector: 'playground-getting-started',
     directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [DataConnectionService],
     templateUrl: '/views/getting-started/getting-started.html'
   })(GettingStarted);
 
@@ -199,6 +300,9 @@
   }, {
     path: "/exampleapps",
     component: GettingStartedExamples
+  }, {
+    path: "/connect",
+    component: GettingStartedConnect
   }, {
     path: '/**',
     redirectTo: ['/']

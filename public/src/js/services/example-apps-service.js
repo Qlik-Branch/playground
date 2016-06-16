@@ -12,8 +12,9 @@ ng.core.Injectable({
       callbackFn(this.exampleApps);
     }
     else{
-      this.http.get('/configs/example-apps.json').subscribe(response => {
+      this.http.get('/api/exampleapps').subscribe(response => {
         if(response._body!==""){
+          this.exampleApps = JSON.parse(response._body);
           callbackFn(JSON.parse(response._body));
         }
         else{

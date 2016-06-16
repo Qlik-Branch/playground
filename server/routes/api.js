@@ -1,9 +1,14 @@
 var express = require('express'),
     router = express.Router(),
-    QRS = require('../controllers/qrs');
+    exampleApps = require('../configs/example-apps'),
+    dataConnections = require('../configs/data-connections');
 
-router.get('/sampleapps', function(req, res){
-  QRS.getExampleApps(res);
+router.get('/exampleapps', function(req, res){
+  res.json(exampleApps);
+});
+
+router.get('/dataconnections', function(req, res){
+  res.json(dataConnections);
 });
 
 router.get('/currentuser', function(req, res){

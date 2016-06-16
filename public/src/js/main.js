@@ -3,6 +3,7 @@
   //service declarations
   include "./services/user-service.js"
   include "./services/example-apps-service.js"
+  include "./services/data-connection-service.js"
 
   //component declarations
   include "./components/header.js"
@@ -13,8 +14,11 @@
   include "./components/noobs.js"
   include "./components/getting-started/example-app-details.js"
   include "./components/getting-started/example-app-list.js"
+  include "./components/getting-started/data-connection-details.js"
+  include "./components/getting-started/data-connection-list.js"
   include "./components/getting-started/getting-started-main.js"
   include "./components/getting-started/getting-started-examples.js"
+  include "./components/getting-started/getting-started-connect.js"
   include "./components/getting-started/getting-started.js"
   include "./components/showcase.js"
 

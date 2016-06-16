@@ -32,6 +32,7 @@ app.use('/js', express.static(__dirname + '/public/build'));
 app.use('/resources', express.static(__dirname + '/public/resources'));
 app.use('/views', express.static(__dirname + '/public/views'));
 app.use('/configs', express.static(__dirname + '/public/configs'));
+app.use('/dictionaries', express.static(__dirname + '/public/dictionaries'));
 app.use(favicon(__dirname + '/public/resources/favicon.ico'));
 
 app.use(expressSession({secret: 'playground'}));
