@@ -1,0 +1,24 @@
+<div class="">
+  <h1>{{connectionId}}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Schema</h2>
+      <div class="dictionary-table-list">
+        <div class="dictionary-table" *ngFor="let table of connectionDictionary.tables; let i = index">
+          <label>{{table.qName}}</label>
+          <ul class="plainlist">
+            <li *ngFor="let field of table.fields; let f = index">
+              <span *ngIf="f < 10;">{{field.qName}}</span>
+            </li>
+            <li>
+              <span *ngIf="table.fields.length > 10" class="orange">+{{(table.fields.length - 10)}} more</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <button class="inline-block lui-button lui-button--warning" type="button" name="button" (click)="authorizeConnection(connectionId)">Authorize Connection to {{connectionId}}</button>
+    </div>
+  </div>
+</div>

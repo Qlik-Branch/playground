@@ -1,6 +1,9 @@
-.getting-started{
+.projects-dashboard{
     .options-cards{
-      height: 300px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      height: 350px;
+      background-color: white
     }
     .example-apps-card-container{
       height: 200px;
@@ -33,6 +36,22 @@
           margin-top: 4px;
           text-align: right;
         }
+      }
+    }
+    .data-connections-container{      
+      height: 300px;
+      .card{
+        &:hover{
+          background-color: @light-grey;
+        }
+      }
+      img{
+        display: block;
+        max-height: 50%;
+        margin: 0 auto;
+      }
+      .card-title, .card-text{
+        color: @default-text;
       }
     }
 }

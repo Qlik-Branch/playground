@@ -1,0 +1,4 @@
+Users:
+LOAD *; SQL SELECT * FROM User;
+Repos:
+LOAD *; SQL SELECT * FROM Repos;

@@ -21,22 +21,23 @@
     }
   });
 
-  let ExampleAppService =
+  let SampleDataService =
   ng.core.Injectable({
 
   })
   .Class({
     constructor: [ng.http.Http, function(http){
       this.http = http;
-      this.exampleApps;
+      this.sampleData;
     }],
-    getExampleApps: function(callbackFn){
-      if(this.exampleApps){
-        callbackFn(this.exampleApps);
+    getSampleData: function(callbackFn){
+      if(this.sampleData){
+        callbackFn(this.sampleData);
       }
       else{
-        this.http.get('/configs/example-apps.json').subscribe(response => {
+        this.http.get('/api/sampledata').subscribe(response => {
           if(response._body!==""){
+            this.sampleData = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
           }
           else{
@@ -44,6 +45,54 @@
           }
         });
       }
+    }
+  });
+
+  let DataConnectionService =
+  ng.core.Injectable({
+
+  })
+  .Class({
+    constructor: [ng.http.Http, function(http){
+      this.http = http;
+      this.dataConnections;
+    }],
+    getDataConnections: function(callbackFn){
+      if(this.dataConnections){
+        callbackFn(this.dataConnections);
+      }
+      else{
+        this.http.get('/api/dataconnections').subscribe(response => {
+          if(response._body!==""){
+            this.dataConnections = JSON.parse(response._body);
+            callbackFn(JSON.parse(response._body));
+          }
+          else{
+            callbackFn();
+          }
+        });
+      }
+    },
+    getConnectionDictionary: function(index, callbackFn){
+      if(this.dataConnections){
+        var dictionaryUrl = this.dataConnections[index].dictionary;
+        this.http.get(dictionaryUrl).subscribe(response => {
+          callbackFn(JSON.parse(response._body));
+        });
+      }
+      else{
+        this.getDataConnections((response)=>{
+          var dictionaryUrl = this.dataConnections[index].dictionary;
+          this.http.get(dictionaryUrl).subscribe(response => {
+            callbackFn(JSON.parse(response._body));
+          });
+        });
+      }
+    },
+    authoriseConnection: function(connectionId, callbackFn){
+      this.http.post("/api/authorise/"+connectionId).subscribe(response => {
+        callbackFn(JSON.parse(response._body));
+      });
     }
   });
 
@@ -132,20 +181,20 @@
     }
   });
 
-  let ExampleAppDetails = ng.core.Component({
-    selector: 'example-app-details',
+  let SampleDataDetails = ng.core.Component({
+    selector: 'sample-data-details',
     directives: [],
-    viewProviders: [ng.router.ROUTER_PROVIDERS, ExampleAppService],
-    templateUrl: '/views/getting-started/example-app-details.html'
+    viewProviders: [ng.router.ROUTER_PROVIDERS, SampleDataService],
+    templateUrl: '/views/projects-dashboard/sample-data-details.html'
   })
   .Class({
-    constructor: [ng.router.RouteSegment, ExampleAppService, function(routeSegment, exampleAppService){
+    constructor: [ng.router.RouteSegment, SampleDataService, function(routeSegment, sampleDataService){
       this.routeSegment = routeSegment;
       this.appId = routeSegment.parameters.id;
       this.selectedApp = {};
       this.sampleProjects = [];
       this.selectedProject = {};
-      exampleAppService.getExampleApps((apps)=>{
+      sampleDataService.getExampleApps((apps)=>{
         this.selectedApp = apps[this.appId];
         this.config = JSON.stringify(this.selectedApp.config, null, ' ');
         this.sampleProjects = this.selectedApp['sample-projects'];
@@ -161,36 +210,98 @@
     }
   })
 
-  let ExampleAppList = ng.core.Component({
-    selector: 'example-app-list',
+  let SampleDataList = ng.core.Component({
+    selector: 'sample-data-list',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [ExampleAppService],
-    templateUrl: '/views/getting-started/example-app-list.html'
+    viewProviders: [],
+    templateUrl: '/views/projects-dashboard/sample-data-list.html'
   })
   .Class({
-    constructor: [ExampleAppService, function(exampleAppService){
-      exampleAppService.getExampleApps((apps)=>{
+    constructor: [SampleDataService, function(sampleDataService){
+      this.apps = {};
+      this.appKeys = [];
+      this.selectedApp = {};  
+      sampleDataService.getSampleData((apps)=>{
         this.apps = apps;
         this.appKeys = Object.keys(apps);
+        this.selectedApp = this.apps[this.appKeys[0]];
       });
     }]
   })
 
-  let GettingStartedMain = ng.core.Component({
-    selector: 'playground-getting-started-main',
-    directives: [ng.router.ROUTER_DIRECTIVES, ComingSoon],
-    templateUrl: '/views/getting-started/getting-started-main.html'
+  let YourDataDetails = ng.core.Component({
+    selector: 'your-data-details',
+    directives: [],
+    viewProviders: [ng.router.ROUTER_PROVIDERS],
+    templateUrl: '/views/getting-started/your-data-details.html'
   })
   .Class({
-    constructor: function(){
-
-    }
+    constructor: [ng.router.RouteSegment, function(routeSegment){
+      this.routeSegment = routeSegment;
+      this.appId = routeSegment.parameters.id;
+    }]
   })
 
-  let GettingStartedExamples = ng.core.Component({
-    selector: 'playground-getting-started-examples',
+  let YourDataList = ng.core.Component({
+    selector: 'your-data-list',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/getting-started/getting-started-examples.html'
+    viewProviders: [],
+    templateUrl: '/views/getting-started/your-data-list.html'
+  })
+  .Class({
+    constructor: [function(){
+
+    }]
+  })
+
+  let DataConnectionDetails = ng.core.Component({
+    selector: 'data-connection-details',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [ng.router.ROUTER_PROVIDERS],
+    templateUrl: '/views/projects-dashboard/data-connection-details.html'
+  })
+  .Class({
+    constructor: [ng.router.RouteSegment, DataConnectionService, function(routeSegment, dataConnectionService){
+      this.routeSegment = routeSegment;
+      this.connectionId = routeSegment.parameters.id;
+      this.connectionDictionary = {};
+      dataConnectionService.getConnectionDictionary(this.connectionId, (info)=> {
+        this.connectionDictionary = info;
+        console.log(info);
+      });
+    }],
+    authorizeConnection: function(connId){
+      dataConnectionService.authorizeConnection(connId, (result)=>{
+
+      });
+    }
+  })
+
+  let DataConnectionList = ng.core.Component({
+    selector: 'data-connection-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [],
+    templateUrl: '/views/projects-dashboard/data-connection-list.html'
+  })
+  .Class({
+    constructor: [DataConnectionService, function(dataConnectionService){
+      this.dataConnectionService = dataConnectionService;
+      this.dataConnectionService.getDataConnections((conns)=>{
+        this.conns = conns;
+        this.connKeys = Object.keys(conns);
+      });
+    }],
+    authoriseConnection: function(key){
+      this.dataConnectionService.authoriseConnection(key, (response) => {
+        console.log(response);
+      })
+    }
+  })
+
+  let ProjectsDashboardMain = ng.core.Component({
+    selector: 'playground-projects-dashboard-main',
+    directives: [ng.router.ROUTER_DIRECTIVES, ComingSoon],
+    templateUrl: '/views/projects-dashboard/projects-dashboard-main.html'
   })
   .Class({
     constructor: function(){
@@ -198,47 +309,119 @@
     }
   })
 
-  GettingStartedExamples = ng.router.Routes([
+  let ProjectsDashboardSampleData = ng.core.Component({
+    selector: 'playground-projects-dashboard-sample-data',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/projects-dashboard/projects-dashboard-sample-data.html'
+  })
+  .Class({
+    constructor: function(){
+
+    }
+  })
+
+  ProjectsDashboardSampleData = ng.router.Routes([
     {
       path: "/",
-      component: ExampleAppList
+      component: SampleDataList
     },
     {
       path: "/:id",
-      component: ExampleAppDetails
+      component: SampleDataDetails
     },
     {
       path: '/**',
       redirectTo: ['/']
     }
-  ])(GettingStartedExamples);
+  ])(ProjectsDashboardSampleData);
 
-  var GettingStarted = ng.core.Class({
+  let ProjectsDashboardYourData = ng.core.Component({
+    selector: 'playground-projects-dashboard-your-data',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/projects-dashboard/projects-dashboard-your-data.html'
+  })
+  .Class({
     constructor: function(){
 
     }
   })
 
-  GettingStarted = ng.core.Component({
-    selector: 'playground-getting-started',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/getting-started/getting-started.html'
-  })(GettingStarted);
-
-  GettingStarted = ng.router.Routes([
+  ProjectsDashboardYourData = ng.router.Routes([
     {
       path: "/",
-      component: GettingStartedMain
-    },  
+      component: YourDataList
+    },
     {
-      path: "/exampleapps",
-      component: GettingStartedExamples
+      path: "/:id",
+      component: YourDataDetails
     },
     {
       path: '/**',
       redirectTo: ['/']
     }
-  ])(GettingStarted);
+  ])(ProjectsDashboardYourData);
+
+  let ProjectsDashboardConnect = ng.core.Component({
+    selector: 'playground-projects-dashboard-connect',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/projects-dashboard/projects-dashboard-connect.html'
+  })
+  .Class({
+    constructor: function(){
+
+    }
+  })
+
+  ProjectsDashboardConnect = ng.router.Routes([
+    {
+      path: "/",
+      component: DataConnectionList
+    },
+    {
+      path: "/:id",
+      component: DataConnectionDetails
+    },
+    {
+      path: '/**',
+      redirectTo: ['/']
+    }
+  ])(ProjectsDashboardConnect);
+
+  var ProjectsDashboard = ng.core.Class({
+    constructor: function(){
+      console.log('here');
+    }
+  })
+
+  ProjectsDashboard = ng.core.Component({
+    selector: 'playground-projects-dashboard',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [DataConnectionService, SampleDataService],
+    templateUrl: '/views/projects-dashboard/projects-dashboard.html'
+  })(ProjectsDashboard);
+
+  ProjectsDashboard = ng.router.Routes([
+    {
+      path: "/",
+      component: ProjectsDashboardMain
+    },
+    {
+      path: "/sampledata",
+      component: ProjectsDashboardSampleData
+    },
+    {
+      path: "/yourdata",
+      component: ProjectsDashboardYourData
+    },
+    {
+      path: "/connect",
+      component: ProjectsDashboardConnect
+    },
+    {
+      path: '/**',
+      redirectTo: ['/']
+    }
+  ])(ProjectsDashboard);
 
   let Showcase = ng.core.Component({
     selector: 'playground-showcase',
@@ -265,8 +448,8 @@
         component: Home
       },
       {
-        path: "/gettingstarted",
-        component: GettingStarted
+        path: "/projectsdashboard",
+        component: ProjectsDashboard
       },
       {
         path: "/noobs",
