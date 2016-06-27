@@ -38,5 +38,10 @@ ng.core.Injectable({
         });
       });
     }
+  },
+  authoriseConnection: function(connectionId, callbackFn){
+    this.http.post("/api/authorise/"+connectionId).subscribe(response => {
+      callbackFn(JSON.parse(response._body));
+    });
   }
 });

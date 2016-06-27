@@ -5,7 +5,6 @@
 body{
   -webkit-font-smoothing: antialiased;
   font-family: proxima-nova, arial, sans-serif;
-  background-color: @body-grey;
   color: white;
   margin: 0;
 }
@@ -28,7 +27,7 @@ pre, code{
   background-color: @footer-grey !important;
 }
 
-button{  
+button{
   a{
     display: block;
     color: inherit;
@@ -53,9 +52,19 @@ button{
   display: inline-block;
 }
 
+.left{
+  text-align: left;
+}
+.right{
+  text-align: right;
+}
+.center{
+  text-align: center;
+}
+
 .content{
   min-height: ~"calc(100% - 250px)";
-  padding: 15px 20px;
+  padding: 0 15px;
   box-sizing: border-box;
 }
 
@@ -87,21 +96,33 @@ button{
     }
   }
   .card-title{
-    text-align: center;
-    margin-bottom: 30px;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: bold;
   }
   .card-text{
     text-align: justify;
   }
+  .card-link-container{
+    padding: 5px 0;
+  }
   .card-link{
-    display: block;
+    display: inline-block;
     text-align: center;
+    margin: 0 auto;
     border-radius: 15px;
     border: 1px solid @white;
     height: 30px;
     line-height: 30px;
     color: @white;
+    padding: 0 20px;
   }
+}
+
+.title-block{
+  background-color: @body-grey;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .border{
@@ -115,4 +136,4 @@ button{
 }
 
 @import "./coming-soon.less";
-@import "./getting-started.less";
+@import "./projects-dashboard.less";

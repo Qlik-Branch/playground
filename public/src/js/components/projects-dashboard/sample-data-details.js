@@ -1,17 +1,17 @@
-let ExampleAppDetails = ng.core.Component({
-  selector: 'example-app-details',
+let SampleDataDetails = ng.core.Component({
+  selector: 'sample-data-details',
   directives: [],
-  viewProviders: [ng.router.ROUTER_PROVIDERS, ExampleAppService],
-  templateUrl: '/views/getting-started/example-app-details.html'
+  viewProviders: [ng.router.ROUTER_PROVIDERS, SampleDataService],
+  templateUrl: '/views/projects-dashboard/sample-data-details.html'
 })
 .Class({
-  constructor: [ng.router.RouteSegment, ExampleAppService, function(routeSegment, exampleAppService){
+  constructor: [ng.router.RouteSegment, SampleDataService, function(routeSegment, sampleDataService){
     this.routeSegment = routeSegment;
     this.appId = routeSegment.parameters.id;
     this.selectedApp = {};
     this.sampleProjects = [];
     this.selectedProject = {};
-    exampleAppService.getExampleApps((apps)=>{
+    sampleDataService.getExampleApps((apps)=>{
       this.selectedApp = apps[this.appId];
       this.config = JSON.stringify(this.selectedApp.config, null, ' ');
       this.sampleProjects = this.selectedApp['sample-projects'];

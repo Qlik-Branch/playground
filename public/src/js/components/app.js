@@ -12,8 +12,8 @@ AppComponent.annotations = [
       component: Home
     },
     {
-      path: "/gettingstarted",
-      component: GettingStarted
+      path: "/projectsdashboard",
+      component: ProjectsDashboard
     },
     {
       path: "/noobs",

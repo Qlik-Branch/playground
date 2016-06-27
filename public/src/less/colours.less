@@ -1,3 +1,4 @@
+@default-text: @greyscale-5;
 @header-grey: @greyscale-20;
 @body-grey: @greyscale-28;
 @smoke: rgba(71,71,71,0.9); //71 matches the definition for @greyscale-28
@@ -15,6 +16,17 @@
   background-color: @orange;
 }
 
+.orange-glow-bg{
+  background: rgba(250,183,97,1);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(250,183,97,1)), color-stop(76%, rgba(248,152,29,1)), color-stop(94%, rgba(211,129,25,1)), color-stop(100%, rgba(211,129,25,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fab761', endColorstr='#d38119', GradientType=1 );
+}
+
 .blue{
   color: @blue;
 }
@@ -29,4 +41,10 @@
 
 .grey-bg{
   background-color: @grey;
+}
+
+.outer-glow{
+  -webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
 }

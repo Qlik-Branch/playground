@@ -2,7 +2,7 @@ let DataConnectionDetails = ng.core.Component({
   selector: 'data-connection-details',
   directives: [ng.router.ROUTER_DIRECTIVES],
   viewProviders: [ng.router.ROUTER_PROVIDERS],
-  templateUrl: '/views/getting-started/data-connection-details.html'
+  templateUrl: '/views/projects-dashboard/data-connection-details.html'
 })
 .Class({
   constructor: [ng.router.RouteSegment, DataConnectionService, function(routeSegment, dataConnectionService){
