@@ -1,7 +1,10 @@
 var express = require('express'),
     router = express.Router(),
     sampleData = require('../configs/sample-data'),
-    dataConnections = require('../configs/data-connections');
+    dataConnections = require('../configs/data-connections'),
+    mongoHelper = require('../controllers/mongo-helper'),
+    generalConfig = require('../configs/general'),
+    QRS = require('../controllers/qrs');
 
 router.get('/sampledata', function(req, res){
   res.json(sampleData);
@@ -15,11 +18,12 @@ router.get('/currentuser', function(req, res){
   res.json(req.user);
 });
 
-router.post('/authorise/:connection', function(req, res){
+router.get('/authorise/:connection', function(req, res){
   var dictionary = require('../../dictionaries/'+req.params.connection+'/dictionary');
   var connectionInfo = dataConnections[req.params.connection];
   console.log(connectionInfo);
   req.session.dictionary = dictionary;
+  req.session.connectionInfo = connectionInfo;
   if(req.session.dictionary.auth_options.auth_version=="1.0"){
     req.session.consumerKey = connectionInfo.consumerKey;
     req.session.consumerSecret = connectionInfo.consumerSecret;
@@ -45,6 +49,32 @@ router.post('/authorise/:connection', function(req, res){
     }
     res.redirect(req.session.dictionary.auth_options.oauth_authorize_url+"?client_id="+req.session.clientId+"&"+oauth_redirect_url_parameter+"="+process.env.genericOAuthRedirectUrl);
   }
+});
+
+router.get('/getAppInfo', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  QRS.getTicket(req.query, function(err, ticketResponse){
+    if(err){
+      res.json({err: err});
+    }
+    else{
+      console.log(ticketResponse);
+      mongoHelper.getConnectionString(ticketResponse.UserId, req.query.app, function(err, connectionStrings){
+        if(err){
+          res.json(err);
+        }
+        else if (connectionStrings.length==0) {
+          res.json({err: "No connection found"});
+        }
+        else{
+          var info = generalConfig;
+          generalConfig.connectionString = connectionStrings[0].connectionString;
+          generalConfig.loadscript = dataConnections[req.query.app].loadscript;
+          res.json(generalConfig);
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;

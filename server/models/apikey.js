@@ -2,14 +2,22 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
 
-var apikeySchema = new Schema({
+var apikeySchema = new Schema({  
   api_key:{
     type: String,
     default: function(){
       return generateKey();
     }
   },
-  user: String,
+  // userid: {
+  //   type: Schema.ObjectId,
+  //   ref: 'userprofiles'
+  // },
+  createdate: {
+    type: Date,
+    default: Date.now
+  },
+  userid: String,
   keyType: String
 });
 

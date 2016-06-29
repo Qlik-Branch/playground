@@ -1,5 +1,7 @@
 var express = require('express'),
     router = express.Router(),
+    request = require('request'),
+    qs = require('querystring'),
     passport = require('passport'),
     mongoHelper = require('../controllers/mongo-helper'),
     QRS = require('../controllers/qrs');
@@ -12,6 +14,7 @@ router.get('/github/callback', passport.authenticate('github'), function(req, re
     mongoHelper.checkAPIKey(req.user.username, "playground", function(err, data){
       if(err){
         ////do something with the error
+        console.log(err);
       }
       else{
         if(data && data.length > 0){
@@ -35,6 +38,7 @@ router.get('/github/callback', passport.authenticate('github'), function(req, re
 router.get('/connection/callback', function(req, res){
   if(req.query){
     var data = req.query;
+    var session = req.session;
     var tokenUrl = session.dictionary.auth_options.oauth_token_url;
     if(session.dictionary.auth_options.auth_version=="1.0"){
       var authData = qs.parse(req.body);
@@ -100,20 +104,82 @@ router.get('/connection/callback', function(req, res){
           console.log(responseData);
           var tokenData = getTokens(responseData);
           console.log(tokenData);
-          if(req.user.username.indexOf("anon_")!=-1){
-            req.logout();
-          }
-          res.json({token: tokenData.access_token});
+          mongoHelper.getConnectionString(req.user.username, req.session.connectionInfo.id, function(err, connectionStrings){
+            if(err){
+              res.redirect('/projectsdashboard/connect');
+            }
+            else if (connectionStrings.length==0) {
+              var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
+              mongoHelper.storeConnectionString(req.user.username, req.session.connectionInfo.id, connectionString, function(err, result){
+                if(err){
+                  console.log(err);
+                  res.redirect('/projectsdashboard/connect');
+                }
+                else {
+                  res.redirect('/projectsdashboard/connect');
+                }
+              });
+            }
+            else{
+              res.redirect('/projectsdashboard/connect');
+            }
+          });
+
         }
       });
     }
   }
 });
 
+// CUSTOM CONNECT TO "provider=GenericRestConnector.exe;dictionary=56e938e8d3df80c638eb971e;source=online;auth-method=OAuth;url=https://api.untappd.com;dictionaryurl=https://api.github.com/repos/websy85/untappd-dictionary/contents/dictionary.json;"
+// CUSTOM CONNECT TO "provider=GenericRestConnector.exe;dictionary=greenline-dictionary-master;source=local;auth-method=Basic;url=http://192.168.1.166:3002;username=admin;"
 
 router.get('/apikey', function(req, res){
-  console.log("here at least");
-  QRS.getTicket(req, res);
+  res.header("Access-Control-Allow-Origin", "*");
+  QRS.getTicket(req.query, function(err, ticketResponse){
+    if(err){
+      res.json({err: err});
+    }
+    else{
+      res.json(ticketResponse);
+    }
+  });
 });
+
+function getTokens(data){
+  var output = {};
+  output = traverseProperties(data, output);
+  return output;
+}
+
+function traverseProperties(input, output){
+  console.log(input);
+  for (var prop in input){
+    if(typeof input[prop] === "object"){
+      output = traverseProperties(input[prop], output);
+    }
+    else{
+      if(prop.indexOf("token")!=-1){
+        output[prop] = input[prop];
+      }
+    }
+  }
+  return output;
+}
+
+function buildConnectionString(dictionary, endpoint, token, tokenSecret){
+  var conn = "CUSTOM CONNECT TO \"provider=GenericRestConnector.exe;source=local;auth-method=OAuth;username=admin;";
+  conn += "dictionary="+dictionary;
+  conn += ";url="+endpoint;
+  if(tokenSecret){
+    conn += ";password="+tokenSecret;
+    conn += ";token="+token;
+  }
+  else{
+    conn += ";password="+token;
+  }
+  conn += "\"";
+  return conn;
+}
 
 module.exports = router;
