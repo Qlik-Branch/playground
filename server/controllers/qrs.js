@@ -38,32 +38,28 @@ module.exports = {
       res.end();
     });
   },
-  getTicket: function(req, res){
+  getTicket: function(query, callbackFn){
     var that = this;
-    res.header("Access-Control-Allow-Origin", "*")
-    console.log(req.query);
-    mongoHelper.getUserFromAPIKey(req.query.apikey, "playground", function(err, keys){
-      console.log(keys);
+    mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
+      console.log(keys[0].userid);
       if(err){
         ////do something here
-        res.json({err: err});
+        callbackFn({err: err});
       }
       else{
         if(keys && keys.length > 0){
           var data = {
             UserDirectory: "GitHub",
-            UserId: keys[0].user,
+            UserId: keys[0].userid,
             Attributes: []
           }
-          that.qPost(QPS, (req.query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, data){
+          that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, data){
             console.log(data);
-            res.json(JSON.parse(data));
+            callbackFn(null, JSON.parse(data));
           });
         }
         else{
-          ////do something here
-          res.status(400);
-          res.json({err: "API Key not valid"});
+          callbackFn({err: "API Key not valid"});
         }
       }
     });
