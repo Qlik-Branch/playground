@@ -68,6 +68,12 @@ button{
   box-sizing: border-box;
 }
 
+.page-detail{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: @default-text;
+}
+
 .plainlist{
   margin: 0;
   padding: 0;
@@ -101,7 +107,7 @@ button{
     font-weight: bold;
   }
   .card-text{
-    text-align: justify;
+    text-align: left;
   }
   .card-link-container{
     padding: 5px 0;
@@ -127,6 +133,9 @@ button{
 
 .border{
   border: 1px solid;
+  &.border-dashed{
+    border: 1px dashed;
+  }
   &.border-med{
     border-width: 2px;
   }
@@ -135,5 +144,9 @@ button{
   }
 }
 
+a:hover{
+  color: @highlight-grey;
+}
+
 @import "./coming-soon.less";
-@import "./projects-dashboard.less";
+@import "./my-playground.less";

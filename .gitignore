@@ -3,4 +3,4 @@ config.js
 *.pem
 /iisnode
 web.config
-/server/configs/
+/server/configs/oauth-info.js

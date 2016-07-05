@@ -6,6 +6,7 @@ ng.core.Injectable({
   constructor: [ng.http.Http, function(http){
     this.http = http;
     this.sampleData;
+    this.sampleProjects;
   }],
   getSampleData: function(callbackFn){
     if(this.sampleData){
@@ -15,6 +16,22 @@ ng.core.Injectable({
       this.http.get('/api/sampledata').subscribe(response => {
         if(response._body!==""){
           this.sampleData = JSON.parse(response._body);
+          callbackFn(JSON.parse(response._body));
+        }
+        else{
+          callbackFn();
+        }
+      });
+    }
+  },
+  getSampleProjects: function(callbackFn){
+    if(this.sampleProjects){
+      callbackFn(this.sampleProjects);
+    }
+    else{
+      this.http.get('/api/sampleprojects').subscribe(response => {
+        if(response._body!==""){
+          this.sampleProjects = JSON.parse(response._body);
           callbackFn(JSON.parse(response._body));
         }
         else{

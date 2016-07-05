@@ -1,4 +1,4 @@
-<div class="projects-dashboard-connections">
+<div class="my-playground-connections">
   <div class="row title-block">
     <div class="col-md-12">
       <h1>Connect to your data</h1>
@@ -19,7 +19,8 @@
         <p class="card-text">
           {{conns[key].description}}
         </p>
-        <a href="/api/authorise/{{key}}" class="lui-button lui-button--warning" type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
+        <a *ngIf="!conns[key].authorised" href="/api/authorise/{{key}}" class="lui-button lui-button--warning" type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
+        <span class="grey" *ngIf="conns[key].authorised===true">Authorised</span>
       </div>
     </div>
   </div>

@@ -22,9 +22,17 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      styles: {
-        files: ['public/src/less/**/*.less','public/src/js/**/*.js', 'server/**/*.js'], // which files to watch
-        tasks: ['includes', 'babel', 'less', 'express'],
+      clientscript: {
+        files: ['public/src/less/**/*.less','public/src/js/**/*.js'], // which files to watch
+        tasks: ['includes', 'babel', 'less'],
+        options: {
+          nospawn: true,
+          livereload: true
+        }
+      },
+      serverscript:{
+        files: ['server/**/*.js'], // which files to watch
+        tasks: ['includes', 'babel', 'express'],
         options: {
           nospawn: true,
           livereload: true

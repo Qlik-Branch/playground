@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     passport = require('passport'),
     expressSession = require('express-session'),
+    ntlm = require('express-ntlm'),
     mongoose = require('mongoose'),
     favicon = require('serve-favicon');
 
@@ -18,6 +19,14 @@ try{
 catch(err){
   //config file doesn't exist
   console.log("No configuration file found.");
+}
+
+var ntlmConfig ={
+  debug: function() {
+      var args = Array.prototype.slice.apply(arguments);
+      console.log.apply(null, args);
+  },
+  domain: "QTSEL"
 }
 
 mongoose.connect(process.env.mongoconnectionstring);
@@ -39,6 +48,23 @@ app.use(expressSession({secret: 'playground'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+var accessList = [
+  "nwr",
+  "bmz",
+  "akl",
+  "rie",
+  "baz",
+  "jwr",
+  "dsa",
+  "pnt",
+  "aai",
+  "swr",
+  "lhr",
+  "axt",
+  "bfk"
+];
+
+
 app.get('/', function(req, res){
   res.redirect('/home');
 });
@@ -50,9 +76,23 @@ var authRoutes = require(__dirname+'/server/routes/auth');
 app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
 
+app.get('/denied', function(req, res){
+  res.render(__dirname+'/server/views/denied.jade', {});
+});
+
+
 //all other routes should be dealt with by the client
-app.get('/*', function(req, res){
-  res.render(__dirname+'/server/views/index.jade', {});
+app.get('/*',  ntlm(ntlmConfig),  function(req, res){
+  console.log('trying ot get to page');
+  if(req.ntlm && accessList.indexOf(req.ntlm.UserName.toLowerCase())==-1){
+    console.log('user doesnt exist');
+    res.redirect('/denied');
+  }
+  else{
+    console.log('user is');
+    console.log(req.ntlm);
+    res.render(__dirname+'/server/views/index.jade', {});
+  }
 });
 
 app.listen(process.env.PORT || 3000, function(){

@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.6",
     "core-js": "^2.4.0",
     "express": "^4.13.4",
+    "express-ntlm": "^2.1.4",
     "express-session": "^1.13.0",
     "grunt-babel": "^6.0.0",
     "grunt-es6-transpiler": "^1.0.2",

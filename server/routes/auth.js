@@ -19,10 +19,12 @@ router.get('/github/callback', passport.authenticate('github'), function(req, re
       else{
         if(data && data.length > 0){
           //we have a key
+          req.user.apiKey = data[0].api_key;
           res.redirect('/');
         }
         else{
           mongoHelper.createAPIKey(req.user.username, "playground", function(err, key){
+            req.user.apiKey = key.api_key;
             res.redirect('/');
           });
         }
@@ -106,22 +108,25 @@ router.get('/connection/callback', function(req, res){
           console.log(tokenData);
           mongoHelper.getConnectionString(req.user.username, req.session.connectionInfo.id, function(err, connectionStrings){
             if(err){
-              res.redirect('/projectsdashboard/connect');
+              console.log('error getting checking connection strings after authorisation');
+              res.redirect('/myplayground');
             }
             else if (connectionStrings.length==0) {
+              console.log('token data');
+              console.log(tokenData);
               var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
               mongoHelper.storeConnectionString(req.user.username, req.session.connectionInfo.id, connectionString, function(err, result){
                 if(err){
                   console.log(err);
-                  res.redirect('/projectsdashboard/connect');
+                  res.redirect('/myplayground');
                 }
                 else {
-                  res.redirect('/projectsdashboard/connect');
+                  res.redirect('/myplayground');
                 }
               });
             }
             else{
-              res.redirect('/projectsdashboard/connect');
+              res.redirect('/myplayground');
             }
           });
 

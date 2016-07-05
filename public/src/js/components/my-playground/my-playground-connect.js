@@ -1,7 +1,7 @@
-let ProjectsDashboardConnect = ng.core.Component({
-  selector: 'playground-projects-dashboard-connect',
+let MyPlaygroundConnect = ng.core.Component({
+  selector: 'playground-my-playground-connect',
   directives: [ng.router.ROUTER_DIRECTIVES],
-  templateUrl: '/views/projects-dashboard/projects-dashboard-connect.html'
+  templateUrl: '/views/my-playground/my-playground-connect.html'
 })
 .Class({
   constructor: function(){
@@ -9,7 +9,7 @@ let ProjectsDashboardConnect = ng.core.Component({
   }
 })
 
-ProjectsDashboardConnect = ng.router.Routes([
+MyPlaygroundConnect = ng.router.Routes([
   {
     path: "/",
     component: DataConnectionList
@@ -22,4 +22,4 @@ ProjectsDashboardConnect = ng.router.Routes([
     path: '/**',
     redirectTo: ['/']
   }
-])(ProjectsDashboardConnect);
+])(MyPlaygroundConnect);

@@ -12,8 +12,8 @@ AppComponent.annotations = [
       component: Home
     },
     {
-      path: "/projectsdashboard",
-      component: ProjectsDashboard
+      path: "/myplayground",
+      component: MyPlayground
     },
     {
       path: "/noobs",
@@ -22,7 +22,7 @@ AppComponent.annotations = [
     {
       path: "/showcase",
       component: Showcase
-    },
+    },    
     {
       path: '/**',
       redirectTo: ['/home']

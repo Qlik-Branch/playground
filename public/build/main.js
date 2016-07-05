@@ -1,9 +1,9 @@
 (function(playground){
 
   //service declarations
-  var UserService =
+  let UserService =
   ng.core.Injectable({
-    
+
   })
   .Class({
     constructor: [ng.http.Http, function(http){
@@ -11,6 +11,16 @@
     }],
     getUser: function(callbackFn){
       this.http.get('/api/currentuser').subscribe(response => {
+        if(response._body!==""){
+          callbackFn(JSON.parse(response._body));
+        }
+        else{
+          callbackFn();
+        }
+      });
+    },
+    getUserConnections: function(callbackFn){
+      this.http.get('/api/currentuserconnections').subscribe(response => {
         if(response._body!==""){
           callbackFn(JSON.parse(response._body));
         }
@@ -29,6 +39,7 @@
     constructor: [ng.http.Http, function(http){
       this.http = http;
       this.sampleData;
+      this.sampleProjects;
     }],
     getSampleData: function(callbackFn){
       if(this.sampleData){
@@ -38,6 +49,22 @@
         this.http.get('/api/sampledata').subscribe(response => {
           if(response._body!==""){
             this.sampleData = JSON.parse(response._body);
+            callbackFn(JSON.parse(response._body));
+          }
+          else{
+            callbackFn();
+          }
+        });
+      }
+    },
+    getSampleProjects: function(callbackFn){
+      if(this.sampleProjects){
+        callbackFn(this.sampleProjects);
+      }
+      else{
+        this.http.get('/api/sampleprojects').subscribe(response => {
+          if(response._body!==""){
+            this.sampleProjects = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
           }
           else{
@@ -185,7 +212,7 @@
     selector: 'sample-data-details',
     directives: [],
     viewProviders: [ng.router.ROUTER_PROVIDERS, SampleDataService],
-    templateUrl: '/views/projects-dashboard/sample-data-details.html'
+    templateUrl: '/views/my-playground/sample-data-details.html'
   })
   .Class({
     constructor: [ng.router.RouteSegment, SampleDataService, function(routeSegment, sampleDataService){
@@ -214,7 +241,7 @@
     selector: 'sample-data-list',
     directives: [ng.router.ROUTER_DIRECTIVES],
     viewProviders: [],
-    templateUrl: '/views/projects-dashboard/sample-data-list.html'
+    templateUrl: '/views/my-playground/sample-data-list.html'
   })
   .Class({
     constructor: [SampleDataService, function(sampleDataService){
@@ -258,7 +285,7 @@
     selector: 'data-connection-details',
     directives: [ng.router.ROUTER_DIRECTIVES],
     viewProviders: [ng.router.ROUTER_PROVIDERS],
-    templateUrl: '/views/projects-dashboard/data-connection-details.html'
+    templateUrl: '/views/my-playground/data-connection-details.html'
   })
   .Class({
     constructor: [ng.router.RouteSegment, DataConnectionService, function(routeSegment, dataConnectionService){
@@ -281,14 +308,31 @@
     selector: 'data-connection-list',
     directives: [ng.router.ROUTER_DIRECTIVES],
     viewProviders: [],
-    templateUrl: '/views/projects-dashboard/data-connection-list.html'
+    templateUrl: '/views/my-playground/data-connection-list.html'
   })
   .Class({
-    constructor: [DataConnectionService, function(dataConnectionService){
+    constructor: [UserService, DataConnectionService, function(userService, dataConnectionService){
       this.dataConnectionService = dataConnectionService;
+      this.userService = userService;
       this.dataConnectionService.getDataConnections((conns)=>{
         this.conns = conns;
         this.connKeys = Object.keys(conns);
+        this.userService.getUserConnections((userConns)=>{
+          console.log(userConns);
+          if(userConns.err){
+
+          }
+          else {
+            for(let c=0;c<userConns.connections.length;c++){
+              if(this.conns[userConns.connections[c].connection]){
+                this.conns[userConns.connections[c].connection].authorised = true;
+              }
+              else{
+                this.conns[userConns.connections[c].connection].authorised = false;
+              }
+            }
+          }
+        });
       });
     }],
     authoriseConnection: function(key){
@@ -298,21 +342,130 @@
     }
   })
 
-  let ProjectsDashboardMain = ng.core.Component({
-    selector: 'playground-projects-dashboard-main',
-    directives: [ng.router.ROUTER_DIRECTIVES, ComingSoon],
-    templateUrl: '/views/projects-dashboard/projects-dashboard-main.html'
-  })
-  .Class({
-    constructor: function(){
-
-    }
-  })
-
-  let ProjectsDashboardSampleData = ng.core.Component({
-    selector: 'playground-projects-dashboard-sample-data',
+  let MyPlaygroundMain = ng.core.Component({
+    selector: 'playground-my-playground-main',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/projects-dashboard/projects-dashboard-sample-data.html'
+    templateUrl: '/views/my-playground/my-playground-main.html'
+  })
+  .Class({
+    constructor: [UserService, DataConnectionService, SampleDataService, function(userService, dataConnectionService, sampleDataService){
+      this.dataConnectionService = dataConnectionService;
+      this.sampleDataService = sampleDataService;
+      this.userService = userService;
+      this.setActiveTab(0);
+      this.isTabDetail = false;
+      this.selectedItem = {};
+      this.myConns;
+      this.myParsedConns = {};
+      this.myConnKeys;
+      this.apps;
+      this.appKeys;
+      this.conns;
+      this.connKeys;
+      this.sampleProjects;
+      userService.getUser((user) => {
+        console.log(user);
+        this.user = user;
+      });
+      this.getSampleProjects();
+    }],
+    getConnections: function(){
+      if(!this.conns){
+        this.dataConnectionService.getDataConnections((conns)=>{
+          this.conns = conns;
+          this.connKeys = Object.keys(conns);
+          this.getMyConnections((userConns)=>{
+            if(userConns.err){
+
+            }
+            else {
+              for(let c=0;c<userConns.connections.length;c++){
+                if(this.conns[userConns.connections[c].connection]){
+                  this.conns[userConns.connections[c].connection].authorised = true;
+                  this.myParsedConns[userConns.connections[c].connection] = this.conns[userConns.connections[c].connection];
+                }
+                else{
+                  this.conns[userConns.connections[c].connection].authorised = false;
+                }
+              }
+              this.myConnKeys = Object.keys(this.myParsedConns);
+            }
+          });
+        });
+      }
+    },
+    getMyConnections: function(callbackFn){
+      if(this.myConns){
+        if(callbackFn){
+          callbackFn(this.myConns);
+        }
+      }
+      else{
+        this.userService.getUserConnections((userConns)=>{
+          this.myConns = userConns;
+          if(callbackFn){
+            callbackFn(this.myConns);
+          }
+        });
+      }
+    },
+    getSampleData: function(){
+      if(!this.apps){
+        this.sampleDataService.getSampleData((apps)=>{
+          this.apps = apps;
+          this.appKeys = Object.keys(apps);
+        });
+      }
+    },
+    getSampleProjects: function(){
+      if(!this.sampleProjects){
+        this.sampleDataService.getSampleProjects((projects)=>{
+          console.log(projects);
+          this.sampleProjects = projects;
+        });
+      }
+    },
+    setActiveTab: function(index){
+      this.activeTab = index;
+      switch (index) {
+        case 0:
+          this.getConnections();
+          break;
+        case 1:
+          this.getSampleData();
+          break;
+        case 2:
+          this.getConnections();
+          break;
+        default:
+
+      }
+    },
+    showDetail: function(key, itemType){
+      switch (itemType) {
+        case "connection":
+          this.selectedItem = this.conns[key];
+          this.isTabDetail = true;
+          break;
+        default:
+
+      }
+    },
+    hideDetail: function(){
+      this.selectedItem = {};
+      this.isTabDetail = false;
+    },
+    copyToClipboard: function(index){
+      var itemInput = document.getElementById(index+"_clone_url");
+      itemInput.select();
+      document.execCommand('copy');
+    }
+  })
+
+  let MyPlaygroundSampleData = ng.core.Component({
+    selector: 'playground-my-playground-sample-data',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/my-playground-sample-data.html'
   })
   .Class({
     constructor: function(){
@@ -320,7 +473,7 @@
     }
   })
 
-  ProjectsDashboardSampleData = ng.router.Routes([
+  MyPlaygroundSampleData = ng.router.Routes([
     {
       path: "/",
       component: SampleDataList
@@ -333,12 +486,12 @@
       path: '/**',
       redirectTo: ['/']
     }
-  ])(ProjectsDashboardSampleData);
+  ])(MyPlaygroundSampleData);
 
-  let ProjectsDashboardYourData = ng.core.Component({
-    selector: 'playground-projects-dashboard-your-data',
+  let MyPlaygroundYourData = ng.core.Component({
+    selector: 'playground-my-playground-your-data',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/projects-dashboard/projects-dashboard-your-data.html'
+    templateUrl: '/views/my-playground/my-playground-your-data.html'
   })
   .Class({
     constructor: function(){
@@ -346,7 +499,7 @@
     }
   })
 
-  ProjectsDashboardYourData = ng.router.Routes([
+  MyPlaygroundYourData = ng.router.Routes([
     {
       path: "/",
       component: YourDataList
@@ -359,12 +512,12 @@
       path: '/**',
       redirectTo: ['/']
     }
-  ])(ProjectsDashboardYourData);
+  ])(MyPlaygroundYourData);
 
-  let ProjectsDashboardConnect = ng.core.Component({
-    selector: 'playground-projects-dashboard-connect',
+  let MyPlaygroundConnect = ng.core.Component({
+    selector: 'playground-my-playground-connect',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/projects-dashboard/projects-dashboard-connect.html'
+    templateUrl: '/views/my-playground/my-playground-connect.html'
   })
   .Class({
     constructor: function(){
@@ -372,7 +525,7 @@
     }
   })
 
-  ProjectsDashboardConnect = ng.router.Routes([
+  MyPlaygroundConnect = ng.router.Routes([
     {
       path: "/",
       component: DataConnectionList
@@ -385,43 +538,43 @@
       path: '/**',
       redirectTo: ['/']
     }
-  ])(ProjectsDashboardConnect);
+  ])(MyPlaygroundConnect);
 
-  var ProjectsDashboard = ng.core.Class({
+  var MyPlayground = ng.core.Class({
     constructor: function(){
       console.log('here');
     }
   })
 
-  ProjectsDashboard = ng.core.Component({
-    selector: 'playground-projects-dashboard',
+  MyPlayground = ng.core.Component({
+    selector: 'playground-my-playground',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [DataConnectionService, SampleDataService],
-    templateUrl: '/views/projects-dashboard/projects-dashboard.html'
-  })(ProjectsDashboard);
+    viewProviders: [UserService, DataConnectionService, SampleDataService],
+    templateUrl: '/views/my-playground/my-playground.html'
+  })(MyPlayground);
 
-  ProjectsDashboard = ng.router.Routes([
+  MyPlayground = ng.router.Routes([
     {
       path: "/",
-      component: ProjectsDashboardMain
+      component: MyPlaygroundMain
     },
     {
       path: "/sampledata",
-      component: ProjectsDashboardSampleData
+      component: MyPlaygroundSampleData
     },
     {
       path: "/yourdata",
-      component: ProjectsDashboardYourData
+      component: MyPlaygroundYourData
     },
     {
       path: "/connect",
-      component: ProjectsDashboardConnect
+      component: MyPlaygroundConnect
     },
     {
       path: '/**',
       redirectTo: ['/']
     }
-  ])(ProjectsDashboard);
+  ])(MyPlayground);
 
   let Showcase = ng.core.Component({
     selector: 'playground-showcase',
@@ -448,8 +601,8 @@
         component: Home
       },
       {
-        path: "/projectsdashboard",
-        component: ProjectsDashboard
+        path: "/myplayground",
+        component: MyPlayground
       },
       {
         path: "/noobs",
@@ -458,7 +611,7 @@
       {
         path: "/showcase",
         component: Showcase
-      },
+      },    
       {
         path: '/**',
         redirectTo: ['/home']

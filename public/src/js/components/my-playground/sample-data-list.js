@@ -2,7 +2,7 @@ let SampleDataList = ng.core.Component({
   selector: 'sample-data-list',
   directives: [ng.router.ROUTER_DIRECTIVES],
   viewProviders: [],
-  templateUrl: '/views/projects-dashboard/sample-data-list.html'
+  templateUrl: '/views/my-playground/sample-data-list.html'
 })
 .Class({
   constructor: [SampleDataService, function(sampleDataService){

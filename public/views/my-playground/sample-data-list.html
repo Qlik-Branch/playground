@@ -1,0 +1,25 @@
+<div class="my-playground-sample-data">
+  <div class="row title-block">
+    <div class="col-md-12">
+      <h1>Sample Data</h1>
+    </div>
+    <div class="col-md-6">
+      <p>
+        Want to create projects using our sample data. Below are some data sets you can use.
+      </p>
+    </div>
+  </div>
+  <div class="row options-cards sample-data-container">
+    <div *ngFor="let key of appKeys" class="col-md-2">
+      <div class="card">
+        <img src="{{apps[key].icon}}" alt="" />
+        <div class="card-title">
+          {{apps[key].name}}
+        </div>
+        <p class="card-text">
+          {{apps[key].description}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

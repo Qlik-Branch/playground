@@ -2,7 +2,7 @@ let SampleDataDetails = ng.core.Component({
   selector: 'sample-data-details',
   directives: [],
   viewProviders: [ng.router.ROUTER_PROVIDERS, SampleDataService],
-  templateUrl: '/views/projects-dashboard/sample-data-details.html'
+  templateUrl: '/views/my-playground/sample-data-details.html'
 })
 .Class({
   constructor: [ng.router.RouteSegment, SampleDataService, function(routeSegment, sampleDataService){

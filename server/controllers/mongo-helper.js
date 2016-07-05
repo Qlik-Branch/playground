@@ -31,5 +31,10 @@ module.exports = {
     connString.save(function(err){
       callbackFn(err, connString);
     })
+  },
+  getUserConnections: function(user, callbackFn) {
+    ConnectionString.find({userid: user}, function(err, connections){
+      callbackFn(err, connections);
+    })
   }
 }

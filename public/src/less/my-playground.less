@@ -1,21 +1,39 @@
-.projects-dashboard{
+.my-playground{
+  .my-playground-menu{
+    background-color: @sub-header-grey;
+    color: @white;
+    font-size: 13px;
+    font-weight: bold;
+    height: 44px;
+    li{
+      height: 100%;
+      line-height: 44px;
+      padding: 0 10px;
+      border-right: 1px solid @fog;
+      margin-right: -3px;
+      display: inline-block;
+      cursor: pointer;
+      &:hover{
+        background-color: @highlight-grey;
+      }
+      &.active{
+        background-color: @grey;
+        border-bottom: 3px solid @orange;
+      }
+    }
+  }
+  .my-playground-main{
+    .title-block{
+      img{
+        max-height: 100px;
+      }
+    }
+  }
     .options-cards{
       padding-top: 20px;
       padding-bottom: 20px;
       height: 350px;
       background-color: white
-    }
-    .example-apps-card-container{
-      height: 200px;
-      .card{
-        cursor: pointer;
-        &:hover{
-          color: white;
-        }
-      }
-    }
-    .example-app-detail{
-
     }
     .sample-project-list{
       li{
@@ -38,7 +56,7 @@
         }
       }
     }
-    .data-connections-container{      
+    .data-connections-container, .sample-data-container{
       height: 300px;
       .card{
         &:hover{

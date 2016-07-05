@@ -1,11 +1,13 @@
 @default-text: @greyscale-5;
-@header-grey: @greyscale-20;
-@body-grey: @greyscale-28;
+@header-grey: @greyscale-25;
+@sub-header-grey: @greyscale-35;
+@body-grey: @greyscale-45;
 @smoke: rgba(71,71,71,0.9); //71 matches the definition for @greyscale-28
 @fog: rgba(217,217,217,0.7); //217 matches the definition for @greyscale-85
 @footer-grey: @greyscale-15;
 @white: @greyscale-100;
-@grey: @greyscale-60;
+@grey: @greyscale-40;
+@highlight-grey: #606060;
 @light-grey: @greyscale-90;
 
 
@@ -26,6 +28,10 @@
   background: -ms-radial-gradient(center, ellipse cover, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
   background: radial-gradient(ellipse at center, rgba(250,183,97,1) 0%, rgba(248,152,29,1) 76%, rgba(211,129,25,1) 94%, rgba(211,129,25,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fab761', endColorstr='#d38119', GradientType=1 );
+}
+
+.default-text{
+  color: @default-text;
 }
 
 .blue{
