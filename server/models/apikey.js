@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
 
-var apikeySchema = new Schema({  
+var apikeySchema = new Schema({
   api_key:{
     type: String,
     default: function(){
@@ -17,7 +17,7 @@ var apikeySchema = new Schema({
     type: Date,
     default: Date.now
   },
-  userid: String,
+  userid: Schema.ObjectId,
   keyType: String
 });
 

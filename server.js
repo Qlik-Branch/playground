@@ -3,6 +3,7 @@ var express = require('express'),
     passport = require('passport'),
     expressSession = require('express-session'),
     ntlm = require('express-ntlm'),
+    MongoStore = require('connect-mongo')(expressSession),
     mongoose = require('mongoose'),
     favicon = require('serve-favicon');
 
@@ -31,9 +32,6 @@ var ntlmConfig ={
 
 mongoose.connect(process.env.mongoconnectionstring);
 
-//configure passport strategies
-require(__dirname +'/server/controllers/passport/passport.js')(passport);
-
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/qlik', express.static(__dirname + '/node_modules/@qlik/leonardo-ui/dist'));
 app.use('/css', express.static(__dirname + '/public/build'));
@@ -44,7 +42,8 @@ app.use('/configs', express.static(__dirname + '/public/configs'));
 app.use('/dictionaries', express.static(__dirname + '/dictionaries'));
 app.use(favicon(__dirname + '/public/resources/favicon.ico'));
 
-app.use(expressSession({secret: 'playground'}));
+require('./server/controllers/passport/passport.js')(passport);
+app.use(expressSession({secret: 'mySecretKey', store: new MongoStore({ mongooseConnection: mongoose.connection})}));
 app.use(passport.initialize());
 app.use(passport.session());
 

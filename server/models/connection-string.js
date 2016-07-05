@@ -6,7 +6,7 @@ var connStringSchema = new Schema({
   //   type: Schema.ObjectId,
   //   ref: 'userprofiles'
   // },
-  userid: String,
+  userid: Schema.ObjectId,
   createdate: {
     type: Date,
     default: Date.now

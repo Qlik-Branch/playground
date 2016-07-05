@@ -21,7 +21,32 @@ router.get('/dataconnections', function(req, res){
 });
 
 router.get('/currentuser', function(req, res){
-  res.json(req.user);
+  mongoHelper.checkAPIKey(req.user._id, "playground", function(err, data){
+    if(err){
+      ////do something with the error
+      console.log(err);
+    }
+    else{
+      if(data && data.length > 0){
+        //we have a key
+        req.user.apiKey = data[0].api_key;
+        res.json(req.user);
+      }
+      else{
+        mongoHelper.createAPIKey(req.user.username, "playground", function(err, key){
+          req.user.apiKey = key.api_key;
+          res.json(req.user);
+        });
+      }
+    }
+  });
+});
+
+router.get('/configs', function(req, res) {
+  res.json({
+    loginUrl: process.env.loginUrl,
+    returnUrl: process.env.returnUrl
+  });
 });
 
 router.get('/currentuserconnections', function(req, res){

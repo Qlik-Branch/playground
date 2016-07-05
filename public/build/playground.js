@@ -3,6 +3,21 @@
 (function (playground) {
 
   //service declarations
+  var ConfigService = ng.core.Injectable({}).Class({
+    constructor: [ng.http.Http, function (http) {
+      this.http = http;
+    }],
+    getConfigs: function getConfigs(callbackFn) {
+      this.http.get('/api/configs').subscribe(function (response) {
+        if (response._body !== "") {
+          callbackFn(JSON.parse(response._body));
+        } else {
+          callbackFn();
+        }
+      });
+    }
+  });
+
   var UserService = ng.core.Injectable({}).Class({
     constructor: [ng.http.Http, function (http) {
       this.http = http;
@@ -116,12 +131,16 @@
   var Header = ng.core.Component({
     selector: 'playground-header',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    providers: [UserService],
+    providers: [ConfigService, UserService],
     templateUrl: '/views/header.html'
   }).Class({
-    constructor: [UserService, function (userService) {
+    constructor: [ConfigService, UserService, function (configService, userService) {
       var _this5 = this;
 
+      configService.getConfigs(function (configs) {
+        _this5.loginUrl = configs.loginUrl;
+        _this5.returnUrl = configs.returnUrl;
+      });
       userService.getUser(function (user) {
         _this5.user = user;
       });

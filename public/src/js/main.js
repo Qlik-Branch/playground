@@ -1,6 +1,7 @@
 (function(playground){
 
   //service declarations
+  include "./services/config-service.js"
   include "./services/user-service.js"
   include "./services/sample-data-service.js"
   include "./services/data-connection-service.js"
