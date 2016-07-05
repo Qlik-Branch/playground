@@ -18,6 +18,13 @@ router.get('/currentuser', function(req, res){
   res.json(req.user);
 });
 
+router.get('/configs', function(req, res) {
+  res.json({
+    loginUrl: process.env.loginUrl,
+    returnUrl: process.env.returnUrl
+  });
+});
+
 router.get('/authorise/:connection', function(req, res){
   var dictionary = require('../../dictionaries/'+req.params.connection+'/dictionary');
   var connectionInfo = dataConnections[req.params.connection];

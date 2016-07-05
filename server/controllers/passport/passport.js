@@ -1,12 +1,14 @@
+var UserRole = require('../../models/userrole');
+var UserProfile = require('../../models/userprofile');
+
 module.exports = function(passport){
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user._id);
   });
 
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
+  passport.deserializeUser(function(id, done) {
+    UserProfile.findOne({"_id": id}).populate('role').exec(function(err, user) {
+      done(err, user);
+    });
   });
-
-  //Configure login strategies
-  require('./gitlogin.js')(passport);
 }
