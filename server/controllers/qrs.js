@@ -217,7 +217,8 @@ module.exports = {
         headers: {
           'x-qlik-xrfkey': xrfkey,
           'X-Qlik-User': 'UserDirectory= Internal;UserId= sa_repository',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*';
         },
         key: key,
         cert: cert,
