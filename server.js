@@ -44,7 +44,11 @@ app.use('/dictionaries', express.static(__dirname + '/dictionaries'));
 app.use(favicon(__dirname + '/public/resources/favicon.ico'));
 
 require('./server/controllers/passport/passport.js')(passport);
-app.use(expressSession({secret: 'mySecretKey', store: new MongoStore({ mongooseConnection: mongoose.connection})}));
+app.use(expressSession({
+  secret: 'mySecretKey',
+  store: new MongoStore({ mongooseConnection: mongoose.connection}),
+  cookie: {path:"/", domain:process.env.cookieDomain, httpOnly: true}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
