@@ -132,6 +132,8 @@ module.exports = {
                 callbackFn(err);
               }
               else{
+                console.log('session');
+                console.log(session);
                 session = JSON.parse(session);
                 session.origUserId = keys[0].userid._id;
                 callbackFn(null, session);
