@@ -21,7 +21,8 @@ let MyPlaygroundMain = ng.core.Component({
     this.sampleProjects;
     userService.getUser((user) => {
       console.log(user);
-      this.user = user;
+      this.user = user.user;
+      this.apiKey = user.apiKey;
     });
     this.getSampleProjects();
   }],
