@@ -6,6 +6,7 @@ var express = require('express'),
     mongoHelper = require('../controllers/mongo-helper'),
     generalConfig = require('../configs/general'),
     OAuthInfo = require('../configs/oauth-info'),
+    Cookie = require('cookie'),
     QRS = require('../controllers/qrs');
 
 router.get('/sampledata', function(req, res){
@@ -21,25 +22,34 @@ router.get('/dataconnections', function(req, res){
 });
 
 router.get('/currentuser', function(req, res){
-  mongoHelper.checkAPIKey(req.user._id, "playground", function(err, data){
-    if(err){
-      ////do something with the error
-      console.log(err);
-    }
-    else{
-      if(data && data.length > 0){
-        //we have a key
-        req.user.apiKey = data[0].api_key;
-        res.json(req.user);
+  if(req.user){
+    console.log(req.user);
+    mongoHelper.checkAPIKey(req.user._id, "playground", function(err, data){
+      console.log('data');
+      console.log(data);
+      if(err){
+        ////do something with the error
+        console.log(err);
       }
       else{
-        mongoHelper.createAPIKey(req.user.username, "playground", function(err, key){
-          req.user.apiKey = key.api_key;
+        if(data && data.length > 0){
+          //we have a key
+          req.user.apiKey = data[0].api_key;
           res.json(req.user);
-        });
+        }
+        else{
+          mongoHelper.createAPIKey(req.user._id, "playground", function(err, key){
+            req.user.apiKey = key.api_key;
+            res.json(req.user);
+          });
+        }
       }
-    }
-  });
+    });
+  }
+  else{
+    res.json();
+  }
+
 });
 
 router.get('/configs', function(req, res) {
@@ -50,15 +60,19 @@ router.get('/configs', function(req, res) {
 });
 
 router.get('/currentuserconnections', function(req, res){
-  console.log(req.user.username);
-  mongoHelper.getUserConnections(req.user.username, function(err, connections){
-    if(err){
-      res.json({err});
-    }
-    else{
-      res.json({connections});
-    }
-  });
+  if(req.user){
+    mongoHelper.getUserConnections(req.user._id, function(err, connections){
+      if(err){
+        res.json({err});
+      }
+      else{
+        res.json({connections});
+      }
+    });
+  }
+  else{
+    res.json({connections:[]});
+  }
 });
 
 router.get('/authorise/:connection', function(req, res){
@@ -97,21 +111,29 @@ router.get('/authorise/:connection', function(req, res){
 
 router.get('/getAppInfo', function(req, res){
   res.header("Access-Control-Allow-Origin", "*");
-  QRS.getTicket(req.query, function(err, ticketResponse){
+  QRS.checkOrCreateSession(req, function(err, sessionResponse){
+    console.log(sessionResponse);
     if(err){
-      res.json({err: err});
+      res.json({err:err});
     }
     else{
-      console.log(ticketResponse);
-      mongoHelper.getConnectionString(ticketResponse.UserId, req.query.app, function(err, connectionStrings){
+      // res.setHeader('Set-Cookie', Cookie.serialize(process.env.sessionCookieName, String(sessionResponse.SessionId), {
+      //   httpOnly: true,
+      //   maxAge: 60 * 60 // 1 hour
+      // }));
+      console.log('setting cookie header');
+      res.cookie(process.env.sessionCookieName, sessionResponse.SessionId, { expires: 0});
+      mongoHelper.getConnectionString(sessionResponse.origUserId, req.query.app, function(err, connectionStrings){
         if(err){
-          res.json(err);
+          res.json({err:err});
         }
         else if (connectionStrings.length==0) {
           res.json({err: "No connection found"});
         }
         else{
           var info = generalConfig;
+          generalConfig.headers = {};
+          generalConfig.headers[process.env.sessionCookieName] = sessionResponse.SessionId;
           generalConfig.connectionString = connectionStrings[0].connectionString;
           generalConfig.loadscript = dataConnections[req.query.app].loadscript;
           res.json(generalConfig);
@@ -119,6 +141,28 @@ router.get('/getAppInfo', function(req, res){
       });
     }
   });
+  // QRS.getTicket(req.query, function(err, ticketResponse){
+  //   if(err){
+  //     res.json({err: err});
+  //   }
+  //   else{
+  //     console.log(ticketResponse);
+  //     mongoHelper.getConnectionString(ticketResponse.UserId, req.query.app, function(err, connectionStrings){
+  //       if(err){
+  //         res.json(err);
+  //       }
+  //       else if (connectionStrings.length==0) {
+  //         res.json({err: "No connection found"});
+  //       }
+  //       else{
+  //         var info = generalConfig;
+  //         generalConfig.connectionString = connectionStrings[0].connectionString;
+  //         generalConfig.loadscript = dataConnections[req.query.app].loadscript;
+  //         res.json(generalConfig);
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 module.exports = router;

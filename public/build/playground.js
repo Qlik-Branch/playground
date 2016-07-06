@@ -137,6 +137,7 @@
     constructor: [ConfigService, UserService, function (configService, userService) {
       var _this5 = this;
 
+      this.dialog;
       configService.getConfigs(function (configs) {
         _this5.loginUrl = configs.loginUrl;
         _this5.returnUrl = configs.returnUrl;

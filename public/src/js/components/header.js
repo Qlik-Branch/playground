@@ -6,6 +6,7 @@ let Header = ng.core.Component({
 })
 .Class({
   constructor: [ConfigService,UserService, function(configService,userService){
+    this.dialog;
     configService.getConfigs((configs) => {
       this.loginUrl = configs.loginUrl;
       this.returnUrl = configs.returnUrl;

@@ -14,10 +14,29 @@
     </li>
   </ul>
   <div class="loginmenu">
-    <button class="lui-button  lui-button--inverse"><span class="inline-block lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
+    <ul class="nav navbar-nav navbar-main navbar-right">
+      <li class="dropdown lui-button lui-button--inverse">
+        <a data-toggle="dropdown" role="button" aria-expanded="false" data-count="" class="inline-block lui-button__text">Qlik<span class="inline-block lui-button__caret  lui-caret"></span></a>
+        <ul role="menu" class="dropdown-menu">
+          <li><a href="http://www.qlik.com" target="_window">Qlik.com</a></li>
+          <li><a href="https://qlikcloud.com" target="_window">Qlik Cloud</a></li>
+          <li><a href="http://market.qlik.com" target="_window">Qlik Market</a></li>
+          <li><a href="http://community.qlik.com" target="_window">Qlik Community</a></li>
+        </ul>
+      </li>
+      <div class="horizontal-spacer horizontal-spacer-medium"></div>
+      <button *ngIf="!user" class="inline-block lui-button lui-button--warning"><a href="{{loginUrl}}?url={{returnUrl}}">Login</a></button>
+      <li *ngIf="user" class="dropdown lui-button lui-button--warning">
+        <span data-toggle="dropdown" role="button" aria-expanded="false" data-count="" class="inline-block lui-button__text">{{user.username}}<span class="inline-block lui-button__caret  lui-caret"></span></span>
+        <ul role="menu" class="dropdown-menu">
+          <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <button class="lui-button  lui-button--inverse"><span class="inline-block lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
     <div class="horizontal-spacer horizontal-spacer-medium"></div>
     <button *ngIf="!user" class="inline-block lui-button lui-button--warning"><a href="{{loginUrl}}?url={{returnUrl}}">Login</a></button>
-    <button *ngIf="user" class="inline-block lui-button lui-button--warning"><a href="">{{user.username}}</a></button>
-    <div class="horizontal-spacer horizontal-spacer-medium"></div>
+    <button *ngIf="user" class="inline-block lui-button lui-button--warning">{{user.username}}</button>
+    <div class="horizontal-spacer horizontal-spacer-medium"></div> -->
   </div>
 </div>
