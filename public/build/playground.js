@@ -138,12 +138,15 @@
       var _this5 = this;
 
       this.dialog;
+      this.user;
+      this.apiKey;
       configService.getConfigs(function (configs) {
         _this5.loginUrl = configs.loginUrl;
         _this5.returnUrl = configs.returnUrl;
       });
       userService.getUser(function (user) {
-        _this5.user = user;
+        _this5.user = user.user;
+        _this5.apiKey = user.apiKey;
       });
     }]
   });
@@ -356,7 +359,8 @@
       this.sampleProjects;
       userService.getUser(function (user) {
         console.log(user);
-        _this10.user = user;
+        _this10.user = user.user;
+        _this10.apiKey = user.apiKey;
       });
       this.getSampleProjects();
     }],

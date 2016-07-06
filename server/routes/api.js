@@ -34,13 +34,13 @@ router.get('/currentuser', function(req, res){
       else{
         if(data && data.length > 0){
           //we have a key
-          req.user.apiKey = data[0].api_key;
-          res.json(req.user);
+          req.user.apiKey = data[0].api_key;          
+          res.json({user: req.user, apiKey: data[0].api_key});
         }
         else{
           mongoHelper.createAPIKey(req.user._id, "playground", function(err, key){
             req.user.apiKey = key.api_key;
-            res.json(req.user);
+            res.json({user: req.user, apiKey: key.api_key});
           });
         }
       }
