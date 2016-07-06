@@ -111,10 +111,11 @@ router.get('/authorise/:connection', function(req, res){
 
 router.get('/getAppInfo', function(req, res){
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
   QRS.checkOrCreateSession(req, function(err, sessionResponse){
     console.log(sessionResponse);
     if(err){
-      res.json({err:err});
+      res.send(JSON.stringify({err:err}));
     }
     else{
       // res.setHeader('Set-Cookie', Cookie.serialize(process.env.sessionCookieName, String(sessionResponse.SessionId), {
@@ -125,10 +126,10 @@ router.get('/getAppInfo', function(req, res){
       res.cookie(process.env.sessionCookieName, sessionResponse.SessionId, { expires: 0});
       mongoHelper.getConnectionString(sessionResponse.origUserId, req.query.app, function(err, connectionStrings){
         if(err){
-          res.json({err:err});
+          res.send(JSON.stringify({err:err}));
         }
         else if (connectionStrings.length==0) {
-          res.json({err: "No connection found"});
+          res.send(JSON.stringify({err: "No connection found"}));
         }
         else{
           var info = generalConfig;
@@ -136,7 +137,7 @@ router.get('/getAppInfo', function(req, res){
           generalConfig.headers[process.env.sessionCookieName] = sessionResponse.SessionId;
           generalConfig.connectionString = connectionStrings[0].connectionString;
           generalConfig.loadscript = dataConnections[req.query.app].loadscript;
-          res.json(generalConfig);
+          res.send(JSON.stringify(generalConfig));
         }
       });
     }
