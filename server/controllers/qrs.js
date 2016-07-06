@@ -2,6 +2,8 @@ var https = require('https'),
     fs = require('fs'),
     Url = require('url'),
     crypto = require('crypto'),
+    Cookie = require('cookie'),
+    Guid = require('guid'),
     mongoHelper = require('./mongo-helper');
 
 var QRS = "4242", QPS = "4243";
@@ -63,6 +65,86 @@ module.exports = {
         }
       }
     });
+  },
+  checkOrCreateSession: function(req, callbackFn){
+    var that = this;
+    var query = req.query;
+    console.log(query);
+    var cookies = Cookie.parse(req.headers.cookie || "");
+    console.log(cookies);
+    var session = {};
+    var hasSessionCookie = false;
+    for (var c in cookies){
+      console.log(c);
+      console.log(cookies[c]);
+      if(c==process.env.sessionCookieName){
+        hasSessionCookie = true;
+        session.id = cookies[c];
+        break;
+      }
+    }
+    mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
+      console.log(keys);
+      if(err){
+        ////do something here
+        callbackFn(err);
+      }
+      else{
+        if(keys && keys.length > 0){
+          var data = {
+            UserDirectory: "GitHub",
+            UserId: keys[0].userid.username,
+            Attributes: [],
+            SessionId: Guid.create().value
+          }
+          console.log(data);
+          if(hasSessionCookie){
+            //we potentially have a session so we can check it
+            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/session/"+session.id, function(err, session){
+              console.log('existing session is');
+              console.log(session);
+              if(err){
+                callbackFn(err);
+              }
+              else if(!JSON.parse(session)){
+                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/session/", data, function(err, session){
+                  if(err){
+                    callbackFn(err);
+                  }
+                  else{
+                    session = JSON.parse(session);
+                    session.origUserId = keys[0].userid._id;
+                    callbackFn(null, session);
+                  }
+                });
+              }
+              else{
+                session = JSON.parse(session);
+                session.origUserId = keys[0].userid._id;
+                callbackFn(null, session);
+              }
+            })
+          }
+          else{
+            //no session cookie exists so we create one
+            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/session/", data, function(err, session){
+              if(err){
+                callbackFn(err);
+              }
+              else{
+                session = JSON.parse(session);
+                session.origUserId = keys[0].userid._id;
+                callbackFn(null, session);
+              }
+            });
+          }
+        }
+        else{
+          callbackFn("API Key not valid");
+        }
+      }
+    });
+
   },
   generateXrfkey: function (size, chars) {
       size = size || 16;
@@ -146,7 +228,7 @@ module.exports = {
       //settings.host = Url.parse(url).hostname;
       settings.host =  '192.168.1.83';
       settings.port = Url.parse(url).port;
-      settings.path = Url.parse(url).path+'ticket/?xrfkey='+xrfkey;
+      settings.path = Url.parse(url).path+'?xrfkey='+xrfkey;
     }
     else {
       settings.host = process.env.senseserver;

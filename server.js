@@ -22,6 +22,7 @@ catch(err){
   console.log("No configuration file found.");
 }
 
+
 var ntlmConfig ={
   debug: function() {
       var args = Array.prototype.slice.apply(arguments);

@@ -5,8 +5,13 @@ var express = require('express'),
     mongoHelper = require('../controllers/mongo-helper'),
     QRS = require('../controllers/qrs');
 
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 router.get('/connection/callback', function(req, res){
-  if(req.query){
+  if(req.query && req.user){
     var data = req.query;
     var session = req.session;
     var tokenUrl = session.dictionary.auth_options.oauth_token_url;
@@ -74,7 +79,7 @@ router.get('/connection/callback', function(req, res){
           console.log(responseData);
           var tokenData = getTokens(responseData);
           console.log(tokenData);
-          mongoHelper.getConnectionString(req.user.username, req.session.connectionInfo.id, function(err, connectionStrings){
+          mongoHelper.getConnectionString(req.user._id, req.session.connectionInfo.id, function(err, connectionStrings){
             if(err){
               console.log('error getting checking connection strings after authorisation');
               res.redirect('/myplayground');
@@ -83,7 +88,7 @@ router.get('/connection/callback', function(req, res){
               console.log('token data');
               console.log(tokenData);
               var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
-              mongoHelper.storeConnectionString(req.user.username, req.session.connectionInfo.id, connectionString, function(err, result){
+              mongoHelper.storeConnectionString(req.user._id, req.session.connectionInfo.id, connectionString, function(err, result){
                 if(err){
                   console.log(err);
                   res.redirect('/myplayground');

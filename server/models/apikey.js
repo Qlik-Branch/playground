@@ -17,7 +17,10 @@ var apikeySchema = new Schema({
     type: Date,
     default: Date.now
   },
-  userid: Schema.ObjectId,
+  userid: {
+    type: Schema.ObjectId,
+    ref: "userprofiles"
+  },
   keyType: String
 });
 
