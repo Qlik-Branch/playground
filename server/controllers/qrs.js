@@ -180,8 +180,8 @@ module.exports = {
     };
 
     if(url.indexOf("http")!=-1){
-      //settings.host = Url.parse(url).hostname;
-      settings.host =  '192.168.1.83';
+      settings.host = Url.parse(url).hostname;
+      // settings.host =  '192.168.1.83';
       settings.port = Url.parse(url).port;
       settings.path = Url.parse(url).path+'?xrfkey='+xrfkey;
     }
@@ -228,8 +228,8 @@ module.exports = {
     };
 
     if(url.indexOf("http")!=-1){
-      //settings.host = Url.parse(url).hostname;
-      settings.host =  '192.168.1.83';
+      settings.host = Url.parse(url).hostname;
+      // settings.host =  '192.168.1.83';
       settings.port = Url.parse(url).port;
       settings.path = Url.parse(url).path+'?xrfkey='+xrfkey;
     }
