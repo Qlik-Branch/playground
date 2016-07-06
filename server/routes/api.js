@@ -110,7 +110,7 @@ router.get('/authorise/:connection', function(req, res){
 });
 
 router.get('/getAppInfo', function(req, res){
-  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   QRS.checkOrCreateSession(req, function(err, sessionResponse){
     console.log(sessionResponse);
     if(err){
