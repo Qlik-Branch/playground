@@ -13,7 +13,7 @@ ng.core.Injectable({
       callbackFn(this.sampleData);
     }
     else{
-      this.http.get('/api/sampledata').subscribe(response => {
+      this.http.get('/server/sampledata').subscribe(response => {
         if(response._body!==""){
           this.sampleData = JSON.parse(response._body);
           callbackFn(JSON.parse(response._body));
@@ -29,7 +29,7 @@ ng.core.Injectable({
       callbackFn(this.sampleProjects);
     }
     else{
-      this.http.get('/api/sampleprojects').subscribe(response => {
+      this.http.get('/server/sampleprojects').subscribe(response => {
         if(response._body!==""){
           this.sampleProjects = JSON.parse(response._body);
           callbackFn(JSON.parse(response._body));

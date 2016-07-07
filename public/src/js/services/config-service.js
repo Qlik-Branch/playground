@@ -7,7 +7,7 @@ var ConfigService =
                 this.http = http;
             }],
             getConfigs: function(callbackFn){
-                this.http.get('/api/configs').subscribe(response => {
+                this.http.get('/server/configs').subscribe(response => {
                     if(response._body!==""){
                     callbackFn(JSON.parse(response._body));
                 }

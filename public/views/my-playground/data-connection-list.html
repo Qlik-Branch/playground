@@ -19,7 +19,7 @@
         <p class="card-text">
           {{conns[key].description}}
         </p>
-        <a *ngIf="!conns[key].authorised" href="/api/authorise/{{key}}" class="lui-button lui-button--warning" type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
+        <a *ngIf="!conns[key].authorised" href="/server/authorise/{{key}}" class="lui-button lui-button--warning" type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
         <span class="grey" *ngIf="conns[key].authorised===true">Authorised</span>
       </div>
     </div>

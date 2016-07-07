@@ -12,7 +12,7 @@ ng.core.Injectable({
       callbackFn(this.dataConnections);
     }
     else{
-      this.http.get('/api/dataconnections').subscribe(response => {
+      this.http.get('/server/dataconnections').subscribe(response => {
         if(response._body!==""){
           this.dataConnections = JSON.parse(response._body);
           callbackFn(JSON.parse(response._body));
@@ -40,7 +40,7 @@ ng.core.Injectable({
     }
   },
   authoriseConnection: function(connectionId, callbackFn){
-    this.http.post("/api/authorise/"+connectionId).subscribe(response => {
+    this.http.post("/server/authorise/"+connectionId).subscribe(response => {
       callbackFn(JSON.parse(response._body));
     });
   }

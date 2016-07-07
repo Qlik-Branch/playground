@@ -8,7 +8,7 @@
       this.http = http;
     }],
     getConfigs: function getConfigs(callbackFn) {
-      this.http.get('/api/configs').subscribe(function (response) {
+      this.http.get('/server/configs').subscribe(function (response) {
         if (response._body !== "") {
           callbackFn(JSON.parse(response._body));
         } else {
@@ -23,7 +23,7 @@
       this.http = http;
     }],
     getUser: function getUser(callbackFn) {
-      this.http.get('/api/currentuser').subscribe(function (response) {
+      this.http.get('/server/currentuser').subscribe(function (response) {
         if (response._body !== "") {
           callbackFn(JSON.parse(response._body));
         } else {
@@ -32,7 +32,7 @@
       });
     },
     getUserConnections: function getUserConnections(callbackFn) {
-      this.http.get('/api/currentuserconnections').subscribe(function (response) {
+      this.http.get('/server/currentuserconnections').subscribe(function (response) {
         if (response._body !== "") {
           callbackFn(JSON.parse(response._body));
         } else {
@@ -54,7 +54,7 @@
       if (this.sampleData) {
         callbackFn(this.sampleData);
       } else {
-        this.http.get('/api/sampledata').subscribe(function (response) {
+        this.http.get('/server/sampledata').subscribe(function (response) {
           if (response._body !== "") {
             _this.sampleData = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
@@ -70,7 +70,7 @@
       if (this.sampleProjects) {
         callbackFn(this.sampleProjects);
       } else {
-        this.http.get('/api/sampleprojects').subscribe(function (response) {
+        this.http.get('/server/sampleprojects').subscribe(function (response) {
           if (response._body !== "") {
             _this2.sampleProjects = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
@@ -93,7 +93,7 @@
       if (this.dataConnections) {
         callbackFn(this.dataConnections);
       } else {
-        this.http.get('/api/dataconnections').subscribe(function (response) {
+        this.http.get('/server/dataconnections').subscribe(function (response) {
           if (response._body !== "") {
             _this3.dataConnections = JSON.parse(response._body);
             callbackFn(JSON.parse(response._body));
@@ -121,7 +121,7 @@
       }
     },
     authoriseConnection: function authoriseConnection(connectionId, callbackFn) {
-      this.http.post("/api/authorise/" + connectionId).subscribe(function (response) {
+      this.http.post("/server/authorise/" + connectionId).subscribe(function (response) {
         callbackFn(JSON.parse(response._body));
       });
     }
