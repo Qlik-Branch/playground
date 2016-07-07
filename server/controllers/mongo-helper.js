@@ -19,6 +19,8 @@ module.exports = {
   },
   getConnectionString: function(userid, connectionName, callbackFn){
     ConnectionString.find({userid: userid, connection: connectionName}, function(err, connString){
+      console.log('connections found for '+userid+' and app '+connectionName);
+      console.log(connString);
       callbackFn(err, connString);
     })
   },
