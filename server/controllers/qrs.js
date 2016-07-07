@@ -94,8 +94,7 @@ module.exports = {
           var data = {
             UserDirectory: "GitHub",
             UserId: keys[0].userid.username,
-            Attributes: [],
-            SessionId: Guid.create().value
+            Attributes: []
           }
           console.log(data);
           if(hasSessionCookie){
@@ -107,39 +106,37 @@ module.exports = {
                 callbackFn(err);
               }
               else if(!session.SessionId){
-                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/session/", data, function(err, session){
+                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
                   if(err){
                     callbackFn(err);
                   }
                   else{
-                    session = JSON.parse(session);
+                    session = JSON.parse(ticket);
                     session.origUserId = keys[0].userid._id;
-                    cookies[process.env.sessionCookieName] = session.SessionId;
-                    callbackFn(null, {session:session, cookies:cookies});
+                    callbackFn(null, {session:session});
                   }
                 });
               }
               else{
                 session = JSON.parse(session);
                 session.origUserId = keys[0].userid._id;
-                cookies[process.env.sessionCookieName] = session.SessionId;
-                callbackFn(null, {session:session, cookies:cookies});
+                callbackFn(null, {session:session});
               }
             })
           }
           else{
             //no session cookie exists so we create one
-            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/session/", data, function(err, session){
+            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
               if(err){
                 callbackFn(err);
               }
               else{
                 console.log('session');
-                console.log(session);
-                session = JSON.parse(session);
+                console.log(ticket);
+                session = JSON.parse(ticket);
                 session.origUserId = keys[0].userid._id;
                 cookies[process.env.sessionCookieName] = session.SessionId;
-                callbackFn(null, {session:session, cookies:cookies});
+                callbackFn(null, {session:session});
               }
             });
           }
