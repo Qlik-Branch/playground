@@ -32,8 +32,8 @@ router.get('/getAppInfo', function(req, res){
       }
 
       // res.setHeader('Set-Cookie', cookies.join());
-      var sessCookie = Cookie.serialize(process.env.sessionCookieName, sessionResponse.session.SessionId, {domain: process.env.cookieDomain, httpOnly: false});
-      res.cookie(sessCookie);
+      // var sessCookie = Cookie.serialize(process.env.sessionCookieName, sessionResponse.session.SessionId, {domain: process.env.cookieDomain, httpOnly: false});
+      // res.cookie(sessCookie);
       mongoHelper.getConnectionString(sessionResponse.session.origUserId, req.query.app, function(err, connectionStrings){
         if(err){
           res.send(JSON.stringify({err:err}));
