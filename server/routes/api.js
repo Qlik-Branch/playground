@@ -34,7 +34,7 @@ router.get('/currentuser', function(req, res){
       else{
         if(data && data.length > 0){
           //we have a key
-          req.user.apiKey = data[0].api_key;          
+          req.user.apiKey = data[0].api_key;
           res.json({user: req.user, apiKey: data[0].api_key});
         }
         else{
@@ -123,8 +123,13 @@ router.get('/getAppInfo', function(req, res){
       //   maxAge: 60 * 60 // 1 hour
       // }));
       console.log('setting cookie header');
-      res.cookie(process.env.sessionCookieName, sessionResponse.SessionId, { expires: 0});
-      mongoHelper.getConnectionString(sessionResponse.origUserId, req.query.app, function(err, connectionStrings){
+      var cookies = [];
+      for (var c in sessionResponse.cookies){
+        cookies.push(c+"="+sessionResponse.cookies[c]+";");
+      }
+
+      res.setHeader('Set-Cookie', cookies.join(""));
+      mongoHelper.getConnectionString(sessionResponse.session.origUserId, req.query.app, function(err, connectionStrings){
         if(err){
           res.send(JSON.stringify({err:err}));
         }
@@ -134,7 +139,7 @@ router.get('/getAppInfo', function(req, res){
         else{
           var info = generalConfig;
           generalConfig.headers = {};
-          generalConfig.headers[process.env.sessionCookieName] = sessionResponse.SessionId;
+          generalConfig.headers[process.env.sessionCookieName] = sessionResponse.session.SessionId;
           generalConfig.connectionString = connectionStrings[0].connectionString;
           generalConfig.loadscript = dataConnections[req.query.app].loadscript;
           res.send(JSON.stringify(generalConfig));
