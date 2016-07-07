@@ -114,14 +114,16 @@ module.exports = {
                   else{
                     session = JSON.parse(session);
                     session.origUserId = keys[0].userid._id;
-                    callbackFn(null, session);
+                    cookies[process.env.sessionCookieName] = session.SessionId;
+                    callbackFn(null, {session:session, cookies:cookies});
                   }
                 });
               }
               else{
                 session = JSON.parse(session);
                 session.origUserId = keys[0].userid._id;
-                callbackFn(null, session);
+                cookies[process.env.sessionCookieName] = session.SessionId;
+                callbackFn(null, {session:session, cookies:cookies});
               }
             })
           }
@@ -136,7 +138,8 @@ module.exports = {
                 console.log(session);
                 session = JSON.parse(session);
                 session.origUserId = keys[0].userid._id;
-                callbackFn(null, session);
+                cookies[process.env.sessionCookieName] = session.SessionId;
+                callbackFn(null, {session:session, cookies:cookies});
               }
             });
           }
