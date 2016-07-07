@@ -106,7 +106,7 @@ module.exports = {
               if(err){
                 callbackFn(err);
               }
-              else if(!session.SessionId)){
+              else if(!session.SessionId){
                 that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/session/", data, function(err, session){
                   if(err){
                     callbackFn(err);
