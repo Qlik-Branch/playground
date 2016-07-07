@@ -23,11 +23,16 @@ router.get('/getAppInfo', function(req, res){
       console.log('setting cookie header');
       var cookies = [];
       for (var c in sessionResponse.cookies){
-        cookies.push(c+"="+sessionResponse.cookies[c]+";");
+        if(c==process.env.sessionCookieName){
+          cookies.push(Cookie.serialize(c,sessionResponse.cookies[c], {httpOnly: false}));
+        }
+        else{
+          cookies.push(Cookie.serialize(c,sessionResponse.cookies[c]));
+        }
       }
 
-      // res.setHeader('Set-Cookie', cookies.join());
-      res.cookie(process.env.sessionCookieName, sessionResponse.session.SessionId, {httpOnly: false});
+      res.setHeader('Set-Cookie', cookies.join());
+      // res.cookie(process.env.sessionCookieName, sessionResponse.session.SessionId, {httpOnly: false});
       mongoHelper.getConnectionString(sessionResponse.session.origUserId, req.query.app, function(err, connectionStrings){
         if(err){
           res.send(JSON.stringify({err:err}));
