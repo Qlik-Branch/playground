@@ -43,7 +43,9 @@ router.get('/getAppInfo', function(req, res){
         }
         else{
           var info = generalConfig;
-          generalConfig.sessionInfo = sessionResponse.session;          
+          if(sessionResponse.session.Ticket){
+            generalConfig.ticket = sessionResponse.session.Ticket;
+          }
           generalConfig.connectionString = connectionStrings[0].connectionString;
           generalConfig.loadscript = dataConnections[req.query.app].loadscript;
           res.send(JSON.stringify(generalConfig));
