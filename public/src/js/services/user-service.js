@@ -7,7 +7,7 @@ ng.core.Injectable({
     this.http = http;
   }],
   getUser: function(callbackFn){
-    this.http.get('/api/currentuser').subscribe(response => {
+    this.http.get('/server/currentuser').subscribe(response => {
       if(response._body!==""){
         callbackFn(JSON.parse(response._body));
       }
@@ -17,7 +17,7 @@ ng.core.Injectable({
     });
   },
   getUserConnections: function(callbackFn){
-    this.http.get('/api/currentuserconnections').subscribe(response => {
+    this.http.get('/server/currentuserconnections').subscribe(response => {
       if(response._body!==""){
         callbackFn(JSON.parse(response._body));
       }

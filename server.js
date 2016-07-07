@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     passport = require('passport'),
     expressSession = require('express-session'),
+    cookieParser = require('cookie-parser'),
     ntlm = require('express-ntlm'),
     MongoStore = require('connect-mongo')(expressSession),
     mongoose = require('mongoose'),
@@ -22,15 +23,6 @@ catch(err){
   console.log("No configuration file found.");
 }
 
-
-var ntlmConfig ={
-  debug: function() {
-      var args = Array.prototype.slice.apply(arguments);
-      console.log.apply(null, args);
-  },
-  domain: "QTSEL"
-}
-
 mongoose.connect(process.env.mongoconnectionstring);
 
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
@@ -45,6 +37,18 @@ app.use(favicon(__dirname + '/public/resources/favicon.ico'));
 
 require('./server/controllers/passport/passport.js')(passport);
 
+app.use(cookieParser());
+
+app.set('view engine', 'jade');
+app.set('views', __dirname +'/server/views')
+
+//load in the routes
+var apiRoutes = require(__dirname+'/server/routes/api');
+var serverRoutes = require(__dirname+'/server/routes/server');
+var authRoutes = require(__dirname+'/server/routes/auth');
+
+app.use('/api', apiRoutes);
+
 app.use(expressSession({
   secret: 'mySecretKey',
   store: new MongoStore({ mongooseConnection: mongoose.connection}),
@@ -52,6 +56,21 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/server', serverRoutes);
+app.use('/auth', authRoutes);
+
+app.get('/denied', function(req, res){
+  res.render(__dirname+'/server/views/denied.jade', {});
+});
+
+var ntlmConfig ={
+  debug: function() {
+      var args = Array.prototype.slice.apply(arguments);
+      console.log.apply(null, args);
+  },
+  domain: "QTSEL"
+}
 
 var accessList = [
   "nwr",
@@ -69,25 +88,12 @@ var accessList = [
   "bfk"
 ];
 
-
 app.get('/', function(req, res){
   res.redirect('/home');
 });
 
-//load in the routes
-var apiRoutes = require(__dirname+'/server/routes/api');
-var authRoutes = require(__dirname+'/server/routes/auth');
-
-app.use('/api', apiRoutes);
-app.use('/auth', authRoutes);
-
-app.get('/denied', function(req, res){
-  res.render(__dirname+'/server/views/denied.jade', {});
-});
-
-
 //all other routes should be dealt with by the client
-app.get('/*',  ntlm(ntlmConfig),  function(req, res){
+app.get('/*',  ntlm(ntlmConfig), function(req, res){
   console.log('trying ot get to page');
   if(req.ntlm && accessList.indexOf(req.ntlm.UserName.toLowerCase())==-1){
     console.log('user doesnt exist');
@@ -96,7 +102,7 @@ app.get('/*',  ntlm(ntlmConfig),  function(req, res){
   else{
     console.log('user is');
     console.log(req.ntlm);
-    res.render(__dirname+'/server/views/index.jade', {});
+    res.render('index.jade', {});
   }
 });
 

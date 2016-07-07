@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.6",
     "connect-mongo": "^1.2.1",
     "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.4.0",
     "express": "^4.13.4",
     "express-ntlm": "^2.1.4",
