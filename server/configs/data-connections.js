@@ -8,8 +8,7 @@ module.exports = {
     dictionary: "/dictionaries/github/dictionary.json",
     icon: "/dictionaries/github/icon.png",
     loadscript: "Users:LOAD *; SQL SELECT * FROM User;Repos:LOAD *; SQL SELECT * FROM Repos;",
-    projects: [
-      "basic-template",
+    projects: [      
       "github-search-template"
     ]
   }
