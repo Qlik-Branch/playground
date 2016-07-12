@@ -84,7 +84,6 @@ module.exports = {
     //   }
     // }
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
-      console.log(keys);
       if(err){
         ////do something here
         callbackFn(err);
@@ -96,7 +95,6 @@ module.exports = {
             UserId: keys[0].userid.username,
             Attributes: []
           }
-          console.log(data);
           // if(hasSessionCookie){
             //we potentially have a session so we can check it
             that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
@@ -108,11 +106,14 @@ module.exports = {
               else{
                 var userSessions = JSON.parse(sessions);
                 if(userSessions[0] && userSessions[0].SessionId){
+                  console.log('No need for a ticket');
                   var session = userSessions[0];
                   session.origUserId = keys[0].userid._id;
                   callbackFn(null, {session:session});
                 }
                 else{
+                  console.log('we need a ticket');
+                  console.log(userSessions[0]);
                   that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
                     if(err){
                       callbackFn(err);
