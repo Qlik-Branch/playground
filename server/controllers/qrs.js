@@ -92,16 +92,17 @@ module.exports = {
       else{
         if(keys && keys.length > 0){
           var data = {
-            UserDirectory: "GitHub",
+            UserDirectory: "Playground",
             UserId: keys[0].userid.username,
             Attributes: []
           }
           console.log(data);
           if(hasSessionCookie){
             //we potentially have a session so we can check it
-            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/session/"+session.id, function(err, session){
+            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
               console.log('existing session is');
-              console.log(session);
+              console.log(sessions);
+              var session = sessions[0] || {};  //presumptive getting the first from the array
               if(err){
                 callbackFn(err);
               }
