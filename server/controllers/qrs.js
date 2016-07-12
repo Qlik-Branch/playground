@@ -73,16 +73,16 @@ module.exports = {
     var cookies = Cookie.parse(req.headers.cookie || "");
     console.log(cookies);
     var session = {};
-    var hasSessionCookie = false;
-    for (var c in cookies){
-      console.log(c);
-      console.log(cookies[c]);
-      if(c==process.env.sessionCookieName){
-        hasSessionCookie = true;
-        session.id = cookies[c];
-        break;
-      }
-    }
+    // var hasSessionCookie = false;
+    // for (var c in cookies){
+    //   console.log(c);
+    //   console.log(cookies[c]);
+    //   if(c==process.env.sessionCookieName){
+    //     hasSessionCookie = true;
+    //     session.id = cookies[c];
+    //     break;
+    //   }
+    // }
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       console.log(keys);
       if(err){
@@ -97,7 +97,7 @@ module.exports = {
             Attributes: []
           }
           console.log(data);
-          if(hasSessionCookie){
+          // if(hasSessionCookie){
             //we potentially have a session so we can check it
             that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
               console.log('existing session is');
@@ -124,23 +124,23 @@ module.exports = {
                 callbackFn(null, {session:session});
               }
             })
-          }
-          else{
-            //no session cookie exists so we create one
-            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
-              if(err){
-                callbackFn(err);
-              }
-              else{
-                console.log('session');
-                console.log(ticket);
-                session = JSON.parse(ticket);
-                session.origUserId = keys[0].userid._id;
-                cookies[process.env.sessionCookieName] = session.SessionId;
-                callbackFn(null, {session:session});
-              }
-            });
-          }
+          // }
+          // else{
+          //   //no session cookie exists so we create one
+          //   that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
+          //     if(err){
+          //       callbackFn(err);
+          //     }
+          //     else{
+          //       console.log('session');
+          //       console.log(ticket);
+          //       session = JSON.parse(ticket);
+          //       session.origUserId = keys[0].userid._id;
+          //       cookies[process.env.sessionCookieName] = session.SessionId;
+          //       callbackFn(null, {session:session});
+          //     }
+          //   });
+          // }
         }
         else{
           callbackFn("API Key not valid");
