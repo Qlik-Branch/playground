@@ -100,8 +100,8 @@ module.exports = {
           // if(hasSessionCookie){
             //we potentially have a session so we can check it
             that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
-              console.log('existing session is');
-              console.log(sessions[0]);
+              console.log('existing sessions are');
+              console.log(sessions);              
               var session = sessions[0] || {};  //presumptive getting the first from the array
               if(err){
                 callbackFn(err);
