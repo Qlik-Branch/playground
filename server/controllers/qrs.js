@@ -104,10 +104,10 @@ module.exports = {
               console.log(sessions);
               if(err){
                 callbackFn(err);
-              }              
+              }
               else{
                 var userSessions = JSON.parse(sessions);
-                if(userSessions[0] && userSessions.SessionId){
+                if(userSessions[0] && userSessions[0].SessionId){
                   var session = JSON.parse(userSessions[0]);
                   session.origUserId = keys[0].userid._id;
                   callbackFn(null, {session:session});
