@@ -101,27 +101,29 @@ module.exports = {
             //we potentially have a session so we can check it
             that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
               console.log('existing sessions are');
-              console.log(sessions);              
-              var session = sessions[0] || {};  //presumptive getting the first from the array
+              console.log(sessions);
               if(err){
                 callbackFn(err);
-              }
-              else if(!session.SessionId){
-                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
-                  if(err){
-                    callbackFn(err);
-                  }
-                  else{
-                    session = JSON.parse(ticket);
-                    session.origUserId = keys[0].userid._id;
-                    callbackFn(null, {session:session});
-                  }
-                });
-              }
+              }              
               else{
-                session = JSON.parse(session);
-                session.origUserId = keys[0].userid._id;
-                callbackFn(null, {session:session});
+                var userSessions = JSON.parse(sessions);
+                if(userSessions[0] && userSessions.SessionId){
+                  var session = JSON.parse(userSessions[0]);
+                  session.origUserId = keys[0].userid._id;
+                  callbackFn(null, {session:session});
+                }
+                else{
+                  that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
+                    if(err){
+                      callbackFn(err);
+                    }
+                    else{
+                      var session = JSON.parse(ticket);
+                      session.origUserId = keys[0].userid._id;
+                      callbackFn(null, {session:session});
+                    }
+                  });
+                }
               }
             })
           // }
