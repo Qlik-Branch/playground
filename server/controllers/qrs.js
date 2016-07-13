@@ -231,9 +231,11 @@ module.exports = {
                       console.log(script);
                       console.log('reloading');
                       qApp.doReload().then(function(response){
-                        reloadFinished = false;
-                        qApp.connection.close();
-                        callbackFn(null, connectionString.appid);
+                        reloadFinished = true;
+                        qApp.save().then(function(){
+                          qApp.connection.close();
+                          callbackFn(null, connectionString.appid);
+                        });
                       });
                       getReloadProgress(global);
 
