@@ -39,7 +39,7 @@ module.exports = {
           var data = {
             UserDirectory: "Playground",
             UserId: keys[0].userid.username,
-            Attributes: ["client"]
+            Attributes: [{"source":"client"}]
           }
           that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
             console.log('existing sessions are');
@@ -51,9 +51,16 @@ module.exports = {
               var userSessions = JSON.parse(sessions);
               var needsTicket = true;
               for(var sess in userSessions){
-                if(sess.Attributes && sess.Attributes.indexOf("client")!=-1 && sess.SessionId && sess.SessionId!=""){
-                  needsTicket = false;
-                  break;
+                if(userSessions[sess].Attributes && userSessions[sess].Attributes.length > 0 && userSessions[sess].SessionId && userSessions[sess].SessionId!=""){
+                  for(var i=0;i<userSessions[sess].Attributes.length;i++){
+                    if(userSessions[sess].Attributes[i].source && userSessions[sess].Attributes[i].source=="client"){
+                      needsTicket = false;
+                      break;
+                    }
+                  }
+                  if(!needsTicket){
+                    break;
+                  }
                 }
               }
               if(!needsTicket){
@@ -192,7 +199,7 @@ module.exports = {
     var data = {
       UserDirectory: "Playground",
       UserId: user.username,
-      Attributes: ["reload"]
+      Attributes: [{"source":"server"}]
     }
     this.qPost(QPS, "/qps/playground" + "/ticket/", data, function(err, ticketResponse){
       if(err){
