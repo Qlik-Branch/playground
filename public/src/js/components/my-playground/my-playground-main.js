@@ -11,6 +11,8 @@ let MyPlaygroundMain = ng.core.Component({
     this.setActiveTab(0);
     this.isTabDetail = false;
     this.selectedItem = {};
+    this.selectedItemStatus = 'Checking Status...';
+    this.selectedItemStatusDetail = '';
     this.myConns;
     this.myParsedConns = {};
     this.myConnKeys;
@@ -18,11 +20,11 @@ let MyPlaygroundMain = ng.core.Component({
     this.appKeys;
     this.conns;
     this.connKeys;
+    this.connectionInfo;
     this.sampleProjects;
     userService.getUser((user) => {
       console.log(user);
-      this.user = user.user;
-      this.apiKey = user.apiKey;
+      this.user = user;
     });
     this.getSampleProjects();
   }],
@@ -66,6 +68,21 @@ let MyPlaygroundMain = ng.core.Component({
       });
     }
   },
+  getConnectionInfo: function(connectionId){
+    this.dataConnectionService.getConnectionInfo(connectionId, (connInfo)=>{
+      this.onConnectionInfo(connInfo);
+    });
+  },
+  onConnectionInfo: function(info){
+    if(info.appname){
+      this.selectedItemStatus = "Started";
+    }
+    else {
+      this.selectedItemStatus = "Stopped";
+      this.selectedItemDetail = "Please start the application to see more options.";
+    }
+    this.connectionInfo = JSON.stringify(info);
+  },
   getSampleData: function(){
     if(!this.apps){
       this.sampleDataService.getSampleData((apps)=>{
@@ -84,6 +101,7 @@ let MyPlaygroundMain = ng.core.Component({
   },
   setActiveTab: function(index){
     this.activeTab = index;
+    this.isTabDetail = false;
     switch (index) {
       case 0:
         this.getConnections();
@@ -103,6 +121,7 @@ let MyPlaygroundMain = ng.core.Component({
       case "connection":
         this.selectedItem = this.conns[key];
         this.isTabDetail = true;
+        this.getConnectionInfo(key);
         break;
       default:
 
@@ -116,5 +135,26 @@ let MyPlaygroundMain = ng.core.Component({
     var itemInput = document.getElementById(index+"_clone_url");
     itemInput.select();
     document.execCommand('copy');
+  },
+  startApp: function(connectionId){
+    this.selectedItemStatus = "Starting";
+    this.selectedItemDetail = "Starting application.";
+    this.dataConnectionService.startApp(connectionId, (connInfo)=>{
+      this.onConnectionInfo(connInfo);
+    })
+  },
+  stopApp: function(connectionId){
+    this.selectedItemStatus = "Stopping";
+    this.selectedItemDetail = "Stopping application.";
+    this.dataConnectionService.stopApp(connectionId, (connInfo)=>{
+      this.onConnectionInfo(connInfo);
+    })
+  },
+  reloadApp: function(connectionId){
+    this.selectedItemStatus = "Reloading";
+    this.selectedItemDetail = "Reloading application.";
+    this.dataConnectionService.reloadApp(connectionId, (connInfo)=>{
+      this.onConnectionInfo(connInfo);
+    })
   }
 })

@@ -109,21 +109,6 @@ router.get('/connection/callback', function(req, res){
   }
 });
 
-// CUSTOM CONNECT TO "provider=GenericRestConnector.exe;dictionary=56e938e8d3df80c638eb971e;source=online;auth-method=OAuth;url=https://api.untappd.com;dictionaryurl=https://api.github.com/repos/websy85/untappd-dictionary/contents/dictionary.json;"
-// CUSTOM CONNECT TO "provider=GenericRestConnector.exe;dictionary=greenline-dictionary-master;source=local;auth-method=Basic;url=http://192.168.1.166:3002;username=admin;"
-
-router.get('/apikey', function(req, res){
-  res.header("Access-Control-Allow-Origin", "*");
-  QRS.getTicket(req.query, function(err, ticketResponse){
-    if(err){
-      res.json({err: err});
-    }
-    else{
-      res.json(ticketResponse);
-    }
-  });
-});
-
 function getTokens(data){
   var output = {};
   output = traverseProperties(data, output);

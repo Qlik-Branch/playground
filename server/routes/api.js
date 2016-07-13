@@ -10,7 +10,22 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     QRS = require('../controllers/qrs');
 
-router.get('/getAppInfo', function(req, res){
+router.get('/ticket', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
+  QRS.getTicket(req.query, function(err, ticket){
+    console.log('got ticket');
+    if(err){
+      res.json({err: err});
+    }
+    else{
+      console.log("ticket is "+ticket);
+      res.send(JSON.stringify({ticket:ticket}));
+    }
+  });
+});
+
+router.get('/getAppInfoX', function(req, res){
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
   QRS.checkOrCreateSession(req, function(err, sessionResponse){

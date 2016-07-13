@@ -12,7 +12,8 @@ var connStringSchema = new Schema({
     default: Date.now
   },
   connection: String,
-  connectionString: String
+  connectionString: String,
+  appid: String
 });
 
 module.exports = mongoose.model('connectionstring', connStringSchema)

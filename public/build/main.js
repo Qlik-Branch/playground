@@ -120,6 +120,16 @@
         });
       }
     },
+    getConnectionInfo: function(connectionId, callbackFn){
+      this.http.get('/server/connectioninfo/'+connectionId).subscribe(response => {
+        if(response._body!==""){
+          callbackFn(JSON.parse(response._body));
+        }
+        else{
+          callbackFn();
+        }
+      });
+    },  
     getConnectionDictionary: function(index, callbackFn){
       if(this.dataConnections){
         var dictionaryUrl = this.dataConnections[index].dictionary;
@@ -140,7 +150,23 @@
       this.http.post("/server/authorise/"+connectionId).subscribe(response => {
         callbackFn(JSON.parse(response._body));
       });
+    },
+    startApp: function(connectionId, callbackFn){
+      this.http.get("/server/startapp/"+connectionId).subscribe(response => {
+        callbackFn(JSON.parse(response._body));
+      });
+    },
+    stopApp: function(connectionId, callbackFn){
+      this.http.get("/server/stopapp/"+connectionId).subscribe(response => {
+        callbackFn(JSON.parse(response._body));
+      });
+    },
+    reloadApp: function(connectionId, callbackFn){
+      this.http.get("/server/reloadapp/"+connectionId).subscribe(response => {
+        callbackFn(JSON.parse(response._body));
+      });
     }
+
   });
 
 
@@ -154,15 +180,13 @@
   .Class({
     constructor: [ConfigService,UserService, function(configService,userService){
       this.dialog;
-      this.user;
-      this.apiKey;
+      this.user;    
       configService.getConfigs((configs) => {
         this.loginUrl = configs.loginUrl;
         this.returnUrl = configs.returnUrl;
       });
       userService.getUser((user) => {
-        this.user = user.user;
-        this.apiKey = user.apiKey;
+        this.user = user;
       });
     }]
   });
@@ -383,6 +407,8 @@
       this.setActiveTab(0);
       this.isTabDetail = false;
       this.selectedItem = {};
+      this.selectedItemStatus = 'Checking Status...';
+      this.selectedItemStatusDetail = '';
       this.myConns;
       this.myParsedConns = {};
       this.myConnKeys;
@@ -390,11 +416,11 @@
       this.appKeys;
       this.conns;
       this.connKeys;
+      this.connectionInfo;
       this.sampleProjects;
       userService.getUser((user) => {
         console.log(user);
-        this.user = user.user;
-        this.apiKey = user.apiKey;
+        this.user = user;
       });
       this.getSampleProjects();
     }],
@@ -438,6 +464,21 @@
         });
       }
     },
+    getConnectionInfo: function(connectionId){
+      this.dataConnectionService.getConnectionInfo(connectionId, (connInfo)=>{
+        this.onConnectionInfo(connInfo);
+      });
+    },
+    onConnectionInfo: function(info){
+      if(info.appname){
+        this.selectedItemStatus = "Started";
+      }
+      else {
+        this.selectedItemStatus = "Stopped";
+        this.selectedItemDetail = "Please start the application to see more options.";
+      }
+      this.connectionInfo = JSON.stringify(info);
+    },
     getSampleData: function(){
       if(!this.apps){
         this.sampleDataService.getSampleData((apps)=>{
@@ -456,6 +497,7 @@
     },
     setActiveTab: function(index){
       this.activeTab = index;
+      this.isTabDetail = false;
       switch (index) {
         case 0:
           this.getConnections();
@@ -475,6 +517,7 @@
         case "connection":
           this.selectedItem = this.conns[key];
           this.isTabDetail = true;
+          this.getConnectionInfo(key);
           break;
         default:
 
@@ -488,6 +531,27 @@
       var itemInput = document.getElementById(index+"_clone_url");
       itemInput.select();
       document.execCommand('copy');
+    },
+    startApp: function(connectionId){
+      this.selectedItemStatus = "Starting";
+      this.selectedItemDetail = "Starting application.";
+      this.dataConnectionService.startApp(connectionId, (connInfo)=>{
+        this.onConnectionInfo(connInfo);
+      })
+    },
+    stopApp: function(connectionId){
+      this.selectedItemStatus = "Stopping";
+      this.selectedItemDetail = "Stopping application.";
+      this.dataConnectionService.stopApp(connectionId, (connInfo)=>{
+        this.onConnectionInfo(connInfo);
+      })
+    },
+    reloadApp: function(connectionId){
+      this.selectedItemStatus = "Reloading";
+      this.selectedItemDetail = "Reloading application.";
+      this.dataConnectionService.reloadApp(connectionId, (connInfo)=>{
+        this.onConnectionInfo(connInfo);
+      })
     }
   })
 

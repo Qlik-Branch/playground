@@ -54,27 +54,48 @@
           <span class="lui-icon lui-icon--back"></span>
           <span (click)="hideDetail()"><strong>back to My Data</strong></span>
           <h1>{{selectedItem.name}}</h1>
+          <label>Status: </label><span>{{selectedItemStatus || 'checking...'}}</span>
+          <div class="">
+            <button *ngIf="selectedItemStatus=='Stopped'" class="lui-button lui-button--warning" (click)="startApp(selectedItem.id)">Start</button>
+            <button *ngIf="selectedItemStatus=='Started'" class="lui-button lui-button--warning" (click)="stopApp(selectedItem.id)">Stop</button>
+            <button *ngIf="selectedItemStatus=='Started'" class="lui-button lui-button--warning" (click)="reloadApp(selectedItem.id)">Reload</button>
+          </div>
         </div>
         <div class="col-md-6 right">
           <img src="{{selectedItem.icon}}" alt="" />
         </div>
+        <div class="col-md-12 note">
+          <label>NOTE:</label><span>Apps left inactive for longer than 24 hours will be stopped automatically.
+            Each time the app is started it will have a new ID which means you'll need to update the config in any projects you have that connect to this app.
+          </span>
+        </div>
       </div>
-      <div class="row page-detail">
+      <div class="row page-detail" *ngIf="selectedItemStatus!=='Started'">
+        <div class="col-md-12">
+          <div class='playground-notifier-inner-container grey'>
+            <div *ngIf="selectedItemStatus=='Starting' || selectedItemStatus=='Stopping' || selectedItemStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+            <div class='message-container'>
+              <div>
+                <div *ngIf="selectedItemStatus=='Starting' || selectedItemStatus=='Stopping' || selectedItemStatus=='Reloading'" class='notifier-title'>Please wait...</div>
+                <div class='notifier-message'>{{selectedItemDetail}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row page-detail" *ngIf="selectedItemStatus=='Started'">
         <div class="col-md-6">
           <h2 class="default-text">Getting started</h2>
           <p>
             To help get you started here are some sample projects that you can use to see what you can do with the APIs.
-            To use them simply
+            To use them simply -
           </p>
           <ol>
             <li>Clone or download the project</li>
             <li>Run 'npm install'</li>
             <li>Add the config variable provided below to the resources/script.js file
               <pre>
-                <code class="hljs javascript">var config={
-                  app:"{{selectedItem.id}}",
-                  apiKey:"{{apiKey}}"
-                };</code>
+                <code class="hljs javascript">var config={{connectionInfo}};</code>
               </pre>
             </li>
             <li>Run 'node index'</li>

@@ -103,6 +103,15 @@
         });
       }
     },
+    getConnectionInfo: function getConnectionInfo(connectionId, callbackFn) {
+      this.http.get('/server/connectioninfo/' + connectionId).subscribe(function (response) {
+        if (response._body !== "") {
+          callbackFn(JSON.parse(response._body));
+        } else {
+          callbackFn();
+        }
+      });
+    },
     getConnectionDictionary: function getConnectionDictionary(index, callbackFn) {
       var _this4 = this;
 
@@ -124,7 +133,23 @@
       this.http.post("/server/authorise/" + connectionId).subscribe(function (response) {
         callbackFn(JSON.parse(response._body));
       });
+    },
+    startApp: function startApp(connectionId, callbackFn) {
+      this.http.get("/server/startapp/" + connectionId).subscribe(function (response) {
+        callbackFn(JSON.parse(response._body));
+      });
+    },
+    stopApp: function stopApp(connectionId, callbackFn) {
+      this.http.get("/server/stopapp/" + connectionId).subscribe(function (response) {
+        callbackFn(JSON.parse(response._body));
+      });
+    },
+    reloadApp: function reloadApp(connectionId, callbackFn) {
+      this.http.get("/server/reloadapp/" + connectionId).subscribe(function (response) {
+        callbackFn(JSON.parse(response._body));
+      });
     }
+
   });
 
   //component declarations
@@ -139,14 +164,12 @@
 
       this.dialog;
       this.user;
-      this.apiKey;
       configService.getConfigs(function (configs) {
         _this5.loginUrl = configs.loginUrl;
         _this5.returnUrl = configs.returnUrl;
       });
       userService.getUser(function (user) {
-        _this5.user = user.user;
-        _this5.apiKey = user.apiKey;
+        _this5.user = user;
       });
     }]
   });
@@ -349,6 +372,8 @@
       this.setActiveTab(0);
       this.isTabDetail = false;
       this.selectedItem = {};
+      this.selectedItemStatus = 'Checking Status...';
+      this.selectedItemStatusDetail = '';
       this.myConns;
       this.myParsedConns = {};
       this.myConnKeys;
@@ -356,11 +381,11 @@
       this.appKeys;
       this.conns;
       this.connKeys;
+      this.connectionInfo;
       this.sampleProjects;
       userService.getUser(function (user) {
         console.log(user);
-        _this10.user = user.user;
-        _this10.apiKey = user.apiKey;
+        _this10.user = user;
       });
       this.getSampleProjects();
     }],
@@ -403,28 +428,45 @@
         });
       }
     },
-    getSampleData: function getSampleData() {
+    getConnectionInfo: function getConnectionInfo(connectionId) {
       var _this13 = this;
+
+      this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
+        _this13.onConnectionInfo(connInfo);
+      });
+    },
+    onConnectionInfo: function onConnectionInfo(info) {
+      if (info.appname) {
+        this.selectedItemStatus = "Started";
+      } else {
+        this.selectedItemStatus = "Stopped";
+        this.selectedItemDetail = "Please start the application to see more options.";
+      }
+      this.connectionInfo = JSON.stringify(info);
+    },
+    getSampleData: function getSampleData() {
+      var _this14 = this;
 
       if (!this.apps) {
         this.sampleDataService.getSampleData(function (apps) {
-          _this13.apps = apps;
-          _this13.appKeys = Object.keys(apps);
+          _this14.apps = apps;
+          _this14.appKeys = Object.keys(apps);
         });
       }
     },
     getSampleProjects: function getSampleProjects() {
-      var _this14 = this;
+      var _this15 = this;
 
       if (!this.sampleProjects) {
         this.sampleDataService.getSampleProjects(function (projects) {
           console.log(projects);
-          _this14.sampleProjects = projects;
+          _this15.sampleProjects = projects;
         });
       }
     },
     setActiveTab: function setActiveTab(index) {
       this.activeTab = index;
+      this.isTabDetail = false;
       switch (index) {
         case 0:
           this.getConnections();
@@ -444,6 +486,7 @@
         case "connection":
           this.selectedItem = this.conns[key];
           this.isTabDetail = true;
+          this.getConnectionInfo(key);
           break;
         default:
 
@@ -457,6 +500,33 @@
       var itemInput = document.getElementById(index + "_clone_url");
       itemInput.select();
       document.execCommand('copy');
+    },
+    startApp: function startApp(connectionId) {
+      var _this16 = this;
+
+      this.selectedItemStatus = "Starting";
+      this.selectedItemDetail = "Starting application.";
+      this.dataConnectionService.startApp(connectionId, function (connInfo) {
+        _this16.onConnectionInfo(connInfo);
+      });
+    },
+    stopApp: function stopApp(connectionId) {
+      var _this17 = this;
+
+      this.selectedItemStatus = "Stopping";
+      this.selectedItemDetail = "Stopping application.";
+      this.dataConnectionService.stopApp(connectionId, function (connInfo) {
+        _this17.onConnectionInfo(connInfo);
+      });
+    },
+    reloadApp: function reloadApp(connectionId) {
+      var _this18 = this;
+
+      this.selectedItemStatus = "Reloading";
+      this.selectedItemDetail = "Reloading application.";
+      this.dataConnectionService.reloadApp(connectionId, function (connInfo) {
+        _this18.onConnectionInfo(connInfo);
+      });
     }
   });
 

@@ -4,6 +4,9 @@ var https = require('https'),
     crypto = require('crypto'),
     Cookie = require('cookie'),
     Guid = require('guid'),
+    QSocks = require('qsocks'),
+    qsocksConfig = require('../configs/general'),
+    dataConnections = require('../configs/data-connections'),
     mongoHelper = require('./mongo-helper');
 
 var QRS = "4242", QPS = "4243";
@@ -23,23 +26,6 @@ module.exports = {
       }
     });
   },
-  getTicketx: function(req, res){
-    var that = this;
-    res.header("Access-Control-Allow-Origin", "*")
-    var data = {
-      UserDirectory: "GitHub",
-      UserId: "test",
-      Attributes: [],
-      TargetId: req.query.targetId
-    }
-    that.qPost(QPS, req.query.proxyRestUri, data, function(err, data){
-      console.log(data);
-      var ticket = JSON.parse(data);
-      var redirectURI = ticket.TargetUri + '?QlikTicket=' + ticket.Ticket;
-      res.writeHead(302, {'Location': redirectURI});
-      res.end();
-    });
-  },
   getTicket: function(query, callbackFn){
     var that = this;
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
@@ -51,14 +37,43 @@ module.exports = {
       else{
         if(keys && keys.length > 0){
           var data = {
-            UserDirectory: "GitHub",
-            UserId: keys[0].userid,
+            UserDirectory: "Playground",
+            UserId: keys[0].userid.username,
             Attributes: []
           }
-          that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, data){
-            console.log(data);
-            callbackFn(null, JSON.parse(data));
-          });
+          that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
+            console.log('existing sessions are');
+            console.log(sessions);
+            if(err){
+              callbackFn(err);
+            }
+            else{
+              var userSessions = JSON.parse(sessions);
+              if(userSessions[0] && userSessions[0].SessionId){
+                console.log('No need for a ticket');
+                callbackFn(null);
+              }
+              else{
+                console.log('we need a ticket');
+                console.log(userSessions[0]);
+                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
+                  if(err){
+                    callbackFn(err);
+                  }
+                  else{
+                    console.log(ticketResponse);
+                    var ticket = JSON.parse(ticketResponse);
+                    if(ticket.Ticket){
+                      callbackFn(null, ticket.Ticket);
+                    }
+                    else {
+                      callbackFn(null);
+                    }
+                  }
+                });
+              }
+            }
+          })
         }
         else{
           callbackFn({err: "API Key not valid"});
@@ -69,20 +84,7 @@ module.exports = {
   checkOrCreateSession: function(req, callbackFn){
     var that = this;
     var query = req.query;
-    console.log(query);
-    var cookies = Cookie.parse(req.headers.cookie || "");
-    console.log(cookies);
     var session = {};
-    // var hasSessionCookie = false;
-    // for (var c in cookies){
-    //   console.log(c);
-    //   console.log(cookies[c]);
-    //   if(c==process.env.sessionCookieName){
-    //     hasSessionCookie = true;
-    //     session.id = cookies[c];
-    //     break;
-    //   }
-    // }
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       if(err){
         ////do something here
@@ -127,27 +129,121 @@ module.exports = {
                 }
               }
             })
-          // }
-          // else{
-          //   //no session cookie exists so we create one
-          //   that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
-          //     if(err){
-          //       callbackFn(err);
-          //     }
-          //     else{
-          //       console.log('session');
-          //       console.log(ticket);
-          //       session = JSON.parse(ticket);
-          //       session.origUserId = keys[0].userid._id;
-          //       cookies[process.env.sessionCookieName] = session.SessionId;
-          //       callbackFn(null, {session:session});
-          //     }
-          //   });
-          // }
         }
         else{
           callbackFn("API Key not valid");
         }
+      }
+    });
+
+  },
+  checkApp: function(appId, callbackFn){
+
+  },
+  stopApp: function(user, appId, callbackFn){
+    var that = this;
+    mongoHelper.updateConnectionString(user._id, appId, {$unset:{appid:""}}, false, function(err, connectionString){
+      console.log('old conn string is');
+      console.log(connectionString);
+      if(connectionString && connectionString.appid){
+        that.qDelete(QRS, "/qrs/app/"+connectionString.appid, function(err, response){
+          if(err){
+            console.log(err);
+            callbackFn(err);
+          }
+          else{
+            callbackFn();
+          }
+        });
+      }
+      else{
+        callbackFn();
+      }
+    });
+  },
+  reloadApp: function(appId, callbackFn){
+
+  },
+  startApp: function(user, appId, callbackFn){
+    var connectionDetails;
+    if(!user){
+      callbackFn("No User", null);
+      return;
+    }
+    if(!appId){
+      callbackFn("No app specified", null);
+      return;
+    }
+    if(!dataConnections[appId]){
+      callbackFn("Invalid app specified", null);
+      return;
+    }
+    else {
+      connectionDetails = dataConnections[appId];
+    }
+    var config = qsocksConfig;
+    var data = {
+      UserDirectory: "Playground",
+      UserId: user.username,
+      Attributes: []
+    }
+    this.qPost(QPS, "/qps/playground" + "/ticket/", data, function(err, ticketResponse){
+      if(err){
+        callbackFn(err, null);
+      }
+      else{
+        var ticket = JSON.parse(ticketResponse);
+        config.ticket = ticket.Ticket;
+        console.log('got ticket');
+        QSocks.Connect(config).then(function(global){
+          console.log('connected to qsocks');
+          global.createApp(connectionDetails.name).then(function(qApp){
+            console.log('app created');
+            if(qApp.qSuccess==true){
+              var newAppId = qApp.qAppId;
+              mongoHelper.updateConnectionString(user._id, appId, {appid: newAppId}, true, function(err, connectionString){
+                console.log('connectionString updated');
+                console.log(connectionString);
+                if(err){
+                  callbackFn(err, null);
+                }
+                else{
+                  global.openDoc(newAppId).then(function(qApp){
+                    var reloadFinished = false;
+                    var script = connectionString.connectionString += "; ";
+                    script += connectionDetails.loadscript;
+                    console.log('setting script');
+                    qApp.setScript(script).then(function(){
+                      console.log(script);
+                      console.log('reloading');
+                      qApp.doReload().then(function(response){
+                        reloadFinished = false;
+                        qApp.connection.close();
+                        callbackFn(null, connectionString.appid);
+                      });
+                      getReloadProgress(global);
+
+                      function getReloadProgress(g) {
+                        g.getProgress(0).then(function (reloadProgress) {
+                          console.log(reloadProgress);
+                          if (!reloadFinished) {
+                            getReloadProgress(g);
+                          }
+                        });
+                      }
+                    });
+                  });
+                }
+              });
+            }
+            else{
+              callbackFn("Could not create the app", null);
+            }
+          }, function(err){
+            console.log(err);
+            callbackFn(err);
+          });
+        });
       }
     });
 
@@ -258,6 +354,52 @@ module.exports = {
     postReq.end();
 
     postReq.on('error', function(e){
+      callbackFn.call(null, e);
+    });
+  },
+  qDelete: function(api, url, callbackFn){
+    try {
+      console.log(process.env.appRoot+process.env.cert);
+        var cert = fs.readFileSync(process.env.appRoot+process.env.cert);
+        var key = fs.readFileSync(process.env.appRoot+process.env.certkey);
+    } catch (e) {
+        callbackFn.call(null, 'Missing client certificate');
+        return;
+    }
+    var xrfkey = this.generateXrfkey();
+
+    var settings = {
+        method: 'DELETE',
+        headers: {
+          'x-qlik-xrfkey': xrfkey,
+          'X-Qlik-User': 'UserDirectory= Internal;UserId= sa_repository'
+        },
+        key: key,
+        cert: cert,
+        rejectUnauthorized: false
+    };
+
+    if(url.indexOf("http")!=-1){
+      settings.host = Url.parse(url).hostname;
+      // settings.host =  '192.168.1.83';
+      settings.port = Url.parse(url).port;
+      settings.path = Url.parse(url).path+'?xrfkey='+xrfkey;
+    }
+    else {
+      settings.host = process.env.senseserver;
+      settings.port = api;
+      settings.path = url+'?xrfkey='+xrfkey;
+    }
+
+    var data = "";
+    https.get(settings, function (response) {
+      response.on('data', function (chunk) {
+        data+=chunk;
+      });
+      response.on('end', function(){ //we don't get all the data at once so we need to wait until the request has finished before we end the response
+        callbackFn.call(null, null, data);
+      });
+    }).on('error', function(e){
       callbackFn.call(null, e);
     });
   }
