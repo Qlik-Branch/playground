@@ -51,7 +51,7 @@ module.exports = {
               var userSessions = JSON.parse(sessions);
               var needsTicket = true;
               for(var sess in userSessions){
-                if(sess.Attributes.indexOf("client")!=-1 && sess.SessionId && sess.SessionId!=""){
+                if(sess.Attributes && sess.Attributes.indexOf("client")!=-1 && sess.SessionId && sess.SessionId!=""){
                   needsTicket = false;
                   break;
                 }
