@@ -39,7 +39,7 @@ module.exports = {
           var data = {
             UserDirectory: "Playground",
             UserId: keys[0].userid.username,
-            Attributes: []
+            Attributes: ["client"]
           }
           that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
             console.log('existing sessions are');
@@ -49,7 +49,14 @@ module.exports = {
             }
             else{
               var userSessions = JSON.parse(sessions);
-              if(userSessions[0] && userSessions[0].SessionId){
+              var needsTicket = true;
+              for(var sess in userSessions){
+                if(sess.Attributes.indexOf("client")!=-1 && sess.SessionId && sess.SessionId!=""){
+                  needsTicket = false;
+                  break;
+                }
+              }
+              if(!needsTicket){
                 console.log('No need for a ticket');
                 callbackFn(null);
               }
@@ -185,7 +192,7 @@ module.exports = {
     var data = {
       UserDirectory: "Playground",
       UserId: user.username,
-      Attributes: []
+      Attributes: ["reload"]
     }
     this.qPost(QPS, "/qps/playground" + "/ticket/", data, function(err, ticketResponse){
       if(err){
