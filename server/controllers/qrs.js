@@ -232,7 +232,7 @@ module.exports = {
                       console.log('reloading');
                       qApp.doReload().then(function(response){
                         reloadFinished = true;
-                        qApp.save().then(function(){
+                        qApp.doSave().then(function(){
                           qApp.connection.close();
                           callbackFn(null, connectionString.appid);
                         });
