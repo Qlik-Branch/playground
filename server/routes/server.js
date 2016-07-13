@@ -22,6 +22,29 @@ router.get('/dataconnections', function(req, res){
   res.json(dataConnections);
 });
 
+router.get('/connectioninfo/:id', function(req, res){
+  var connectionId = req.params.id;
+  mongoHelper.getConnectionString(req.user._id, connectionId, function(err, connectionString){
+    if(err){
+      res.json({err: err});
+    }
+    else{
+      console.log('new conn string is');
+      console.log(connectionString);
+      var config = cloneObject(generalConfig);
+      config.apiKey = req.user.apiKey;
+      if(connectionString.appid){
+        config.appname = connectionString.appid;
+        res.json(config);
+      }
+      else{
+        delete config.appname;
+        res.json(config);
+      }
+    }
+  });
+});
+
 router.get('/configs', function(req, res) {
   res.json({
     loginUrl: process.env.loginUrl,
@@ -29,30 +52,41 @@ router.get('/configs', function(req, res) {
   });
 });
 
+router.get('/startapp/:app', function(req, res){
+  var app = req.params.app;
+  QRS.startApp(req.user, app, function(err, appId){
+    if(err){
+      res.json(err);
+    }
+    else{
+      res.redirect('/server/connectioninfo/'+app);
+    }
+  });
+});
+
+router.get('/stopapp/:app', function(req, res){
+  var app = req.params.app;
+  QRS.stopApp(req.user, app, function(err, appId){
+    if(err){
+      res.json(err);
+    }
+    else{
+      res.redirect('/server/connectioninfo/'+app);
+    }
+  });
+});
+
+router.get('/reloadapp/:app', function(req, res){
+  var app = req.params.app;
+  QRS.reloadApp(req.user, app, function(err, appId){
+    res.redirect('/server/connectioninfo/'+app);
+  });
+});
+
 router.get('/currentuser', function(req, res){
   if(req.user){
     console.log(req.user);
-    mongoHelper.checkAPIKey(req.user._id, "playground", function(err, data){
-      console.log('data');
-      console.log(data);
-      if(err){
-        ////do something with the error
-        console.log(err);
-      }
-      else{
-        if(data && data.length > 0){
-          //we have a key
-          req.user.apiKey = data[0].api_key;
-          res.json({user: req.user, apiKey: data[0].api_key});
-        }
-        else{
-          mongoHelper.createAPIKey(req.user._id, "playground", function(err, key){
-            req.user.apiKey = key.api_key;
-            res.json({user: req.user, apiKey: key.api_key});
-          });
-        }
-      }
-    });
+    res.json(req.user);
   }
   else{
     res.json();
@@ -109,5 +143,13 @@ router.get('/authorise/:connection', function(req, res){
     res.redirect(req.session.dictionary.auth_options.oauth_authorize_url+"?client_id="+req.session.clientId+"&"+oauth_redirect_url_parameter+"="+process.env.genericOAuthRedirectUrl);
   }
 });
+
+function cloneObject(objectToClone){
+  var clone = {};
+  for (var key in objectToClone){
+    clone[key] = objectToClone[key];
+  }
+  return clone;
+}
 
 module.exports = router;

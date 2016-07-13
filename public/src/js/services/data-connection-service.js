@@ -23,6 +23,16 @@ ng.core.Injectable({
       });
     }
   },
+  getConnectionInfo: function(connectionId, callbackFn){
+    this.http.get('/server/connectioninfo/'+connectionId).subscribe(response => {
+      if(response._body!==""){
+        callbackFn(JSON.parse(response._body));
+      }
+      else{
+        callbackFn();
+      }
+    });
+  },  
   getConnectionDictionary: function(index, callbackFn){
     if(this.dataConnections){
       var dictionaryUrl = this.dataConnections[index].dictionary;
@@ -43,5 +53,21 @@ ng.core.Injectable({
     this.http.post("/server/authorise/"+connectionId).subscribe(response => {
       callbackFn(JSON.parse(response._body));
     });
+  },
+  startApp: function(connectionId, callbackFn){
+    this.http.get("/server/startapp/"+connectionId).subscribe(response => {
+      callbackFn(JSON.parse(response._body));
+    });
+  },
+  stopApp: function(connectionId, callbackFn){
+    this.http.get("/server/stopapp/"+connectionId).subscribe(response => {
+      callbackFn(JSON.parse(response._body));
+    });
+  },
+  reloadApp: function(connectionId, callbackFn){
+    this.http.get("/server/reloadapp/"+connectionId).subscribe(response => {
+      callbackFn(JSON.parse(response._body));
+    });
   }
+
 });

@@ -21,7 +21,7 @@ module.exports = {
     ConnectionString.find({userid: userid, connection: connectionName}, function(err, connString){
       console.log('connections found for '+userid+' and app '+connectionName);
       console.log(connString);
-      callbackFn(err, connString);
+      callbackFn(err, connString[0]);
     })
   },
   storeConnectionString: function(userid, connectionName, connectionString, callbackFn){
@@ -33,6 +33,16 @@ module.exports = {
     connString.save(function(err){
       callbackFn(err, connString);
     })
+  },
+  updateConnectionString: function(userid, connectionName, data, returnUpdatedDocument, callbackFn){
+    ConnectionString.findOneAndUpdate({userid: userid, connection: connectionName}, data, {returnNewDocument: returnUpdatedDocument}, function(err, connectionString){
+      if(err){
+        callbackFn(err);
+      }
+      else{
+        callbackFn(null, connectionString);
+      }
+    });
   },
   getUserConnections: function(userid, callbackFn) {
     ConnectionString.find({userid: userid}, function(err, connections){
