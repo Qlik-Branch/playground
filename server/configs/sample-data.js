@@ -2,11 +2,10 @@ module.exports = {
   "punk-api":{
     name: "Punk API",
     description: "Brewdog beer data and food pairings",
-    icon: "/resources/brewdog_logo_detail.png",
+    icon: "/resources/brewdog.png",
     app: "93444781-e6e6-4476-bc19-f32fa0dd6536",
-    "sample-projects":[
-      "basic-template",
-      "search-template"
+    projects:[
+      "basic-engine-template"
     ]
   }
 }

@@ -124,7 +124,11 @@ let MyPlaygroundMain = ng.core.Component({
         this.getConnectionInfo(key);
         break;
       default:
-
+      case "sampledata":
+        this.selectedItem = this.apps[key];
+        this.isTabDetail = true;        
+        this.getConnectionInfo(key);
+        break;
     }
   },
   hideDetail: function(){

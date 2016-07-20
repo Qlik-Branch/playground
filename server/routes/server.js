@@ -24,25 +24,29 @@ router.get('/dataconnections', function(req, res){
 
 router.get('/connectioninfo/:id', function(req, res){
   var connectionId = req.params.id;
-  mongoHelper.getConnectionString(req.user._id, connectionId, function(err, connectionString){
-    if(err){
-      res.json({err: err});
-    }
-    else{
-      console.log('new conn string is');
-      console.log(connectionString);
-      var config = cloneObject(generalConfig);
-      config.apiKey = req.user.apiKey;
-      if(connectionString.appid){
-        config.appname = connectionString.appid;
-        res.json(config);
+  var config = cloneObject(generalConfig);
+  config.apiKey = req.user.apiKey;
+  if(sampleData[connectionId]){
+    config.appname = sampleData[connectionId].app;
+    res.json(config);
+  }
+  else{
+    mongoHelper.getConnectionString(req.user._id, connectionId, function(err, connectionString){
+      if(err){
+        res.json({err: err});
       }
       else{
-        delete config.appname;
-        res.json(config);
+        if(connectionString.appid){
+          config.appname = connectionString.appid;
+          res.json(config);
+        }
+        else{
+          delete config.appname;
+          res.json(config);
+        }
       }
-    }
-  });
+    });
+  }
 });
 
 router.get('/configs', function(req, res) {

@@ -28,16 +28,24 @@
   .Class({
     constructor: [ng.http.Http, function(http){
       this.http = http;
+      this.user;
     }],
     getUser: function(callbackFn){
-      this.http.get('/server/currentuser').subscribe(response => {
-        if(response._body!==""){
-          callbackFn(JSON.parse(response._body));
-        }
-        else{
-          callbackFn();
-        }
-      });
+      if(!this.user){
+        console.log('fetching user info from server');
+        this.http.get('/server/currentuser').subscribe(response => {
+          if(response._body!==""){
+            this.user = JSON.parse(response._body);
+            callbackFn(this.user);
+          }
+          else{
+            callbackFn();
+          }
+        });
+      }
+      else{
+        callbackFn(this.user);
+      }
     },
     getUserConnections: function(callbackFn){
       this.http.get('/server/currentuserconnections').subscribe(response => {
@@ -520,7 +528,11 @@
           this.getConnectionInfo(key);
           break;
         default:
-
+        case "sampledata":
+          this.selectedItem = this.apps[key];
+          this.isTabDetail = true;        
+          this.getConnectionInfo(key);
+          break;
       }
     },
     hideDetail: function(){
@@ -641,8 +653,7 @@
 
   MyPlayground = ng.core.Component({
     selector: 'playground-my-playground',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [UserService, DataConnectionService, SampleDataService],
+    directives: [ng.router.ROUTER_DIRECTIVES],  
     templateUrl: '/views/my-playground/my-playground.html'
   })(MyPlayground);
 
@@ -686,6 +697,7 @@
       selector: 'app-component',
       directives: [ng.router.ROUTER_DIRECTIVES, Header, FooterComponent, FooterList],
       providers: [ng.router.ROUTER_PROVIDERS],
+      viewProviders: [UserService, DataConnectionService, SampleDataService],
       template: '<playground-header></playground-header><router-outlet></router-outlet><playground-footer></playground-footer>'
     }),
     new ng.router.Routes([
@@ -704,7 +716,7 @@
       {
         path: "/showcase",
         component: Showcase
-      },    
+      },
       {
         path: '/**',
         redirectTo: ['/home']

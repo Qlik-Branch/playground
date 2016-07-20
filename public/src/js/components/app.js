@@ -4,6 +4,7 @@ AppComponent.annotations = [
     selector: 'app-component',
     directives: [ng.router.ROUTER_DIRECTIVES, Header, FooterComponent, FooterList],
     providers: [ng.router.ROUTER_PROVIDERS],
+    viewProviders: [UserService, DataConnectionService, SampleDataService],
     template: '<playground-header></playground-header><router-outlet></router-outlet><playground-footer></playground-footer>'
   }),
   new ng.router.Routes([
@@ -22,7 +23,7 @@ AppComponent.annotations = [
     {
       path: "/showcase",
       component: Showcase
-    },    
+    },
     {
       path: '/**',
       redirectTo: ['/home']
