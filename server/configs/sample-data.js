@@ -16,5 +16,14 @@ module.exports = {
     projects:[
       "basic-engine-template"
     ]
+  },
+  "tfl-accidents":{
+    name: "TFL Accidents",
+    description: "Transport for London accident data for 2011-2015 including location, severity, age group etc. A nice cheery one!",
+    icon: "/resources/tfl.png",
+    app: "42ab61c0-3536-4707-9e73-9f00caf42692",
+    projects:[
+      "basic-engine-template"
+    ]
   }
 }
