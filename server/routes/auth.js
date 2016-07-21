@@ -84,7 +84,7 @@ router.get('/connection/callback', function(req, res){
               console.log('error getting checking connection strings after authorisation');
               res.redirect('/myplayground');
             }
-            else if (connectionStrings.length==0) {
+            else if (!connectionStrings || connectionStrings.length==0) {
               console.log('token data');
               console.log(tokenData);
               var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
