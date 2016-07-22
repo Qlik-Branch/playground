@@ -6,8 +6,7 @@ var MyPlayground = ng.core.Class({
 
 MyPlayground = ng.core.Component({
   selector: 'playground-my-playground',
-  directives: [ng.router.ROUTER_DIRECTIVES],
-  viewProviders: [UserService, DataConnectionService, SampleDataService],
+  directives: [ng.router.ROUTER_DIRECTIVES],  
   templateUrl: '/views/my-playground/my-playground.html'
 })(MyPlayground);
 
