@@ -419,6 +419,8 @@
       this.selectedItemStatusDetail = '';
       this.myConns;
       this.myParsedConns = {};
+      this.myRunningAppCount = 0;
+      this.MAX_RUNNING_APPS = 3;
       this.myConnKeys;
       this.apps;
       this.appKeys;
@@ -446,6 +448,10 @@
                 if(this.conns[userConns.connections[c].connection]){
                   this.conns[userConns.connections[c].connection].authorised = true;
                   this.myParsedConns[userConns.connections[c].connection] = this.conns[userConns.connections[c].connection];
+                  if(userConns.connections[c].appid){
+                    this.myParsedConns[userConns.connections[c].connection].appid = userConns.connections[c].appid;
+                    this.myRunningAppCount++;
+                  }
                 }
                 else{
                   this.conns[userConns.connections[c].connection].authorised = false;
@@ -530,7 +536,7 @@
         default:
         case "sampledata":
           this.selectedItem = this.apps[key];
-          this.isTabDetail = true;        
+          this.isTabDetail = true;
           this.getConnectionInfo(key);
           break;
       }

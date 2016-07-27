@@ -385,6 +385,8 @@
       this.selectedItemStatusDetail = '';
       this.myConns;
       this.myParsedConns = {};
+      this.myRunningAppCount = 0;
+      this.MAX_RUNNING_APPS = 3;
       this.myConnKeys;
       this.apps;
       this.appKeys;
@@ -411,6 +413,10 @@
                 if (_this12.conns[userConns.connections[c].connection]) {
                   _this12.conns[userConns.connections[c].connection].authorised = true;
                   _this12.myParsedConns[userConns.connections[c].connection] = _this12.conns[userConns.connections[c].connection];
+                  if (userConns.connections[c].appid) {
+                    _this12.myParsedConns[userConns.connections[c].connection].appid = userConns.connections[c].appid;
+                    _this12.myRunningAppCount++;
+                  }
                 } else {
                   _this12.conns[userConns.connections[c].connection].authorised = false;
                 }
