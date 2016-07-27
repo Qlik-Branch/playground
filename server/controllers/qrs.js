@@ -53,7 +53,15 @@ module.exports = {
               console.log(ticketResponse);
               var ticket = JSON.parse(ticketResponse);
               if(ticket.Ticket){
-                callbackFn(null, ticket.Ticket);
+                that.fakeHub(ticket.Ticket, function(err, hubResponse){
+                  if(err){
+                    callbackFn(err);
+                  }
+                  else{
+                      var cookies = hubResponse.headers['set-cookie']
+                      callbackFn(null, cookies);
+                  }
+                })
               }
               else {
                 callbackFn(null);

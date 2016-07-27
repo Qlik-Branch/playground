@@ -13,14 +13,15 @@ var express = require('express'),
 router.get('/ticket', function(req, res){
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
-  QRS.getTicket(req, function(err, ticket){
-    console.log('got ticket');
+  QRS.getTicket(req, function(err, cookies){
+    console.log('got cookies');
+    console.log(cookies);
     if(err){
       res.json({err: err});
     }
     else{
-      console.log("ticket is "+ticket);
-      res.send(JSON.stringify({ticket:ticket}));
+      res.setHeader('Set-Cookie', cookies);
+      res.send(JSON.stringify({}));
     }
   });
 });
