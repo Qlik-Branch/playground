@@ -3,6 +3,7 @@ var https = require('https'),
     Url = require('url'),
     crypto = require('crypto'),
     Cookie = require('cookie'),
+    request = require('request'),
     Guid = require('guid'),
     QSocks = require('qsocks'),
     qsocksConfig = require('../configs/general'),
@@ -73,6 +74,11 @@ module.exports = {
           callbackFn({err: "API Key not valid"});
         }
       }
+    });
+  },
+  fakeHub: function(ticket, callbackFn){
+    request.get('https://playground.qlik.com/playground/hub/?qlikTicket='+ticket, function(err, response, body){
+      callbackFn(err, response);
     });
   },
   checkApp: function(appId, callbackFn){
