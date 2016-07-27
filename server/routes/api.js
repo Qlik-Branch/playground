@@ -13,7 +13,7 @@ var express = require('express'),
 router.get('/ticket', function(req, res){
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
-  QRS.getTicket(req.query, function(err, ticket){
+  QRS.getTicket(req, function(err, ticket){
     console.log('got ticket');
     if(err){
       res.json({err: err});

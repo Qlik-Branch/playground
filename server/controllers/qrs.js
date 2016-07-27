@@ -26,8 +26,12 @@ module.exports = {
       }
     });
   },
-  getTicket: function(query, callbackFn){
+  getTicket: function(req, callbackFn){
     var that = this;
+    var query = req.query;
+    var cookies = Cookie.parse(req.headers.cookie || "");
+    console.log(cookies);
+    console.log(req.headers);
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       console.log(keys[0].userid);
       if(err){
