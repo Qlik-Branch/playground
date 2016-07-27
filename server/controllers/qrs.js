@@ -30,14 +30,12 @@ module.exports = {
     var that = this;
     var query = req.query;
     var cookies = Cookie.parse(req.headers.cookie || "");
-    console.log('cookies are');
-    console.log(cookies);
-    console.log('headers are');
-    console.log(req.headers);
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       console.log(keys[0].userid);
       if(err){
         ////do something here
+        console.log('error fetching user from api key');
+        console.log(err);
         callbackFn({err: err});
       }
       else{
@@ -47,138 +45,27 @@ module.exports = {
             UserId: keys[0].userid.username,
             Attributes: [{"source":"client"}]
           }
-          console.log('force is');
-          console.log(query.force);
-          console.log(query.force===true);
-          if(query.force==="true"){
-            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
-              if(err){
-                callbackFn(err);
+          that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
+            if(err){
+              callbackFn(err);
+            }
+            else{
+              console.log(ticketResponse);
+              var ticket = JSON.parse(ticketResponse);
+              if(ticket.Ticket){
+                callbackFn(null, ticket.Ticket);
               }
-              else{
-                console.log(ticketResponse);
-                var ticket = JSON.parse(ticketResponse);
-                if(ticket.Ticket){
-                  callbackFn(null, ticket.Ticket);
-                }
-                else {
-                  callbackFn(null);
-                }
+              else {
+                callbackFn(null);
               }
-            });
-          }
-          else{
-            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
-              console.log('existing sessions are');
-              console.log(sessions);
-              if(err){
-                callbackFn(err);
-              }
-              else{
-                var userSessions = JSON.parse(sessions);
-                var needsTicket = true;
-                for(var sess in userSessions){
-                  if(userSessions[sess].Attributes && userSessions[sess].Attributes.length > 0 && userSessions[sess].SessionId && userSessions[sess].SessionId!=""){
-                    for(var i=0;i<userSessions[sess].Attributes.length;i++){
-                      if(userSessions[sess].Attributes[i].source && userSessions[sess].Attributes[i].source=="client"){
-                        needsTicket = false;
-                        break;
-                      }
-                    }
-                    if(!needsTicket){
-                      break;
-                    }
-                  }
-                }
-                if(!needsTicket){
-                  console.log('No need for a ticket');
-                  callbackFn(null);
-                }
-                else{
-                  console.log('we need a ticket');
-                  console.log(userSessions[0]);
-                  that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
-                    if(err){
-                      callbackFn(err);
-                    }
-                    else{
-                      console.log(ticketResponse);
-                      var ticket = JSON.parse(ticketResponse);
-                      if(ticket.Ticket){
-                        callbackFn(null, ticket.Ticket);
-                      }
-                      else {
-                        callbackFn(null);
-                      }
-                    }
-                  });
-                }
-              }
-            })
-          }
-
+            }
+          });
         }
         else{
           callbackFn({err: "API Key not valid"});
         }
       }
     });
-  },
-  checkOrCreateSession: function(req, callbackFn){
-    var that = this;
-    var query = req.query;
-    var session = {};
-    mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
-      if(err){
-        ////do something here
-        callbackFn(err);
-      }
-      else{
-        if(keys && keys.length > 0){
-          var data = {
-            UserDirectory: "Playground",
-            UserId: keys[0].userid.username,
-            Attributes: []
-          }
-          // if(hasSessionCookie){
-            //we potentially have a session so we can check it
-            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
-              console.log('existing sessions are');
-              console.log(sessions);
-              if(err){
-                callbackFn(err);
-              }
-              else{
-                var userSessions = JSON.parse(sessions);
-                if(userSessions[0] && userSessions[0].SessionId){
-                  console.log('No need for a ticket');
-                  var session = userSessions[0];
-                  session.origUserId = keys[0].userid._id;
-                  callbackFn(null, {session:session});
-                }
-                else{
-                  console.log('we need a ticket');
-                  console.log(userSessions[0]);
-                  that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticket){
-                    if(err){
-                      callbackFn(err);
-                    }
-                    else{
-                      var session = JSON.parse(ticket);
-                      session.origUserId = keys[0].userid._id;
-                      callbackFn(null, {session:session});
-                    }
-                  });
-                }
-              }
-            })
-        }
-        else{
-          callbackFn("API Key not valid");
-        }
-      }
-    });
-
   },
   checkApp: function(appId, callbackFn){
 
