@@ -47,6 +47,9 @@ module.exports = {
             UserId: keys[0].userid.username,
             Attributes: [{"source":"client"}]
           }
+          console.log('force is');
+          console.log(query.force);
+          console.log(query.force===true);
           if(query.force==="true"){
             that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
               if(err){
