@@ -30,7 +30,9 @@ module.exports = {
     var that = this;
     var query = req.query;
     var cookies = Cookie.parse(req.headers.cookie || "");
+    console.log('cookies are');
     console.log(cookies);
+    console.log('headers are');
     console.log(req.headers);
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       console.log(keys[0].userid);
@@ -45,53 +47,73 @@ module.exports = {
             UserId: keys[0].userid.username,
             Attributes: [{"source":"client"}]
           }
-          that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
-            console.log('existing sessions are');
-            console.log(sessions);
-            if(err){
-              callbackFn(err);
-            }
-            else{
-              var userSessions = JSON.parse(sessions);
-              var needsTicket = true;
-              for(var sess in userSessions){
-                if(userSessions[sess].Attributes && userSessions[sess].Attributes.length > 0 && userSessions[sess].SessionId && userSessions[sess].SessionId!=""){
-                  for(var i=0;i<userSessions[sess].Attributes.length;i++){
-                    if(userSessions[sess].Attributes[i].source && userSessions[sess].Attributes[i].source=="client"){
-                      needsTicket = false;
+          if(query.force==="true"){
+            that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
+              if(err){
+                callbackFn(err);
+              }
+              else{
+                console.log(ticketResponse);
+                var ticket = JSON.parse(ticketResponse);
+                if(ticket.Ticket){
+                  callbackFn(null, ticket.Ticket);
+                }
+                else {
+                  callbackFn(null);
+                }
+              }
+            });
+          }
+          else{
+            that.qGet(QPS, (query.proxyRestUri || "/qps/playground") + "/user/playground/"+keys[0].userid.username, function(err, sessions){
+              console.log('existing sessions are');
+              console.log(sessions);
+              if(err){
+                callbackFn(err);
+              }
+              else{
+                var userSessions = JSON.parse(sessions);
+                var needsTicket = true;
+                for(var sess in userSessions){
+                  if(userSessions[sess].Attributes && userSessions[sess].Attributes.length > 0 && userSessions[sess].SessionId && userSessions[sess].SessionId!=""){
+                    for(var i=0;i<userSessions[sess].Attributes.length;i++){
+                      if(userSessions[sess].Attributes[i].source && userSessions[sess].Attributes[i].source=="client"){
+                        needsTicket = false;
+                        break;
+                      }
+                    }
+                    if(!needsTicket){
                       break;
                     }
                   }
-                  if(!needsTicket){
-                    break;
-                  }
+                }
+                if(!needsTicket){
+                  console.log('No need for a ticket');
+                  callbackFn(null);
+                }
+                else{
+                  console.log('we need a ticket');
+                  console.log(userSessions[0]);
+                  that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
+                    if(err){
+                      callbackFn(err);
+                    }
+                    else{
+                      console.log(ticketResponse);
+                      var ticket = JSON.parse(ticketResponse);
+                      if(ticket.Ticket){
+                        callbackFn(null, ticket.Ticket);
+                      }
+                      else {
+                        callbackFn(null);
+                      }
+                    }
+                  });
                 }
               }
-              if(!needsTicket){
-                console.log('No need for a ticket');
-                callbackFn(null);
-              }
-              else{
-                console.log('we need a ticket');
-                console.log(userSessions[0]);
-                that.qPost(QPS, (query.proxyRestUri || "/qps/playground") + "/ticket/", data, function(err, ticketResponse){
-                  if(err){
-                    callbackFn(err);
-                  }
-                  else{
-                    console.log(ticketResponse);
-                    var ticket = JSON.parse(ticketResponse);
-                    if(ticket.Ticket){
-                      callbackFn(null, ticket.Ticket);
-                    }
-                    else {
-                      callbackFn(null);
-                    }
-                  }
-                });
-              }
-            }
-          })
+            })
+          }
+
         }
         else{
           callbackFn({err: "API Key not valid"});
