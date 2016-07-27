@@ -2,7 +2,6 @@ var https = require('https'),
     fs = require('fs'),
     Url = require('url'),
     crypto = require('crypto'),
-    Cookie = require('cookie'),
     request = require('request'),
     Guid = require('guid'),
     QSocks = require('qsocks'),
@@ -30,7 +29,6 @@ module.exports = {
   getTicket: function(req, callbackFn){
     var that = this;
     var query = req.query;
-    var cookies = Cookie.parse(req.headers.cookie || "");
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
       console.log(keys[0].userid);
       if(err){
@@ -59,7 +57,7 @@ module.exports = {
                     callbackFn(err);
                   }
                   else{
-                      var cookies = hubResponse.headers['set-cookie']
+                      var cookies = new Cookies(hubResponse);
                       callbackFn(null, cookies);
                   }
                 })
