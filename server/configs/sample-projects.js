@@ -10,5 +10,11 @@ module.exports = {
     "description": "A simple search page....",
     "github-repo": "https://github.com/Qlik-Branch/playground-github-search-example",
     "clone-url": "https://github.com/Qlik-Branch/playground-github-search-example.git"
+  },
+  "untappd-capability-dashboard":{
+    "name": "Untappd Capability API Dashboard",
+    "description": "An example dashboard built using the Capability API and a selection of Visualization Extensions found on Qlik Branch",
+    "github-repo": "https://github.com/Qlik-Branch/playground-untappd-capability-dashboard",
+    "clone-url": "https://github.com/Qlik-Branch/playground-untappd-capability-dashboard.git"
   }
 }
