@@ -15,7 +15,7 @@ router.get('/ticket', function(req, res){
   res.setHeader("Content-Type", "application/json");
   QRS.getTicket(req, function(err, cookies){
     console.log('got cookies');
-    console.log(Cookie.parse(cookies));
+    console.log(cookies);
     if(err){
       res.json({err: err});
     }
