@@ -20,6 +20,7 @@ router.get('/ticket', function(req, res){
     else{
       var parsedCookies = [];
       if(ticketResponse && ticketResponse.cookies){
+        var cookies = ticketResponse.cookies;
         for (var i=0;i<cookies.length;i++){
           console.log('cookie '+i);
           console.log(cookies[i]);
