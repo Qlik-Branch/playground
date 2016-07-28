@@ -25,11 +25,10 @@ router.get('/ticket', function(req, res){
         console.log('cookie '+i);
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
-        if(c[process.env.sessionCookieName]){
-          console.log('found session cookie');
+        if(c[process.env.sessionCookieName]){          
           cookies[i].replace('HttpOnly;','');
         }
-        parsedCookies.push[cookies[i]];
+        parsedCookies.push(cookies[i]);
       }
       console.log(parsedCookies);
       res.setHeader('Set-Cookie', parsedCookies);
