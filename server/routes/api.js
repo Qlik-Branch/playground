@@ -15,15 +15,19 @@ router.get('/ticket', function(req, res){
   res.setHeader("Content-Type", "application/json");
   QRS.getTicket(req, function(err, cookies){
     console.log('got cookies');
-    console.log(cookies);
+    console.log(Cookie.parse(cookies));
     if(err){
       res.json({err: err});
     }
     else{
+      var parsedCookies = [];
       for (var i=0;i<cookies.length;i++){
         console.log('cookie '+i);
         console.log(cookies[i]);
+        var c = Cookie.parse(cookies[i]);
+        console.log(c);
       }
+
       res.setHeader('Set-Cookie', cookies, {httpOnly:false});
       res.send(JSON.stringify({}));
     }
