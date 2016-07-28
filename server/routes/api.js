@@ -27,7 +27,7 @@ router.get('/ticket', function(req, res){
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
         if(c[process.env.sessionCookieName]){
-          cookies[i] = cookies[i].replace('HttpOnly;','').replace('Secure;','');
+          cookies[i] = cookies[i].replace('HttpOnly;','').replace('Secure;','').replace('Secure',''); //this is a horrible hacky approach
         }
         parsedCookies.push(cookies[i]);
       }
