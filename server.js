@@ -52,7 +52,7 @@ app.use('/api', apiRoutes);
 app.use(expressSession({
   secret: 'mySecretKey',
   store: new MongoStore({ mongooseConnection: mongoose.connection}),
-  cookie: {path:"/", domain:process.env.cookieDomain}
+  cookie: {path:"/", domain:process.env.cookieDomain, httpOnly: false}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
