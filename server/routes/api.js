@@ -20,7 +20,10 @@ router.get('/ticket', function(req, res){
       res.json({err: err});
     }
     else{
-
+      for (var i=0;i<cookies.length;i++){
+        console.log('cookie '+i);
+        console.log(cookies[i]);
+      }
       res.setHeader('Set-Cookie', cookies, {httpOnly:false});
       res.send(JSON.stringify({}));
     }
