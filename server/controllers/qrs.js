@@ -58,7 +58,7 @@ module.exports = {
                   }
                   else{
                       var cookies = hubResponse.headers['set-cookie'];
-                      callbackFn(null, cookies);
+                      callbackFn(null, {cookies: cookies, ticket: ticket.Ticket});
                   }
                 })
               }

@@ -13,8 +13,9 @@ var express = require('express'),
 router.get('/ticket', function(req, res){
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
-  QRS.getTicket(req, function(err, cookies){
+  QRS.getTicket(req, function(err, ticketResponse){
     console.log('got cookies');
+    var cookies = ticketResponse.cookies;
     console.log(cookies);
     if(err){
       res.json({err: err});
@@ -26,13 +27,15 @@ router.get('/ticket', function(req, res){
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
         if(c[process.env.sessionCookieName]){
-          cookies[i] = cookies[i].replace('HttpOnly;','');
+          cookies[i] = cookies[i].replace('HttpOnly;','').replace('Secure;','');
         }
         parsedCookies.push(cookies[i]);
       }
+      console.log('got cookies');
+      console.log(ticketResponse.cookies);
       console.log(parsedCookies);
       res.setHeader('Set-Cookie', parsedCookies);
-      res.send(JSON.stringify({}));
+      res.send(JSON.stringify({ticket: ticketResponse.ticket}));
     }
   });
 });
