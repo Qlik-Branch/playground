@@ -6,7 +6,7 @@ var express = require('express'),
     mongoHelper = require('../controllers/mongo-helper'),
     generalConfig = require('../configs/general'),
     OAuthInfo = require('../configs/oauth-info'),
-    Cookies = require('cookies'),
+    Cookie = require('cookie'),
     cookieParser = require('cookie-parser'),
     QRS = require('../controllers/qrs');
 
@@ -20,11 +20,7 @@ router.get('/ticket', function(req, res){
       res.json({err: err});
     }
     else{
-      var sessCookie = cookies.get(process.env.sessionCookieName);
-      if(sessCookie){
-        cookies.set(process.env.sessionCookieName, sessCookie, {httpOnly:false});
-      }
-      console.log(cookies);
+
       res.setHeader('Set-Cookie', cookies);
       res.send(JSON.stringify({}));
     }

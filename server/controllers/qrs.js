@@ -4,7 +4,6 @@ var https = require('https'),
     crypto = require('crypto'),
     request = require('request'),
     Guid = require('guid'),
-    Cookies = require('cookies'),
     QSocks = require('qsocks'),
     qsocksConfig = require('../configs/general'),
     dataConnections = require('../configs/data-connections'),
@@ -58,7 +57,7 @@ module.exports = {
                     callbackFn(err);
                   }
                   else{
-                      var cookies = new Cookies(hubResponse);
+                      var cookies = hubResponse.headers['set-cookie'];
                       callbackFn(null, cookies);
                   }
                 })

@@ -37,7 +37,7 @@ app.use(favicon(__dirname + '/public/resources/favicon.ico'));
 
 require('./server/controllers/passport/passport.js')(passport);
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.set('view engine', 'jade');
 app.set('views', __dirname +'/server/views')
@@ -52,7 +52,7 @@ app.use('/api', apiRoutes);
 app.use(expressSession({
   secret: 'mySecretKey',
   store: new MongoStore({ mongooseConnection: mongoose.connection}),
-  cookie: {path:"/", domain:process.env.cookieDomain, httpOnly: true}
+  cookie: {path:"/", domain:process.env.cookieDomain}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
