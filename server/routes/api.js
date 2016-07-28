@@ -25,7 +25,8 @@ router.get('/ticket', function(req, res){
         console.log('cookie '+i);
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
-        console.log(c);
+        console.log(JSON.stringify(c));
+        console.log(Cookie.serialize(c));
       }
 
       res.setHeader('Set-Cookie', cookies, {httpOnly:false});
