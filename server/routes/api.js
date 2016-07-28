@@ -25,11 +25,13 @@ router.get('/ticket', function(req, res){
         console.log('cookie '+i);
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
-        console.log(JSON.stringify(c));
-        console.log(Cookie.serialize(c));
+        if(c[process.env.sessionCookieName]){
+          cookies[i].replace('HttpOnly;','');
+        }
+        parsedCookies.push[cookies[i]];
       }
 
-      res.setHeader('Set-Cookie', cookies, {httpOnly:false});
+      res.setHeader('Set-Cookie', parsedCookies);
       res.send(JSON.stringify({}));
     }
   });
