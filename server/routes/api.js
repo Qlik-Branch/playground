@@ -26,11 +26,12 @@ router.get('/ticket', function(req, res){
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
         if(c[process.env.sessionCookieName]){
+          console.log('found session cookie');
           cookies[i].replace('HttpOnly;','');
         }
         parsedCookies.push[cookies[i]];
       }
-
+      console.log(parsedCookies);
       res.setHeader('Set-Cookie', parsedCookies);
       res.send(JSON.stringify({}));
     }
