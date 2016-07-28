@@ -75,7 +75,7 @@ module.exports = {
     });
   },
   fakeHub: function(ticket, callbackFn){
-    request.get('https://playground.qlik.com/playground/hub/?qlikTicket='+ticket, function(err, response, body){
+    request.get('https://playground.qlik.com:8088/playground/hub/?qlikTicket='+ticket, function(err, response, body){
       callbackFn(err, response);
     });
   },
