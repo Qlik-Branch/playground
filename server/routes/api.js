@@ -21,7 +21,7 @@ router.get('/ticket', function(req, res){
     }
     else{
 
-      res.setHeader('Set-Cookie', cookies);
+      res.setHeader('Set-Cookie', cookies, {httpOnly:false});
       res.send(JSON.stringify({}));
     }
   });
