@@ -25,8 +25,8 @@ router.get('/ticket', function(req, res){
         console.log('cookie '+i);
         console.log(cookies[i]);
         var c = Cookie.parse(cookies[i]);
-        if(c[process.env.sessionCookieName]){          
-          cookies[i].replace('HttpOnly;','');
+        if(c[process.env.sessionCookieName]){
+          cookies[i] = cookies[i].replace('HttpOnly;','');
         }
         parsedCookies.push(cookies[i]);
       }
