@@ -52,18 +52,18 @@ module.exports = {
               console.log(ticketResponse);
               var ticket = JSON.parse(ticketResponse);
               if(ticket.Ticket){
-                that.fakeHub(ticket.Ticket, function(err, hubResponse){
-                  if(err){
-                    callbackFn(err);
-                  }
-                  else{
-                    var cookies;
-                    if(hubResponse){
-                      cookies = hubResponse.headers['set-cookie'];
-                    }
-                    callbackFn(null, {cookies: cookies, ticket: ticket.Ticket});
-                  }
-                })
+                // that.fakeHub(ticket.Ticket, function(err, hubResponse){
+                //   if(err){
+                //     callbackFn(err);
+                //   }
+                //   else{
+                //     var cookies;
+                //     if(hubResponse){
+                //       cookies = hubResponse.headers['set-cookie'];
+                //     }
+                    callbackFn(null, {cookies: null, ticket: ticket.Ticket});
+                //   }
+                // })
               }
               else {
                 callbackFn(null);
