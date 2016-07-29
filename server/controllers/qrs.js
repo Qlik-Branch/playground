@@ -75,7 +75,7 @@ module.exports = {
     });
   },
   fakeHub: function(ticket, callbackFn){
-    request.get('https://playground.qlik.com:8088/playground/hub/?qlikTicket='+ticket, function(err, response, body){
+    request.get(process.env.fakeHub+'?qlikTicket='+ticket, function(err, response, body){
       console.log('fake hub response');
       console.log(response);
       console.log(body);
