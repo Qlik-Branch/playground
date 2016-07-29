@@ -33,7 +33,7 @@ router.get('/ticket', function(req, res){
         // console.log('got cookies');
         // console.log(ticketResponse.cookies);
         // console.log(parsedCookies);
-        res.setHeader('Set-Cookie', cookies);
+        // res.setHeader('Set-Cookie', cookies);
       }
       res.send(JSON.stringify(ticketResponse));
     }
