@@ -57,8 +57,11 @@ module.exports = {
                     callbackFn(err);
                   }
                   else{
-                      var cookies = hubResponse.headers['set-cookie'];
-                      callbackFn(null, {cookies: cookies, ticket: ticket.Ticket});
+                    var cookies;
+                    if(hubResponse){
+                      cookies = hubResponse.headers['set-cookie'];
+                    }
+                    callbackFn(null, {cookies: cookies, ticket: ticket.Ticket});
                   }
                 })
               }
@@ -76,9 +79,6 @@ module.exports = {
   },
   fakeHub: function(ticket, callbackFn){
     request.get(process.env.fakeHub+'?qlikTicket='+ticket, function(err, response, body){
-      console.log('fake hub response');
-      console.log(response);
-      console.log(body);
       callbackFn(err, response);
     });
   },

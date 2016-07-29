@@ -21,19 +21,19 @@ router.get('/ticket', function(req, res){
       var parsedCookies = [];
       if(ticketResponse && ticketResponse.cookies){
         var cookies = ticketResponse.cookies;
-        for (var i=0;i<cookies.length;i++){
-          console.log('cookie '+i);
-          console.log(cookies[i]);
-          var c = Cookie.parse(cookies[i]);
-          if(c[process.env.sessionCookieName]){
-            cookies[i] = cookies[i].replace('HttpOnly;','').replace('Secure;','').replace('Secure',''); //this is a horrible hacky approach
-          }
-          parsedCookies.push(cookies[i]);
-        }
-        console.log('got cookies');
-        console.log(ticketResponse.cookies);
-        console.log(parsedCookies);
-        res.setHeader('Set-Cookie', parsedCookies);
+        // for (var i=0;i<cookies.length;i++){
+        //   console.log('cookie '+i);
+        //   console.log(cookies[i]);
+        //   var c = Cookie.parse(cookies[i]);
+        //   if(c[process.env.sessionCookieName]){
+        //     cookies[i] = cookies[i].replace('HttpOnly;','').replace('Secure;','').replace('Secure',''); //this is a horrible hacky approach
+        //   }
+        //   parsedCookies.push(cookies[i]);
+        // }
+        // console.log('got cookies');
+        // console.log(ticketResponse.cookies);
+        // console.log(parsedCookies);
+        res.setHeader('Set-Cookie', cookies);
       }
       res.send(JSON.stringify(ticketResponse));
     }
