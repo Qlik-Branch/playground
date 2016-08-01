@@ -126,7 +126,7 @@ module.exports = {
     else {
       connectionDetails = dataConnections[appId];
     }
-    var config = qsocksConfig;
+    var config = cloneObject(qsocksConfig);
     var data = {
       UserDirectory: "Playground",
       UserId: user.username,
@@ -350,4 +350,12 @@ module.exports = {
       callbackFn.call(null, e);
     });
   }
+}
+
+function cloneObject(objectToClone){
+  var clone = {};
+  for (var key in objectToClone){
+    clone[key] = objectToClone[key];
+  }
+  return clone;
 }
