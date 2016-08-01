@@ -61,7 +61,7 @@ router.get('/connection/callback', function(req, res){
         tokenUrl += "&";
         tokenUrl += redirect_uri_parameter;
         tokenUrl += "=";
-        tokenUrl += process.env.oauth_redirect_uri;
+        tokenUrl += process.env.genericOAuthRedirectUrl;
       }
       console.log(tokenUrl);
       request({url:tokenUrl, formData: data}, function(err, response, body){
