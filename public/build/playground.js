@@ -457,7 +457,22 @@
         this.selectedItemStatus = "Stopped";
         this.selectedItemDetail = "Please start the application to see more options.";
       }
-      this.connectionInfo = JSON.stringify(info);
+      var connInfoStr = JSON.stringify(info);
+      //dirty method for styling text and removing quotes (required so that the capability api reads the properties correctly)
+      connInfoStr = connInfoStr.replace(/\{/gim, '{\n\t').replace(/,/gim, ',\n\t').replace(/\}/gim, '\n}');
+      var connStrComponents = connInfoStr.split(",");
+      var parsedComponents = [];
+      for (var i = 0; i < connStrComponents.length; i++) {
+        var keyVal = connStrComponents[i].split(":");
+        parsedComponents.push(keyVal[0].replace(/\"/gim, '') + ':' + keyVal[1]);
+      }
+      connInfoStr = parsedComponents.join(",");
+      this.connectionInfo = connInfoStr;
+      setTimeout(function () {
+        $('pre code').each(function (i, block) {
+          hljs.highlightBlock(block);
+        });
+      }, 100);
     },
     getSampleData: function getSampleData() {
       var _this15 = this;
@@ -667,6 +682,7 @@
     path: '/**',
     redirectTo: ['/home']
   }])];
+  hljs.initHighlightingOnLoad();
 
   document.addEventListener('DOMContentLoaded', function () {
     ng.platformBrowserDynamic.bootstrap(AppComponent, [ng.http.HTTP_PROVIDERS, ng.router.ROUTER_PROVIDERS, ng.core.provide(ng.common.LocationStrategy, { useClass: ng.common.PathLocationStrategy })]);

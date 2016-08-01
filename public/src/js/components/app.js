@@ -30,3 +30,4 @@ AppComponent.annotations = [
     }
   ])
 ];
+hljs.initHighlightingOnLoad();
