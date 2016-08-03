@@ -88,7 +88,10 @@ var accessList = [
   "bfk",
   "okg",
   "tmg",
-  "dfs"
+  "dfs",
+  "mry",
+  "nby",
+  "jyr"
 ];
 
 app.get('/', function(req, res){
