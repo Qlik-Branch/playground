@@ -91,7 +91,8 @@ var accessList = [
   "dfs",
   "mry",
   "nby",
-  "jyr"
+  "jyr",
+  "gmn"
 ];
 
 app.get('/', function(req, res){
