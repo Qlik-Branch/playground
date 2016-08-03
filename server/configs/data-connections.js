@@ -21,7 +21,7 @@ module.exports = {
     description: "All your GitHub repos, issues and stars.",
     dictionary: "/dictionaries/untappd/dictionary.json",
     icon: "/dictionaries/untappd/icon.png",
-    loadscript: "
+    loadscript: `
       MonthMap:
       Mapping Load * Inline [Month, Num
       Jan, 1
@@ -94,7 +94,7 @@ module.exports = {
       Drop field [Badge Date];
       Drop field [Comment Date];
       Drop field [Toast Date];
-    ",
+    `,
     projects: [
       "basic-engine-template",
       "untappd-capability-dashboard"
