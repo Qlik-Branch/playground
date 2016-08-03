@@ -40,6 +40,8 @@ module.exports = {
 
       MyCheckins:
       Load *,
+      [Venue Lng]&','&[Venue Lat] as [Venue GeoPoint],
+      [Brewery Lng]&','&[Brewery Lat] as [Brewery GeoPoint],
       Date(Num(CheckinDate) + Num(CheckinTime)) as CheckinDateTime,
       Year(CheckinDate) as CheckinYear,
       Month(CheckinDate) as CheckinMonth,
@@ -89,6 +91,14 @@ module.exports = {
       MakeTime(Subfield(Subfield([Toast Date], ' ', 5), ':', 1), Subfield(Subfield([Toast Date], ' ', 5), ':', 2), Subfield(Subfield([Toast Date], ' ', 5), ':', 3)) as ToastTime;
       Load *;
       SQL Select * From CheckinToasts;
+
+      Tag FIELDS Rating, [Author Rating], [Beer ABV], [Comment Count], [Badge Count], [Toast Count] WITH $measure;
+
+      Tag FIELDS Venue WITH $geoname;
+      Tag FIELDS [Venue GeoPoint] WITH $geopoint;
+
+      Tag FIELDS Brewery WITH $geoname;
+      Tag FIELDS [Brewery GeoPoint] WITH $geopoint;
 
       Drop field [Checkin Date];
       Drop field [Badge Date];
