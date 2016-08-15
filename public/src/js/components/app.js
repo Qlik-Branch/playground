@@ -1,33 +1,10 @@
-let AppComponent = function(){};
-AppComponent.annotations = [
+app.AppComponent = function(){};
+app.AppComponent.annotations = [
   new ng.core.Component({
     selector: 'app-component',
-    directives: [ng.router.ROUTER_DIRECTIVES, Header, FooterComponent, FooterList],
-    providers: [ng.router.ROUTER_PROVIDERS],
-    viewProviders: [UserService, DataConnectionService, SampleDataService],
+    directives: [ng.router.ROUTER_DIRECTIVES, app.Header, app.FooterComponent, app.FooterList],
+    providers: [],    
     template: '<playground-header></playground-header><router-outlet></router-outlet><playground-footer></playground-footer>'
-  }),
-  new ng.router.Routes([
-    {
-      path: "/home",
-      component: Home
-    },
-    {
-      path: "/myplayground",
-      component: MyPlayground
-    },
-    {
-      path: "/noobs",
-      component: Noobs
-    },
-    {
-      path: "/showcase",
-      component: Showcase
-    },
-    {
-      path: '/**',
-      redirectTo: ['/home']
-    }
-  ])
+  })
 ];
 hljs.initHighlightingOnLoad();

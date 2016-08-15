@@ -1,0 +1,281 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-S',
+1 verbose cli   'marked' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.3
+4 verbose install initial load of /Users/nwr/2015/Development/Node/playground/package.json
+5 warn package.json playground@1.0.0 No description
+6 warn package.json playground@1.0.0 No README data
+7 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/babel-preset-es2015/package.json
+8 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/bootstrap/package.json
+9 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/connect-mongo/package.json
+10 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/cookie/package.json
+11 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/cookie-parser/package.json
+12 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/cookies/package.json
+13 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/core-js/package.json
+14 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/es6-shim/package.json
+15 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/express/package.json
+16 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/express-ntlm/package.json
+17 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/express-session/package.json
+18 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt/package.json
+19 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-babel/package.json
+20 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-contrib-less/package.json
+21 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-contrib-watch/package.json
+22 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-es6-transpiler/package.json
+23 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-express-server/package.json
+24 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/grunt-includes/package.json
+25 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/guid/package.json
+26 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/highlightjs/package.json
+27 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/jade/package.json
+28 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/jquery/package.json
+29 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/mongoose/package.json
+30 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/passport/package.json
+31 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/passport-github/package.json
+32 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/passport-local/package.json
+33 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/qsocks/package.json
+34 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/reflect-metadata/package.json
+35 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/request/package.json
+36 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/rxjs/package.json
+37 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/serve-favicon/package.json
+38 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/zone.js/package.json
+39 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@qlik/leonardo-ui/package.json
+40 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/.DS_Store/package.json
+41 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/common/package.json
+42 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/compiler/package.json
+43 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/core/package.json
+44 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/forms/package.json
+45 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/http/package.json
+46 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/platform-browser/package.json
+47 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/platform-browser-dynamic/package.json
+48 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/router/package.json
+49 verbose installManyTop reading scoped package data from /Users/nwr/2015/Development/Node/playground/node_modules/@angular/upgrade/package.json
+50 info package.json highlightjs@8.7.0 No repository field.
+51 info package.json highlightjs@8.7.0 No license field.
+52 info package.json passport-local@1.0.0 No license field.
+53 info package.json @angular/compiler@2.0.0-rc.5 No description
+54 info package.json @angular/core@2.0.0-rc.5 No description
+55 info package.json @angular/common@2.0.0-rc.5 No description
+56 info package.json grunt-includes@0.5.4 No license field.
+57 info package.json @angular/http@2.0.0-rc.1 No description
+58 info package.json @angular/http@2.0.0-rc.1 No repository field.
+59 info package.json @angular/forms@0.3.0 No description
+60 info package.json @angular/platform-browser@2.0.0-rc.5 No description
+61 info package.json @angular/platform-browser-dynamic@2.0.0-rc.5 No description
+62 info package.json @angular/router@3.0.0-rc.1 No description
+63 info package.json @angular/upgrade@2.0.0-rc.5 No description
+64 info package.json guid@0.0.12 No license field.
+65 verbose readDependencies loading dependencies from /Users/nwr/2015/Development/Node/playground/package.json
+66 silly cache add args [ 'marked', null ]
+67 verbose cache add spec marked
+68 silly cache add parsed spec Result {
+68 silly cache add   raw: 'marked',
+68 silly cache add   scope: null,
+68 silly cache add   name: 'marked',
+68 silly cache add   rawSpec: '',
+68 silly cache add   spec: 'latest',
+68 silly cache add   type: 'tag' }
+69 silly addNamed marked@latest
+70 verbose addNamed "latest" is being treated as a dist-tag for marked
+71 info addNameTag [ 'marked', 'latest' ]
+72 silly mapToRegistry name marked
+73 silly mapToRegistry using default registry
+74 silly mapToRegistry registry https://registry.npmjs.org/
+75 silly mapToRegistry data Result {
+75 silly mapToRegistry   raw: 'marked',
+75 silly mapToRegistry   scope: null,
+75 silly mapToRegistry   name: 'marked',
+75 silly mapToRegistry   rawSpec: '',
+75 silly mapToRegistry   spec: 'latest',
+75 silly mapToRegistry   type: 'tag' }
+76 silly mapToRegistry uri https://registry.npmjs.org/marked
+77 verbose addNameTag registry:https://registry.npmjs.org/marked not in flight; fetching
+78 verbose request uri https://registry.npmjs.org/marked
+79 verbose request no auth needed
+80 info attempt registry request try #1 at 5:37:11 PM
+81 verbose request using bearer token for auth
+82 verbose request id 09158f54fec7a610
+83 verbose etag "356ERT5VFNDWHPC92F5QFF66X"
+84 http request GET https://registry.npmjs.org/marked
+85 http 200 https://registry.npmjs.org/marked
+86 verbose headers { server: 'CouchDB/1.6.1 (Erlang OTP/R16B03)',
+86 verbose headers   etag: '"5Z0A4UOHV9K8H988Y2RXWZANT"',
+86 verbose headers   'content-type': 'application/json',
+86 verbose headers   'content-encoding': 'gzip',
+86 verbose headers   'cache-control': 'max-age=300',
+86 verbose headers   'transfer-encoding': 'chunked',
+86 verbose headers   'accept-ranges': 'bytes',
+86 verbose headers   date: 'Fri, 12 Aug 2016 15:37:12 GMT',
+86 verbose headers   via: '1.1 varnish',
+86 verbose headers   connection: 'keep-alive',
+86 verbose headers   'x-served-by': 'cache-ams4445-AMS',
+86 verbose headers   'x-cache': 'MISS',
+86 verbose headers   'x-cache-hits': '0',
+86 verbose headers   'x-timer': 'S1471016231.765716,VS0,VE741',
+86 verbose headers   vary: 'Accept-Encoding' }
+87 silly get cb [ 200,
+87 silly get   { server: 'CouchDB/1.6.1 (Erlang OTP/R16B03)',
+87 silly get     etag: '"5Z0A4UOHV9K8H988Y2RXWZANT"',
+87 silly get     'content-type': 'application/json',
+87 silly get     'content-encoding': 'gzip',
+87 silly get     'cache-control': 'max-age=300',
+87 silly get     'transfer-encoding': 'chunked',
+87 silly get     'accept-ranges': 'bytes',
+87 silly get     date: 'Fri, 12 Aug 2016 15:37:12 GMT',
+87 silly get     via: '1.1 varnish',
+87 silly get     connection: 'keep-alive',
+87 silly get     'x-served-by': 'cache-ams4445-AMS',
+87 silly get     'x-cache': 'MISS',
+87 silly get     'x-cache-hits': '0',
+87 silly get     'x-timer': 'S1471016231.765716,VS0,VE741',
+87 silly get     vary: 'Accept-Encoding' } ]
+88 verbose get saving marked to /Users/nwr/.npm/registry.npmjs.org/marked/.cache.json
+89 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+90 silly addNameTag next cb for marked with tag latest
+91 silly addNamed marked@0.3.6
+92 verbose addNamed "0.3.6" is a plain semver version for marked
+93 silly mapToRegistry name marked
+94 silly mapToRegistry using default registry
+95 silly mapToRegistry registry https://registry.npmjs.org/
+96 silly mapToRegistry data Result {
+96 silly mapToRegistry   raw: 'marked',
+96 silly mapToRegistry   scope: null,
+96 silly mapToRegistry   name: 'marked',
+96 silly mapToRegistry   rawSpec: '',
+96 silly mapToRegistry   spec: 'latest',
+96 silly mapToRegistry   type: 'tag' }
+97 silly mapToRegistry uri https://registry.npmjs.org/marked
+98 verbose addRemoteTarball https://registry.npmjs.org/marked/-/marked-0.3.6.tgz not in flight; adding
+99 verbose addRemoteTarball [ 'https://registry.npmjs.org/marked/-/marked-0.3.6.tgz',
+99 verbose addRemoteTarball   'b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7' ]
+100 info retry fetch attempt 1 at 5:37:12 PM
+101 info attempt registry request try #1 at 5:37:12 PM
+102 http fetch GET https://registry.npmjs.org/marked/-/marked-0.3.6.tgz
+103 verbose request using bearer token for auth
+104 http fetch 200 https://registry.npmjs.org/marked/-/marked-0.3.6.tgz
+105 silly fetchAndShaCheck shasum b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7
+106 verbose addTmpTarball /var/folders/gs/_hqlggp92wd968yr68jb0v01z5_2yd/T/npm-42296-6964d340/registry.npmjs.org/marked/-/marked-0.3.6.tgz not in flight; adding
+107 verbose addTmpTarball already have metadata; skipping unpack for marked@0.3.6
+108 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+109 silly cache afterAdd marked@0.3.6
+110 verbose afterAdd /Users/nwr/.npm/marked/0.3.6/package/package.json not in flight; writing
+111 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+112 verbose afterAdd /Users/nwr/.npm/marked/0.3.6/package/package.json written
+113 silly install resolved [ { name: 'marked',
+113 silly install resolved     description: 'A markdown parser built for speed',
+113 silly install resolved     author: { name: 'Christopher Jeffrey' },
+113 silly install resolved     version: '0.3.6',
+113 silly install resolved     main: './lib/marked.js',
+113 silly install resolved     bin: { marked: './bin/marked' },
+113 silly install resolved     man: [ './man/marked.1' ],
+113 silly install resolved     preferGlobal: true,
+113 silly install resolved     repository: { type: 'git', url: 'git://github.com/chjj/marked.git' },
+113 silly install resolved     homepage: 'https://github.com/chjj/marked',
+113 silly install resolved     bugs: { url: 'http://github.com/chjj/marked/issues' },
+113 silly install resolved     license: 'MIT',
+113 silly install resolved     keywords: [ 'markdown', 'markup', 'html' ],
+113 silly install resolved     tags: [ 'markdown', 'markup', 'html' ],
+113 silly install resolved     devDependencies:
+113 silly install resolved      { markdown: '*',
+113 silly install resolved        showdown: '*',
+113 silly install resolved        gulp: '^3.8.11',
+113 silly install resolved        'gulp-uglify': '^1.1.0',
+113 silly install resolved        'gulp-concat': '^2.5.2' },
+113 silly install resolved     scripts: { test: 'node test', bench: 'node test --bench' },
+113 silly install resolved     gitHead: 'eddec20467c2d10c7769061ee9074e268500966f',
+113 silly install resolved     _id: 'marked@0.3.6',
+113 silly install resolved     _shasum: 'b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7',
+113 silly install resolved     _from: 'marked@latest',
+113 silly install resolved     _npmVersion: '3.10.5',
+113 silly install resolved     _nodeVersion: '6.3.1',
+113 silly install resolved     _npmUser: { name: 'chjj', email: 'chjjeffrey@gmail.com' },
+113 silly install resolved     maintainers: [ [Object] ],
+113 silly install resolved     dist:
+113 silly install resolved      { shasum: 'b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7',
+113 silly install resolved        tarball: 'https://registry.npmjs.org/marked/-/marked-0.3.6.tgz' },
+113 silly install resolved     _npmOperationalInternal:
+113 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+113 silly install resolved        tmp: 'tmp/marked-0.3.6.tgz_1469848215797_0.5454847207292914' },
+113 silly install resolved     directories: {},
+113 silly install resolved     _resolved: 'https://registry.npmjs.org/marked/-/marked-0.3.6.tgz' } ]
+114 info install marked@0.3.6 into /Users/nwr/2015/Development/Node/playground
+115 info installOne marked@0.3.6
+116 verbose installOne of marked to /Users/nwr/2015/Development/Node/playground not in flight; installing
+117 verbose correctMkdir /Users/nwr/.npm/_locks correctMkdir not in flight; initializing
+118 verbose lock using /Users/nwr/.npm/_locks/marked-27654753fe24f1c5.lock for /Users/nwr/2015/Development/Node/playground/node_modules/marked
+119 silly install write writing marked 0.3.6 to /Users/nwr/2015/Development/Node/playground/node_modules/marked
+120 verbose unbuild node_modules/marked
+121 silly gentlyRm /Users/nwr/2015/Development/Node/playground/node_modules/marked is being purged from base /Users/nwr/2015/Development/Node/playground
+122 verbose gentlyRm don't care about contents; nuking /Users/nwr/2015/Development/Node/playground/node_modules/marked
+123 verbose tar unpack /Users/nwr/.npm/marked/0.3.6/package.tgz
+124 verbose tar unpacking to /Users/nwr/2015/Development/Node/playground/node_modules/marked
+125 silly gentlyRm /Users/nwr/2015/Development/Node/playground/node_modules/marked is being purged
+126 verbose gentlyRm don't care about contents; nuking /Users/nwr/2015/Development/Node/playground/node_modules/marked
+127 silly gunzTarPerm modes [ '755', '644' ]
+128 silly gunzTarPerm extractEntry package.json
+129 silly gunzTarPerm extractEntry .npmignore
+130 silly gunzTarPerm extractEntry README.md
+131 silly gunzTarPerm extractEntry LICENSE
+132 silly gunzTarPerm extractEntry Gulpfile.js
+133 silly gunzTarPerm extractEntry index.js
+134 silly gunzTarPerm extractEntry marked.min.js
+135 silly gunzTarPerm extractEntry bower.json
+136 silly gunzTarPerm extractEntry .travis.yml
+137 silly gunzTarPerm extractEntry doc/broken.md
+138 silly gunzTarPerm extractEntry doc/todo.md
+139 silly gunzTarPerm extractEntry Makefile
+140 silly gunzTarPerm extractEntry lib/marked.js
+141 silly gunzTarPerm extractEntry man/marked.1
+142 silly gunzTarPerm extractEntry bin/marked
+143 silly gunzTarPerm extractEntry component.json
+144 verbose write writing to /Users/nwr/2015/Development/Node/playground/node_modules/marked/package.json
+145 info preinstall marked@0.3.6
+146 verbose readDependencies loading dependencies from /Users/nwr/2015/Development/Node/playground/node_modules/marked/package.json
+147 verbose readDependencies loading dependencies from /Users/nwr/2015/Development/Node/playground/node_modules/marked/package.json
+148 silly install resolved []
+149 verbose about to build /Users/nwr/2015/Development/Node/playground/node_modules/marked
+150 info build /Users/nwr/2015/Development/Node/playground/node_modules/marked
+151 info linkStuff marked@0.3.6
+152 silly linkStuff marked@0.3.6 has /Users/nwr/2015/Development/Node/playground/node_modules as its parent node_modules
+153 warn prefer global marked@0.3.6 should be installed with -g
+154 verbose linkBins marked@0.3.6
+155 verbose link bins [ { marked: './bin/marked' },
+155 verbose link bins   '/Users/nwr/2015/Development/Node/playground/node_modules/.bin',
+155 verbose link bins   false ]
+156 verbose linkMans marked@0.3.6
+157 verbose rebuildBundles marked@0.3.6
+158 silly gentlyRm /Users/nwr/2015/Development/Node/playground/node_modules/.bin/marked is being purged
+159 verbose gentlyRm don't care about contents; nuking /Users/nwr/2015/Development/Node/playground/node_modules/.bin/marked
+160 info install marked@0.3.6
+161 info postinstall marked@0.3.6
+162 verbose unlock done using /Users/nwr/.npm/_locks/marked-27654753fe24f1c5.lock for /Users/nwr/2015/Development/Node/playground/node_modules/marked
+163 verbose validateInstall loading /Users/nwr/2015/Development/Node/playground/package.json for validation
+164 verbose stack Error: The package @angular/core@2.0.0-rc.5 does not satisfy its siblings' peerDependencies requirements!
+164 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:125:32
+164 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:268:7
+164 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:142:5
+164 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+164 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+164 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+164 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+164 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+164 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+164 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+165 verbose cwd /Users/nwr/2015/Development/Node/playground
+166 error Darwin 14.5.0
+167 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-S" "marked"
+168 error node v4.4.3
+169 error npm  v2.15.1
+170 error code EPEERINVALID
+171 error peerinvalid The package @angular/core@2.0.0-rc.5 does not satisfy its siblings' peerDependencies requirements!
+171 error peerinvalid Peer @angular/common@2.0.0-rc.5 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/compiler@2.0.0-rc.5 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/forms@0.3.0 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/http@2.0.0-rc.1 wants @angular/core@2.0.0-rc.1
+171 error peerinvalid Peer @angular/platform-browser@2.0.0-rc.5 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/platform-browser-dynamic@2.0.0-rc.5 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/upgrade@2.0.0-rc.5 wants @angular/core@^2.0.0-rc.5
+171 error peerinvalid Peer @angular/router@3.0.0-rc.1 wants @angular/core@^2.0.0-rc.5
+172 verbose exit [ 1, true ]

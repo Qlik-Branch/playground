@@ -1,4 +1,4 @@
-let Noobs = ng.core.Component({
+app.Noobs = ng.core.Component({
   selector: 'playground-noobs',
   templateUrl: '/views/noobs.html'
 })

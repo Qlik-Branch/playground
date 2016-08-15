@@ -1,16 +1,19 @@
 <div class="playground-header">
   <ul role="nav" class="navmenu">
     <li class="home">
-      <a [routerLink]="['/home']"><span class="lui-icon lui-icon--home"></span></a>
+      <a [routerLink]="['/home']" routerLinkActive="active"><span class="lui-icon lui-icon--home"></span></a>
     </li>
     <li>
-      <a [routerLink]="['/noobs']">Qlik For Noobs</a>
+      <a [routerLink]="['/noobs']" routerLinkActive="active">Qlik For Noobs</a>
     </li>
     <li>
-      <a [routerLink]="['/myplayground']">My Playground</a>
+      <a [routerLink]="['/apis']" routerLinkActive="active">API</a>
     </li>
     <li>
-      <a [routerLink]="['/showcase']">Showcase</a>
+      <a [routerLink]="['/myplayground']" routerLinkActive="active">My Playground</a>
+    </li>
+    <li>
+      <a [routerLink]="['/showcase']" routerLinkActive="active">Showcase</a>
     </li>
   </ul>
   <div class="loginmenu">

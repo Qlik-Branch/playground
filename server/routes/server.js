@@ -8,7 +8,8 @@ var express = require('express'),
     OAuthInfo = require('../configs/oauth-info'),
     Cookie = require('cookie'),
     cookieParser = require('cookie-parser'),
-    QRS = require('../controllers/qrs');
+    QRS = require('../controllers/qrs'),
+    http = require('http');
 
 router.get('/sampledata', function(req, res){
   res.json(sampleData);
@@ -18,8 +19,26 @@ router.get('/sampleprojects', function(req, res){
   res.json(sampleProjects);
 });
 
+router.get('/resource/:id', function(req, res){
+  var data = "";
+  http.get("http://branch.qlik.com/api/resource/"+req.params.id, function (response) {
+    response.on('data', function (chunk) {
+      data+=chunk;
+    });
+    response.on('end', function(){ //we don't get all the data at once so we need to wait until the request has finished before we end the response
+      res.json(data);
+    });
+  }).on('error', function(e){
+    res.json(e);
+  });
+});
+
 router.get('/dataconnections', function(req, res){
-  res.json(dataConnections);
+  res.json({
+    dataConnections,
+    sampleData,
+    sampleProjects
+  });
 });
 
 router.get('/connectioninfo/:id', function(req, res){
@@ -63,7 +82,8 @@ router.get('/startapp/:app', function(req, res){
       res.json(err);
     }
     else{
-      res.redirect('/server/connectioninfo/'+app);
+      res.json({});
+      // res.redirect('/server/connectioninfo/'+app);
     }
   });
 });
@@ -75,7 +95,8 @@ router.get('/stopapp/:app', function(req, res){
       res.json(err);
     }
     else{
-      res.redirect('/server/connectioninfo/'+app);
+      res.json({});
+      // res.redirect('/server/connectioninfo/'+app);
     }
   });
 });
@@ -83,17 +104,38 @@ router.get('/stopapp/:app', function(req, res){
 router.get('/reloadapp/:app', function(req, res){
   var app = req.params.app;
   QRS.reloadApp(req.user, app, function(err, appId){
-    res.redirect('/server/connectioninfo/'+app);
+    res.json({});
+    // res.redirect('/server/connectioninfo/'+app);
   });
 });
 
 router.get('/currentuser', function(req, res){
   if(req.user){
-    console.log(req.user);
-    res.json(req.user);
+    mongoHelper.getUserConnections(req.user._id, function(err, connections){
+      if(err){
+        res.json({err});
+      }
+      else{
+        res.json({
+          user: req.user,
+          myConnections: connections,
+          loginUrl: process.env.loginUrl,
+          returnUrl: process.env.returnUrl,
+          dataConnections,
+          sampleData,
+          sampleProjects
+        });
+      }
+    });
   }
   else{
-    res.json();
+    res.json({
+      loginUrl: process.env.loginUrl,
+      returnUrl: process.env.returnUrl,
+      dataConnections,
+      sampleData,
+      sampleProjects
+    });
   }
 
 });

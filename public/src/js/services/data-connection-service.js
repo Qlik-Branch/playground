@@ -1,26 +1,27 @@
-let DataConnectionService =
+app.DataConnectionService =
 ng.core.Injectable({
 
 })
 .Class({
   constructor: [ng.http.Http, function(http){
     this.http = http;
-    this.dataConnections;
+    this.data;
   }],
-  getDataConnections: function(callbackFn){
-    if(this.dataConnections){
-      callbackFn(this.dataConnections);
-    }
-    else{
+  getDataConnections: function(force, callbackFn){
+    if(!this.data || force===true){
       this.http.get('/server/dataconnections').subscribe(response => {
         if(response._body!==""){
-          this.dataConnections = JSON.parse(response._body);
-          callbackFn(JSON.parse(response._body));
+          response = JSON.parse(response._body);
+          this.data = response;
+          callbackFn(this.data);
         }
         else{
           callbackFn();
         }
       });
+    }
+    else{
+      callbackFn(this.data);
     }
   },
   getConnectionInfo: function(connectionId, callbackFn){
@@ -32,7 +33,7 @@ ng.core.Injectable({
         callbackFn();
       }
     });
-  },  
+  },
   getConnectionDictionary: function(index, callbackFn){
     if(this.dataConnections){
       var dictionaryUrl = this.dataConnections[index].dictionary;

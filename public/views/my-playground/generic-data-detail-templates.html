@@ -1,0 +1,22 @@
+<div class="col-md-6">
+  <h2 class="default-text">Templates</h2>
+  <ul class="plainlist sample-project-list default-text">
+    <li *ngFor="let p of connection.projects; let i = index">
+      <label class="orange">{{sampleProjects[p].name}}</label>
+      <p>
+        {{sampleProjects[p].description}}
+      </p>
+      <div class="sample-project-clone">
+        <div class="frame  lui-bg-default">
+          <!-- <span class="playground-disabler"></span> -->
+          <input id='{{i}}_clone_url' readonly class="lui-input" name="name" value="{{sampleProjects[p]['clone-url']}}">
+        </div>
+        <button class="copy-to-clipboard lui-button" name="button" (click)="copyToClipboard(i)"><span class="lui-icon lui-icon--copy"></span></button>
+      </div>
+      <div class="sample-project-buttons">
+        <button class="inline-block lui-button lui-button--warning" type="button" name="button"><a href="github-mac://openRepo/{{sampleProjects[p]['github-repo']}}">Open in GitHub Desktop</a></button>
+        <button class="inline-block lui-button lui-button--warning" type="button" name="button"><a href="{{sampleProjects[p]['github-repo']}}/archive/master.zip">Download Zip</a></button>
+      </div>
+    </li>
+  </ul>
+</div>

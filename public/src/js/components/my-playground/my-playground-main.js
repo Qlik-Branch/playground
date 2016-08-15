@@ -1,10 +1,10 @@
-let MyPlaygroundMain = ng.core.Component({
+app.MyPlaygroundMain = ng.core.Component({
   selector: 'playground-my-playground-main',
   directives: [ng.router.ROUTER_DIRECTIVES],
   templateUrl: '/views/my-playground/my-playground-main.html'
 })
 .Class({
-  constructor: [UserService, DataConnectionService, SampleDataService, function(userService, dataConnectionService, sampleDataService){
+  constructor: [app.UserService, app.DataConnectionService, function(userService, dataConnectionService){
     this.dataConnectionService = dataConnectionService;
     this.sampleDataService = sampleDataService;
     this.userService = userService;

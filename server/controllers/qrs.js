@@ -30,9 +30,7 @@ module.exports = {
     var that = this;
     var query = req.query;
     mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
-      console.log(keys[0].userid);
       if(err){
-        ////do something here
         console.log('error fetching user from api key');
         console.log(err);
         callbackFn({err: err});
@@ -107,9 +105,6 @@ module.exports = {
     });
   },
   reloadApp: function(appId, callbackFn){
-
-  },
-  startApp: function(user, appId, callbackFn){
     var connectionDetails;
     if(!user){
       callbackFn("No User", null);
@@ -141,9 +136,62 @@ module.exports = {
         config.ticket = ticket.Ticket;
         console.log('got ticket');
         QSocks.Connect(config).then(function(global){
-          console.log('connected to qsocks');
+          global.openDoc(newAppId).then(function(qApp){
+            var reloadFinished = false;
+            qApp.doReload().then(function(response){
+              reloadFinished = true;
+              qApp.doSave().then(function(){
+                qApp.connection.close();
+                callbackFn(null, connectionString.appid);
+              });
+            });
+            getReloadProgress(global);
+
+            function getReloadProgress(g) {
+              g.getProgress(0).then(function (reloadProgress) {
+                // console.log(reloadProgress);
+                if (!reloadFinished) {
+                  getReloadProgress(g);
+                }
+              });
+            }
+          });
+        });
+      }
+    });
+  },
+  startApp: function(user, appId, callbackFn){
+    var connectionDetails;
+    if(!user){
+      callbackFn("No User", null);
+      return;
+    }
+    if(!appId){
+      callbackFn("No app specified", null);
+      return;
+    }
+    if(!dataConnections[appId]){
+      callbackFn("Invalid app specified", null);
+      return;
+    }
+    else {
+      connectionDetails = dataConnections[appId];
+    }
+    var config = cloneObject(qsocksConfig);
+    var data = {
+      UserDirectory: "Playground",
+      UserId: user.username,
+      Attributes: [{"source":"server"}]
+    }
+    this.qPost(QPS, "/qps/playground" + "/ticket/", data, function(err, ticketResponse){
+      if(err){
+        callbackFn(err, null);
+      }
+      else{
+        var ticket = JSON.parse(ticketResponse);
+        config.ticket = ticket.Ticket;
+        QSocks.Connect(config).then(function(global){
           global.createApp(connectionDetails.name).then(function(qApp){
-            console.log('app created');
             if(qApp.qSuccess==true){
               var newAppId = qApp.qAppId;
               mongoHelper.updateConnectionString(user._id, appId, {appid: newAppId}, true, function(err, connectionString){
@@ -159,7 +207,6 @@ module.exports = {
                     script += connectionDetails.loadscript;
                     console.log('setting script');
                     qApp.setScript(script).then(function(){
-                      console.log(script);
                       console.log('reloading');
                       qApp.doReload().then(function(response){
                         reloadFinished = true;
@@ -172,7 +219,7 @@ module.exports = {
 
                       function getReloadProgress(g) {
                         g.getProgress(0).then(function (reloadProgress) {
-                          console.log(reloadProgress);
+                          // console.log(reloadProgress);
                           if (!reloadFinished) {
                             getReloadProgress(g);
                           }
