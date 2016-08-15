@@ -1,0 +1,43 @@
+<div class="row title-block">
+  <div class="col-md-6">
+    <a class="white" [routerLink]="['/myplayground/'+parentPath]"><span class="lui-icon lui-icon--back"></span> <strong>back</strong></a>
+    <h1>{{connection.name}} ({{connectionStatus}})</h1>
+    <div class="" *ngIf="isMyData">
+      <button *ngIf="(connectionStatus=='Stopped' || connectionStatus=='Starting') && myRunningAppCount<MAX_RUNNING_APPS" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Starting'}" (click)="startApp(connection.id)">Start</button>
+      <button *ngIf="(connectionStatus=='Started' || connectionStatus=='Stopping')" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Stopping'}" (click)="stopApp(connection.id)">Stop</button>
+      <button *ngIf="connectionStatus=='Started'" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Reloading'}" (click)="reloadApp(connection.id)">Reload</button>
+    </div>
+  </div>
+  <div class="col-md-6 right">
+    <img src="{{connection.icon}}" alt="" />
+  </div>
+</div>
+<div class="row relative" [ngClass]="{'playground-hidden': connectionStatus!=='Started'}">
+  <div class="generic-data-detail-menu">
+    <ul>
+      <li><a [routerLink]="['gettingstarted']" routerLinkActive="active">Getting Started</a></li>
+      <li><a [routerLink]="['templates']" routerLinkActive="active">Templates</a></li>
+    </ul>
+  </div>
+  <div class="generic-data-detail-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<div class="row page-detail" *ngIf="isMyData && connectionStatus!=='Started'">
+  <div class="col-md-12">
+    <div class='playground-notifier-inner-container grey'>
+      <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='notifier-title'>Please wait...</div>
+          <div class='notifier-message'>{{connectionStatusDetail}}</div>
+          <div *ngIf="connectionStatus=='Stopped'" class="">
+            Please
+            <button *ngIf="connectionStatus=='Stopped' && myRunningAppCount<MAX_RUNNING_APPS" class="lui-button lui-button--warning" (click)="startApp(connection.id)">Start</button>
+            the application to see more options.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

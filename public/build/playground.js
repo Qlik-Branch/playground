@@ -1,14 +1,14 @@
 'use strict';
 
-(function (playground) {
+(function (app) {
 
-  //service declarations
-  var ConfigService = ng.core.Injectable({}).Class({
+  // //service declarations
+  app.ResourceCenterService = ng.core.Injectable({}).Class({
     constructor: [ng.http.Http, function (http) {
       this.http = http;
     }],
-    getConfigs: function getConfigs(callbackFn) {
-      this.http.get('/server/configs').subscribe(function (response) {
+    getResource: function getResource(id, callbackFn) {
+      this.http.get('/server/resource/' + id).subscribe(function (response) {
         if (response._body !== "") {
           callbackFn(JSON.parse(response._body));
         } else {
@@ -18,98 +18,26 @@
     }
   });
 
-  var UserService = ng.core.Injectable({}).Class({
+  app.DataConnectionService = ng.core.Injectable({}).Class({
     constructor: [ng.http.Http, function (http) {
       this.http = http;
-      this.user;
+      this.data;
     }],
-    getUser: function getUser(callbackFn) {
+    getDataConnections: function getDataConnections(force, callbackFn) {
       var _this = this;
 
-      if (!this.user) {
-        console.log('fetching user info from server');
-        this.http.get('/server/currentuser').subscribe(function (response) {
-          if (response._body !== "") {
-            _this.user = JSON.parse(response._body);
-            callbackFn(_this.user);
-          } else {
-            callbackFn();
-          }
-        });
-      } else {
-        callbackFn(this.user);
-      }
-    },
-    getUserConnections: function getUserConnections(callbackFn) {
-      this.http.get('/server/currentuserconnections').subscribe(function (response) {
-        if (response._body !== "") {
-          callbackFn(JSON.parse(response._body));
-        } else {
-          callbackFn();
-        }
-      });
-    }
-  });
-
-  var SampleDataService = ng.core.Injectable({}).Class({
-    constructor: [ng.http.Http, function (http) {
-      this.http = http;
-      this.sampleData;
-      this.sampleProjects;
-    }],
-    getSampleData: function getSampleData(callbackFn) {
-      var _this2 = this;
-
-      if (this.sampleData) {
-        callbackFn(this.sampleData);
-      } else {
-        this.http.get('/server/sampledata').subscribe(function (response) {
-          if (response._body !== "") {
-            _this2.sampleData = JSON.parse(response._body);
-            callbackFn(JSON.parse(response._body));
-          } else {
-            callbackFn();
-          }
-        });
-      }
-    },
-    getSampleProjects: function getSampleProjects(callbackFn) {
-      var _this3 = this;
-
-      if (this.sampleProjects) {
-        callbackFn(this.sampleProjects);
-      } else {
-        this.http.get('/server/sampleprojects').subscribe(function (response) {
-          if (response._body !== "") {
-            _this3.sampleProjects = JSON.parse(response._body);
-            callbackFn(JSON.parse(response._body));
-          } else {
-            callbackFn();
-          }
-        });
-      }
-    }
-  });
-
-  var DataConnectionService = ng.core.Injectable({}).Class({
-    constructor: [ng.http.Http, function (http) {
-      this.http = http;
-      this.dataConnections;
-    }],
-    getDataConnections: function getDataConnections(callbackFn) {
-      var _this4 = this;
-
-      if (this.dataConnections) {
-        callbackFn(this.dataConnections);
-      } else {
+      if (!this.data || force === true) {
         this.http.get('/server/dataconnections').subscribe(function (response) {
           if (response._body !== "") {
-            _this4.dataConnections = JSON.parse(response._body);
-            callbackFn(JSON.parse(response._body));
+            response = JSON.parse(response._body);
+            _this.data = response;
+            callbackFn(_this.data);
           } else {
             callbackFn();
           }
         });
+      } else {
+        callbackFn(this.data);
       }
     },
     getConnectionInfo: function getConnectionInfo(connectionId, callbackFn) {
@@ -122,7 +50,7 @@
       });
     },
     getConnectionDictionary: function getConnectionDictionary(index, callbackFn) {
-      var _this5 = this;
+      var _this2 = this;
 
       if (this.dataConnections) {
         var dictionaryUrl = this.dataConnections[index].dictionary;
@@ -131,8 +59,8 @@
         });
       } else {
         this.getDataConnections(function (response) {
-          var dictionaryUrl = _this5.dataConnections[index].dictionary;
-          _this5.http.get(dictionaryUrl).subscribe(function (response) {
+          var dictionaryUrl = _this2.dataConnections[index].dictionary;
+          _this2.http.get(dictionaryUrl).subscribe(function (response) {
             callbackFn(JSON.parse(response._body));
           });
         });
@@ -161,40 +89,110 @@
 
   });
 
-  //component declarations
-  var Header = ng.core.Component({
+  app.UserService = ng.core.Injectable({}).Class({
+    constructor: [ng.http.Http, function (http) {
+      this.http = http;
+      this.user;
+    }],
+    getUser: function getUser(force, callbackFn) {
+      var _this3 = this;
+
+      if (!this.user || force === true) {
+        console.log('fetching user info from server');
+        this.http.get('/server/currentuser').subscribe(function (response) {
+          if (response._body !== "") {
+            response = JSON.parse(response._body);
+            _this3.user = response;
+            if (response.user) {
+              _this3.parseConnections();
+            }
+            callbackFn(_this3.user);
+          } else {
+            callbackFn();
+          }
+        });
+      } else {
+        callbackFn(this.user);
+      }
+    },
+    getUserConnections: function getUserConnections(callbackFn) {
+      this.http.get('/server/currentuserconnections').subscribe(function (response) {
+        if (response._body !== "") {
+          callbackFn(JSON.parse(response._body));
+        } else {
+          callbackFn();
+        }
+      });
+    },
+    parseConnections: function parseConnections(callbackFn) {
+      this.user.myParsedConnections = {};
+      this.user.runningAppCount = 0;
+      for (var c = 0; c < this.user.myConnections.length; c++) {
+        if (this.user.dataConnections[this.user.myConnections[c].connection]) {
+          this.user.dataConnections[this.user.myConnections[c].connection].authorised = true;
+          this.user.myParsedConnections[this.user.myConnections[c].connection] = this.user.dataConnections[this.user.myConnections[c].connection];
+          if (this.user.myConnections[c].appid) {
+            this.user.myParsedConnections[this.user.myConnections[c].connection].appid = this.user.myConnections[c].appid;
+            this.user.runningAppCount++;
+          }
+        } else {
+          this.user.dataConnections[this.user.myConnections[c].connection].authorised = false;
+        }
+      }
+    }
+  });
+
+  //
+  // //main component declarations
+  app.Header = ng.core.Component({
     selector: 'playground-header',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    providers: [ConfigService, UserService],
     templateUrl: '/views/header.html'
   }).Class({
-    constructor: [ConfigService, UserService, function (configService, userService) {
-      var _this6 = this;
+    constructor: [app.UserService, function (userService) {
+      var _this4 = this;
 
       this.dialog;
       this.user;
-      configService.getConfigs(function (configs) {
-        _this6.loginUrl = configs.loginUrl;
-        _this6.returnUrl = configs.returnUrl;
-      });
-      userService.getUser(function (user) {
-        _this6.user = user;
-      });
+      this.loginUrl;
+      this.returnUrl;
+      if (!userService.user) {
+        userService.getUser(false, function (user) {
+          _this4.user = user.user;
+          _this4.loginUrl = user.loginUrl;
+          _this4.returnUrl = user.returnUrl;
+        });
+      }
     }]
   });
 
-  var FooterList = ng.core.Component({
+  // app.FooterList = ng.core.Component({
+  //   selector: 'playground-footer-list',
+  //   inputs: ['data:data'],
+  //   directives: [ng.router.ROUTER_DIRECTIVES],
+  //   templateUrl: '/views/footer-list.html'
+  // })
+  // .Class({
+  //   constructor: function(){
+  //
+  //   }
+  // });
+
+  app.FooterList = function () {
+    function FooterList() {}
+    FooterList.data = [];
+  };
+
+  app.FooterList.annotations = [new ng.core.Component({
     selector: 'playground-footer-list',
-    inputs: ['data: data'],
+    inputs: ['data:data'],
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/footer-list.html'
-  }).Class({
-    constructor: function constructor() {}
-  });
+  })];
 
-  var FooterComponent = ng.core.Component({
+  app.FooterComponent = ng.core.Component({
     selector: 'playground-footer',
-    directives: [ng.router.ROUTER_DIRECTIVES, FooterList],
+    directives: [ng.router.ROUTER_DIRECTIVES, app.FooterList],
     templateUrl: '/views/footer.html'
   }).Class({
     constructor: function constructor() {
@@ -214,14 +212,14 @@
     }
   });
 
-  var ComingSoon = ng.core.Component({
+  app.ComingSoon = ng.core.Component({
     selector: 'coming-soon',
     template: '<div class=\'coming-soon\'>Coming Soon</div>'
   }).Class({
     constructor: function constructor() {}
   });
 
-  var Home = ng.core.Component({
+  app.Home = ng.core.Component({
     selector: 'playground-home',
     templateUrl: '/views/home.html'
   }).Class({
@@ -230,7 +228,7 @@
     }
   });
 
-  var Noobs = ng.core.Component({
+  app.Noobs = ng.core.Component({
     selector: 'playground-noobs',
     templateUrl: '/views/noobs.html'
   }).Class({
@@ -239,223 +237,229 @@
     }
   });
 
-  var SampleDataDetails = ng.core.Component({
-    selector: 'sample-data-details',
-    directives: [],
-    viewProviders: [ng.router.ROUTER_PROVIDERS, SampleDataService],
-    templateUrl: '/views/my-playground/sample-data-details.html'
+  app.Showcase = ng.core.Component({
+    selector: 'playground-showcase',
+    templateUrl: '/views/showcase.html'
   }).Class({
-    constructor: [ng.router.RouteSegment, SampleDataService, function (routeSegment, sampleDataService) {
-      var _this7 = this;
-
-      this.routeSegment = routeSegment;
-      this.appId = routeSegment.parameters.id;
-      this.selectedApp = {};
-      this.sampleProjects = [];
-      this.selectedProject = {};
-      sampleDataService.getExampleApps(function (apps) {
-        _this7.selectedApp = apps[_this7.appId];
-        _this7.config = JSON.stringify(_this7.selectedApp.config, null, ' ');
-        _this7.sampleProjects = _this7.selectedApp['sample-projects'];
-        if (_this7.sampleProjects.length > 0) {
-          _this7.selectedProject = _this7.sampleProjects[0];
-        }
-      });
-    }],
-    copyToClipboard: function copyToClipboard(index) {
-      var itemInput = document.getElementById(index + "_clone_url");
-      itemInput.select();
-      document.execCommand('copy');
+    constructor: function constructor() {
+      console.log('constructor');
     }
   });
 
-  var SampleDataList = ng.core.Component({
+  // // include "./components/my-playground/sample-data-details.js"
+  app.SampleDataList = ng.core.Component({
     selector: 'sample-data-list',
     directives: [ng.router.ROUTER_DIRECTIVES],
     viewProviders: [],
     templateUrl: '/views/my-playground/sample-data-list.html'
   }).Class({
-    constructor: [SampleDataService, function (sampleDataService) {
-      var _this8 = this;
+    constructor: [app.UserService, function (userService) {
+      var _this5 = this;
 
       this.apps = {};
       this.appKeys = [];
-      this.selectedApp = {};
-      sampleDataService.getSampleData(function (apps) {
-        _this8.apps = apps;
-        _this8.appKeys = Object.keys(apps);
-        _this8.selectedApp = _this8.apps[_this8.appKeys[0]];
+      userService.getUser(false, function (user) {
+        _this5.apps = user.sampleData;
+        _this5.appKeys = Object.keys(_this5.apps);
       });
     }]
   });
 
-  var YourDataDetails = ng.core.Component({
-    selector: 'your-data-details',
-    directives: [],
-    viewProviders: [ng.router.ROUTER_PROVIDERS],
-    templateUrl: '/views/getting-started/your-data-details.html'
+  // // include "./components/my-playground/your-data-details.js"
+
+  app.Apis = ng.core.Component({
+    selector: 'playground-apis',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/apis/apis.html'
   }).Class({
-    constructor: [ng.router.RouteSegment, function (routeSegment) {
-      this.routeSegment = routeSegment;
-      this.appId = routeSegment.parameters.id;
+    constructor: function constructor() {}
+  });
+
+  app.Engine = ng.core.Component({
+    selector: 'playground-engine',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/apis/engine.html'
+  }).Class({
+    constructor: function constructor() {}
+  });
+
+  app.Capability = ng.core.Component({
+    selector: 'playground-capability',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/apis/capability.html'
+  }).Class({
+    constructor: function constructor() {}
+  });
+
+  app.APIContent = ng.core.Component({
+    selector: 'playground-api-content',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/apis/api-content.html'
+  }).Class({
+    constructor: [ng.router.ActivatedRoute, app.ResourceCenterService, function (route, resourceCenterService) {
+      var _this6 = this;
+
+      this.route = route;
+      this.resourceCenterService = resourceCenterService;
+      this.api = this.route.parent.url.value[0].path;
+      route.params.subscribe(function (route) {
+        var resourceSubject = route.subject;
+        _this6.getResourceContent(resourceSubject);
+      });
+    }],
+    getResourceContent: function getResourceContent(subject) {
+      var _this7 = this;
+
+      var resourceId = null;
+      this.resourceTitle = "";
+      this.content = "";
+      switch (this.api) {
+        case "engine":
+          switch (subject) {
+            case "overview":
+
+              break;
+            case "connecting":
+
+              break;
+            case "hypercube":
+
+              break;
+            case "listobject":
+
+              break;
+            case "filtering":
+
+              break;
+            default:
+
+          }
+          break;
+        case "capability":
+          switch (subject) {
+            case "overview":
+              resourceId = "57b195052fe227f95f07cba4";
+              break;
+            case "connecting":
+              resourceId = "57a356c6a3c42710c3f23c1c";
+              break;
+            case "visualizations":
+              resourceId = "57b1dd7dc3416b4035de71bc";
+              break;
+            case "filtering":
+
+              break;
+            default:
+
+          }
+          break;
+        default:
+
+      }
+      if (resourceId) {
+        this.resourceCenterService.getResource(resourceId, function (resource) {
+          resource = JSON.parse(resource);
+          if (resource && resource.data && resource.data.length > 0) {
+            resource = resource.data[0];
+            _this7.resourceTitle = resource.title;
+            console.log(resource);
+            _this7.content = marked(_this7.arrayBufferToBase64(resource.content.data));
+          }
+        });
+      }
+    },
+    arrayBufferToBase64: function arrayBufferToBase64(buffer) {
+      var binary = '';
+      var bytes = new Uint8Array(buffer);
+      var len = bytes.byteLength;
+      for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return binary;
+    }
+  });
+
+  app.MyDataList = ng.core.Component({
+    selector: 'my-data-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/my-data-list.html'
+  }).Class({
+    constructor: [app.UserService, function (userService) {
+      var _this8 = this;
+
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.myConns;
+      this.myConnKeys;
+      userService.getUser(false, function (user) {
+        _this8.myConns = user.myParsedConnections;
+        _this8.myConnKeys = Object.keys(_this8.myConns);
+        _this8.myRunningAppCount = user.runningAppCount;
+      });
     }]
   });
 
-  var YourDataList = ng.core.Component({
-    selector: 'your-data-list',
+  // // include "./components/my-playground/data-connection-details.js"
+  // // include "./components/my-playground/data-connection-list.js"
+  app.GenericDataDetailStatus = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail-status',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/getting-started/your-data-list.html'
+    templateUrl: '/views/my-playground/generic-data-detail-status.html'
   }).Class({
-    constructor: [function () {}]
-  });
-
-  var DataConnectionDetails = ng.core.Component({
-    selector: 'data-connection-details',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [ng.router.ROUTER_PROVIDERS],
-    templateUrl: '/views/my-playground/data-connection-details.html'
-  }).Class({
-    constructor: [ng.router.RouteSegment, DataConnectionService, function (routeSegment, dataConnectionService) {
+    constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
       var _this9 = this;
 
-      this.routeSegment = routeSegment;
-      this.connectionId = routeSegment.parameters.id;
-      this.connectionDictionary = {};
-      dataConnectionService.getConnectionDictionary(this.connectionId, function (info) {
-        _this9.connectionDictionary = info;
-        console.log(info);
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.dataConnectionService = dataConnectionService;
+      this.connectionId = route.parent.url.value[0].path;
+      this.connectionStatus = 'Checking Status...';
+      this.connectionStatusDetail = "";
+      userService.getUser(false, function (user) {
+        _this9.myRunningAppCount = user.runningAppCount;
+        _this9.getConnectionInfo(_this9.connectionId);
       });
     }],
-    authorizeConnection: function authorizeConnection(connId) {
-      dataConnectionService.authorizeConnection(connId, function (result) {});
-    }
-  });
-
-  var DataConnectionList = ng.core.Component({
-    selector: 'data-connection-list',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/my-playground/data-connection-list.html'
-  }).Class({
-    constructor: [UserService, DataConnectionService, function (userService, dataConnectionService) {
+    getConnectionInfo: function getConnectionInfo(connectionId) {
       var _this10 = this;
 
-      this.dataConnectionService = dataConnectionService;
-      this.userService = userService;
-      this.dataConnectionService.getDataConnections(function (conns) {
-        _this10.conns = conns;
-        _this10.connKeys = Object.keys(conns);
-        _this10.userService.getUserConnections(function (userConns) {
-          console.log(userConns);
-          if (userConns.err) {} else {
-            for (var c = 0; c < userConns.connections.length; c++) {
-              if (_this10.conns[userConns.connections[c].connection]) {
-                _this10.conns[userConns.connections[c].connection].authorised = true;
-              } else {
-                _this10.conns[userConns.connections[c].connection].authorised = false;
-              }
-            }
-          }
-        });
-      });
-    }],
-    authoriseConnection: function authoriseConnection(key) {
-      this.dataConnectionService.authoriseConnection(key, function (response) {
-        console.log(response);
-      });
-    }
-  });
-
-  var MyPlaygroundMain = ng.core.Component({
-    selector: 'playground-my-playground-main',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-main.html'
-  }).Class({
-    constructor: [UserService, DataConnectionService, SampleDataService, function (userService, dataConnectionService, sampleDataService) {
-      var _this11 = this;
-
-      this.dataConnectionService = dataConnectionService;
-      this.sampleDataService = sampleDataService;
-      this.userService = userService;
-      this.setActiveTab(0);
-      this.isTabDetail = false;
-      this.selectedItem = {};
-      this.selectedItemStatus = 'Checking Status...';
-      this.selectedItemStatusDetail = '';
-      this.myConns;
-      this.myParsedConns = {};
-      this.myRunningAppCount = 0;
-      this.MAX_RUNNING_APPS = 3;
-      this.myConnKeys;
-      this.apps;
-      this.appKeys;
-      this.conns;
-      this.connKeys;
-      this.connectionInfo;
-      this.sampleProjects;
-      userService.getUser(function (user) {
-        console.log(user);
-        _this11.user = user;
-      });
-      this.getSampleProjects();
-    }],
-    getConnections: function getConnections() {
-      var _this12 = this;
-
-      if (!this.conns) {
-        this.dataConnectionService.getDataConnections(function (conns) {
-          _this12.conns = conns;
-          _this12.connKeys = Object.keys(conns);
-          _this12.getMyConnections(function (userConns) {
-            if (userConns.err) {} else {
-              for (var c = 0; c < userConns.connections.length; c++) {
-                if (_this12.conns[userConns.connections[c].connection]) {
-                  _this12.conns[userConns.connections[c].connection].authorised = true;
-                  _this12.myParsedConns[userConns.connections[c].connection] = _this12.conns[userConns.connections[c].connection];
-                  if (userConns.connections[c].appid) {
-                    _this12.myParsedConns[userConns.connections[c].connection].appid = userConns.connections[c].appid;
-                    _this12.myRunningAppCount++;
-                  }
-                } else {
-                  _this12.conns[userConns.connections[c].connection].authorised = false;
-                }
-              }
-              _this12.myConnKeys = Object.keys(_this12.myParsedConns);
-            }
-          });
-        });
-      }
-    },
-    getMyConnections: function getMyConnections(callbackFn) {
-      var _this13 = this;
-
-      if (this.myConns) {
-        if (callbackFn) {
-          callbackFn(this.myConns);
-        }
-      } else {
-        this.userService.getUserConnections(function (userConns) {
-          _this13.myConns = userConns;
-          if (callbackFn) {
-            callbackFn(_this13.myConns);
-          }
-        });
-      }
-    },
-    getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this14 = this;
-
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this14.onConnectionInfo(connInfo);
+        _this10.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
       if (info.appname) {
-        this.selectedItemStatus = "Started";
+        this.connectionStatus = "Started";
       } else {
-        this.selectedItemStatus = "Stopped";
-        this.selectedItemDetail = "Please start the application to see more options.";
+        this.connectionStatus = "Stopped";
+        this.connectionStatusDetail = "Please start the application to see more options.";
+      }
+    }
+  });
+
+  app.GenericDataDetailGettingStarted = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail-gettingstarted',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/generic-data-detail-gettingstarted.html'
+  }).Class({
+    constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
+      this.dataConnectionService = dataConnectionService;
+      var connectionId = route.parent.url.value[0].path;
+      this.connectionConfig;
+      this.getConnectionInfo(connectionId);
+    }],
+    getConnectionInfo: function getConnectionInfo(connectionId) {
+      var _this11 = this;
+
+      this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
+        _this11.onConnectionInfo(connInfo);
+      });
+    },
+    onConnectionInfo: function onConnectionInfo(info) {
+      if (info.appname) {
+        this.connectionStatus = "Started";
+      } else {
+        this.connectionStatus = "Stopped";
       }
       var connInfoStr = JSON.stringify(info);
       //dirty method for styling text and removing quotes (required so that the capability api reads the properties correctly)
@@ -467,104 +471,124 @@
         parsedComponents.push(keyVal[0].replace(/\"/gim, '') + ':' + keyVal[1]);
       }
       connInfoStr = parsedComponents.join(",");
-      this.connectionInfo = connInfoStr;
+      this.connectionConfig = connInfoStr.trim();
       setTimeout(function () {
         $('pre code').each(function (i, block) {
           hljs.highlightBlock(block);
         });
       }, 100);
-    },
-    getSampleData: function getSampleData() {
-      var _this15 = this;
+    }
+  });
 
-      if (!this.apps) {
-        this.sampleDataService.getSampleData(function (apps) {
-          _this15.apps = apps;
-          _this15.appKeys = Object.keys(apps);
-        });
-      }
-    },
-    getSampleProjects: function getSampleProjects() {
-      var _this16 = this;
+  app.GenericDataDetailTemplates = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail-templates',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/generic-data-detail-templates.html'
+  }).Class({
+    constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
+      var _this12 = this;
 
-      if (!this.sampleProjects) {
-        this.sampleDataService.getSampleProjects(function (projects) {
-          console.log(projects);
-          _this16.sampleProjects = projects;
-        });
-      }
-    },
-    setActiveTab: function setActiveTab(index) {
-      this.activeTab = index;
-      this.isTabDetail = false;
-      switch (index) {
-        case 0:
-          this.getConnections();
-          break;
-        case 1:
-          this.getSampleData();
-          break;
-        case 2:
-          this.getConnections();
-          break;
-        default:
-
-      }
-    },
-    showDetail: function showDetail(key, itemType) {
-      switch (itemType) {
-        case "connection":
-          this.selectedItem = this.conns[key];
-          this.isTabDetail = true;
-          this.getConnectionInfo(key);
-          break;
-        default:
-        case "sampledata":
-          this.selectedItem = this.apps[key];
-          this.isTabDetail = true;
-          this.getConnectionInfo(key);
-          break;
-      }
-    },
-    hideDetail: function hideDetail() {
-      this.selectedItem = {};
-      this.isTabDetail = false;
-    },
+      var connectionId = route.parent.url.value[0].path;
+      this.connection = {};
+      this.sampleProjects = {};
+      this.isMyData = false;
+      userService.getUser(false, function (user) {
+        if (user.myParsedConnections[connectionId]) {
+          _this12.isMyData = true;
+          _this12.connection = user.myParsedConnections[connectionId];
+        } else {
+          _this12.connection = user.sampleData[connectionId];
+        }
+        _this12.sampleProjects = user.sampleProjects;
+      });
+    }],
     copyToClipboard: function copyToClipboard(index) {
       var itemInput = document.getElementById(index + "_clone_url");
       itemInput.select();
       document.execCommand('copy');
+    }
+  });
+
+  app.GenericDataDetail = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail',
+    directives: [ng.router.ROUTER_DIRECTIVES, ng.common.NgClass],
+    templateUrl: '/views/my-playground/generic-data-detail.html'
+  }).Class({
+    constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
+      var _this13 = this;
+
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.dataConnectionService = dataConnectionService;
+      var connectionId = route.url.value[0].path;
+      this.parentPath = route.parent.url.value[0].path;
+      this.connection = {};
+      this.isMyData = false;
+      userService.getUser(false, function (user) {
+        _this13.myRunningAppCount = user.runningAppCount;
+        if (user.myParsedConnections[connectionId]) {
+          _this13.isMyData = true;
+          _this13.connection = user.myParsedConnections[connectionId];
+        } else {
+          _this13.connectionStatus = "Started";
+          _this13.connection = user.sampleData[connectionId];
+        }
+        _this13.getConnectionInfo(connectionId);
+      });
+    }],
+    getConnectionInfo: function getConnectionInfo(connectionId) {
+      var _this14 = this;
+
+      this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
+        _this14.onConnectionInfo(connInfo);
+      });
+    },
+    onConnectionInfo: function onConnectionInfo(info) {
+      if (info.appname) {
+        this.connectionStatus = "Started";
+      } else {
+        this.connectionStatus = "Stopped";
+        this.connectionStatusDetail = "";
+      }
     },
     startApp: function startApp(connectionId) {
-      var _this17 = this;
+      var _this15 = this;
 
-      this.selectedItemStatus = "Starting";
-      this.selectedItemDetail = "Starting application.";
+      this.connectionStatus = "Starting";
+      this.connectionStatusDetail = "Starting application.";
       this.dataConnectionService.startApp(connectionId, function (connInfo) {
-        _this17.onConnectionInfo(connInfo);
+        _this15.getConnectionInfo(connectionId);
       });
     },
     stopApp: function stopApp(connectionId) {
-      var _this18 = this;
+      var _this16 = this;
 
-      this.selectedItemStatus = "Stopping";
-      this.selectedItemDetail = "Stopping application.";
+      this.connectionStatus = "Stopping";
+      this.connectionStatusDetail = "Stopping application.";
       this.dataConnectionService.stopApp(connectionId, function (connInfo) {
-        _this18.onConnectionInfo(connInfo);
+        _this16.getConnectionInfo(connectionId);
       });
     },
     reloadApp: function reloadApp(connectionId) {
-      var _this19 = this;
+      var _this17 = this;
 
-      this.selectedItemStatus = "Reloading";
-      this.selectedItemDetail = "Reloading application.";
+      this.connectionStatus = "Reloading";
+      this.connectionStatusDetail = "Reloading application.";
       this.dataConnectionService.reloadApp(connectionId, function (connInfo) {
-        _this19.onConnectionInfo(connInfo);
+        _this17.getConnectionInfo(connectionId);
       });
     }
   });
 
-  var MyPlaygroundSampleData = ng.core.Component({
+  app.MyPlaygroundMyData = ng.core.Component({
+    selector: 'playground-my-playground-my-data',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/my-playground-my-data.html'
+  }).Class({
+    constructor: function constructor() {}
+  });
+
+  app.MyPlaygroundSampleData = ng.core.Component({
     selector: 'playground-my-playground-sample-data',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground-sample-data.html'
@@ -572,119 +596,146 @@
     constructor: function constructor() {}
   });
 
-  MyPlaygroundSampleData = ng.router.Routes([{
-    path: "/",
-    component: SampleDataList
-  }, {
-    path: "/:id",
-    component: SampleDataDetails
-  }, {
-    path: '/**',
-    redirectTo: ['/']
-  }])(MyPlaygroundSampleData);
-
-  var MyPlaygroundYourData = ng.core.Component({
-    selector: 'playground-my-playground-your-data',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-your-data.html'
-  }).Class({
-    constructor: function constructor() {}
-  });
-
-  MyPlaygroundYourData = ng.router.Routes([{
-    path: "/",
-    component: YourDataList
-  }, {
-    path: "/:id",
-    component: YourDataDetails
-  }, {
-    path: '/**',
-    redirectTo: ['/']
-  }])(MyPlaygroundYourData);
-
-  var MyPlaygroundConnect = ng.core.Component({
+  // // include "./components/my-playground/my-playground-your-data.js"
+  app.MyPlaygroundConnect = ng.core.Component({
     selector: 'playground-my-playground-connect',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground-connect.html'
   }).Class({
-    constructor: function constructor() {}
+    constructor: [app.UserService, function (userService) {
+      var _this18 = this;
+
+      this.conns;
+      this.connKeys;
+      userService.getUser(false, function (user) {
+        _this18.conns = user.dataConnections;
+        _this18.connKeys = Object.keys(_this18.conns);
+      });
+    }]
   });
 
-  MyPlaygroundConnect = ng.router.Routes([{
-    path: "/",
-    component: DataConnectionList
-  }, {
-    path: "/:id",
-    component: DataConnectionDetails
-  }, {
-    path: '/**',
-    redirectTo: ['/']
-  }])(MyPlaygroundConnect);
-
-  var MyPlayground = ng.core.Class({
-    constructor: function constructor() {
-      console.log('here');
-    }
-  });
-
-  MyPlayground = ng.core.Component({
+  // //my playgorund main component
+  app.MyPlayground = ng.core.Component({
     selector: 'playground-my-playground',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
-  })(MyPlayground);
-
-  MyPlayground = ng.router.Routes([{
-    path: "/",
-    component: MyPlaygroundMain
-  }, {
-    path: "/sampledata",
-    component: MyPlaygroundSampleData
-  }, {
-    path: "/yourdata",
-    component: MyPlaygroundYourData
-  }, {
-    path: "/connect",
-    component: MyPlaygroundConnect
-  }, {
-    path: '/**',
-    redirectTo: ['/']
-  }])(MyPlayground);
-
-  var Showcase = ng.core.Component({
-    selector: 'playground-showcase',
-    templateUrl: '/views/showcase.html'
   }).Class({
-    constructor: function constructor() {
-      console.log('constructor');
-    }
+    constructor: function constructor() {}
   });
 
-  var AppComponent = function AppComponent() {};
-  AppComponent.annotations = [new ng.core.Component({
+  //
+  // //main routing
+  var genericDataDetailRoutes = [{
+    path: '',
+    redirectTo: 'gettingstarted',
+    pathMatch: 'full'
+  }, {
+    path: 'gettingstarted',
+    component: app.GenericDataDetailGettingStarted
+  }, {
+    path: 'templates',
+    component: app.GenericDataDetailTemplates
+  }];
+
+  var mainRoutes = [{
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }, {
+    path: "home",
+    component: app.Home
+  }, {
+    path: "noobs",
+    component: app.Noobs
+  }, {
+    path: 'apis',
+    component: app.Apis,
+    children: [{
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'engine'
+    }, {
+      path: 'engine',
+      component: app.Engine,
+      children: [{
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview'
+      }, {
+        path: ':subject',
+        component: app.APIContent
+      }]
+    }, {
+      path: 'capability',
+      component: app.Capability,
+      children: [{
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview'
+      }, {
+        path: ':subject',
+        component: app.APIContent
+      }]
+    }]
+  }, {
+    path: 'myplayground',
+    component: app.MyPlayground,
+    children: [{
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'mydata'
+    }, {
+      path: 'mydata',
+      component: app.MyPlaygroundMyData,
+      children: [{
+        path: '',
+        component: app.MyDataList
+      }, {
+        path: ':id',
+        component: app.GenericDataDetail,
+        children: genericDataDetailRoutes
+      }]
+    }, {
+      path: 'sampledata',
+      component: app.MyPlaygroundSampleData,
+      children: [{
+        path: '',
+        component: app.SampleDataList
+      }, {
+        path: ':id',
+        component: app.GenericDataDetail,
+        children: genericDataDetailRoutes
+      }]
+    }, {
+      path: 'connect',
+      component: app.MyPlaygroundConnect
+    }]
+  }, {
+    path: "showcase",
+    component: app.Showcase
+  }];
+
+  app.MainRoutingProvider = ng.router.RouterModule.forRoot(mainRoutes);
+
+  app.AppComponent = function () {};
+  app.AppComponent.annotations = [new ng.core.Component({
     selector: 'app-component',
-    directives: [ng.router.ROUTER_DIRECTIVES, Header, FooterComponent, FooterList],
-    providers: [ng.router.ROUTER_PROVIDERS],
-    viewProviders: [UserService, DataConnectionService, SampleDataService],
+    directives: [ng.router.ROUTER_DIRECTIVES, app.Header, app.FooterComponent, app.FooterList],
+    providers: [],
     template: '<playground-header></playground-header><router-outlet></router-outlet><playground-footer></playground-footer>'
-  }), new ng.router.Routes([{
-    path: "/home",
-    component: Home
-  }, {
-    path: "/myplayground",
-    component: MyPlayground
-  }, {
-    path: "/noobs",
-    component: Noobs
-  }, {
-    path: "/showcase",
-    component: Showcase
-  }, {
-    path: '/**',
-    redirectTo: ['/home']
-  }])];
+  })];
   hljs.initHighlightingOnLoad();
 
-  document.addEventListener('DOMContentLoaded', function () {
-    ng.platformBrowserDynamic.bootstrap(AppComponent, [ng.http.HTTP_PROVIDERS, ng.router.ROUTER_PROVIDERS, ng.core.provide(ng.common.LocationStrategy, { useClass: ng.common.PathLocationStrategy })]);
+  app.AppModule = ng.core.NgModule({
+    imports: [ng.platformBrowser.BrowserModule, app.MainRoutingProvider],
+    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Apis, app.Engine, app.Capability, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailStatus, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetail, app.Showcase],
+    providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService],
+    bootstrap: [app.AppComponent]
+  }).Class({
+    constructor: function constructor() {}
   });
-})(window.playground || (window.playground = {}));
+
+  document.addEventListener('DOMContentLoaded', function () {
+    ng.platformBrowserDynamic.platformBrowserDynamic().bootstrapModule(app.AppModule);
+  });
+})(window.app || (window.app = {}));

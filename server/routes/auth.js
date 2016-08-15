@@ -52,7 +52,6 @@ router.get('/connection/callback', function(req, res){
         }
         tokenUrl = tokenUrl.split("");
         tokenUrl.pop();
-        console.log(tokenUrl);
         tokenUrl = tokenUrl.join("");
         var redirect_uri_parameter = "redirect_uri";
         if(session.dictionary.auth_options.oauth_redirect_url_parameter && session.dictionary.auth_options.oauth_redirect_url_parameter!=""){
@@ -63,7 +62,6 @@ router.get('/connection/callback', function(req, res){
         tokenUrl += "=";
         tokenUrl += process.env.genericOAuthRedirectUrl;
       }
-      console.log(tokenUrl);
       request({url:tokenUrl, formData: data}, function(err, response, body){
         if(err){
           console.log(err);
@@ -76,9 +74,7 @@ router.get('/connection/callback', function(req, res){
           else{
             responseData = qs.parse(body);
           }
-          console.log(responseData);
           var tokenData = getTokens(responseData);
-          console.log(tokenData);
           mongoHelper.getConnectionString(req.user._id, req.session.connectionInfo.id, function(err, connectionStrings){
             if(err){
               console.log('error getting checking connection strings after authorisation');

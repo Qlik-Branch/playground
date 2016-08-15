@@ -22,9 +22,14 @@ h2{
   font-size: 26px;
   font-weight: normal;
 }
+h3{
+  color: @orange;
+}
 
 pre, code{
-  background-color: @footer-grey !important;
+  .hljs{
+    background-color: transparent;
+  }
   .hljs-string, .hljs-literal{
     color: @orange;
   }
@@ -49,6 +54,10 @@ button{
   &.horizontal-spacer-large{
     width: 50px;
   }
+}
+
+.relative{
+  position: relative;
 }
 
 .inline-block{
@@ -151,6 +160,85 @@ a:hover{
   color: @highlight-grey;
 }
 
+.playground-primary-menu{
+  background-color: @sub-header-grey;
+  color: @white;
+  font-size: 13px;
+  font-weight: bold;
+  height: 44px;
+  li{
+    display: inline-block;
+  }
+  li a{
+    color: @white;
+    height: 100%;
+    line-height: 44px;
+    padding: 0 10px;
+    border-right: 1px solid @fog;
+    margin-right: -3px;
+    display: inline-block;
+    cursor: pointer;
+    &:hover{
+      background-color: @highlight-grey;
+      text-decoration: none;
+    }
+    &:active{
+      text-decoration: none;
+    }
+    &.active{
+      background-color: @grey;
+      border-bottom: 3px solid @orange;
+    }
+  }
+}
+
+.generic-data-detail-menu{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0 15px;
+  width: 250px;
+  background-color: @sub-header-grey;
+  ul{
+    margin: 0;
+    padding: 0;
+    margin-left: -15px;
+    list-style-type: none;
+    li{
+      height: 44px;
+      line-height: 44px;
+      width: ~"calc(100% + 15px)";
+      border-bottom: 1px solid @fog;
+      a{
+        display: block;
+        height: 44px;
+        line-height: 44px;
+        padding-left: 15px;
+        color: @white;
+        &:hover{
+          background-color: @highlight-grey;
+        }
+        &.active{
+          background-color: @grey;
+          border-right: 3px solid @orange;
+        }
+      }
+    }
+  }
+}
+.generic-data-detail-content{
+  padding: 0 15px;
+  margin-left: 250px;
+  width: ~"calc(100% - 265px)";
+  min-height: ~"calc(100% - 430px)";
+}
+
+.playground-hidden{
+  display: none;
+}
+
+
 @import "./home.less";
 @import "./coming-soon.less";
+@import "./apis.less";
 @import "./my-playground.less";

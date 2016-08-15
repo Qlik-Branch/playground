@@ -1,0 +1,43 @@
+<div class="my-playground-main">
+  <div class="my-playground-connections">
+    <div class="row title-block">
+      <div class="col-md-12">
+        <h1>My Data</h1>
+      </div>
+      <div class="col-md-6">
+        <p>
+          You have authorised the following connections. You can authorise as many connections as you would like but you can only have {{MAX_RUNNING_APPS}} active at the same time. To start, stop or see connection info simply click on the connection you would like to use.
+          <br>
+          <strong>Connections active ({{myRunningAppCount}} of {{MAX_RUNNING_APPS}})</strong>
+        </p>
+      </div>
+    </div>
+    <div class="row options-cards data-connections-container">
+      <div *ngFor="let key of myConnKeys" class="col-md-3">
+        <a [routerLink]="[key]" class="card">
+          <img src="{{myConns[key].icon}}" alt="" />
+          <div class="card-title">
+            {{myConns[key].name}}
+          </div>
+          <p class="card-text">
+            {{myConns[key].description}}
+            <span class='app-running-status' *ngIf="myConns[key].appid">Running</span>
+          </p>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a [routerLink]="['/myplayground/connect']" routerLinkActive="active" class="card grey border border-thick border-dashed">
+          <div class="card-icon">
+            <span class="lui-icon lui-icon--plus"></span>
+          </div>
+          <div class="card-title center">
+            Add new connection
+          </div>
+          <p class="card-text">
+            Authorise another connection to use
+          </p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
