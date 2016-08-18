@@ -67,8 +67,9 @@ app.ListObject = ng.core.Component({
     });
 
   },
-  toggleValue(elemNum){
+  toggleValue(elemNum, event){
     this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then((response)=>{
+      event.target.parentElement.scrollTop = 0;
       this.pubsub.publish('update');
     });
   }
