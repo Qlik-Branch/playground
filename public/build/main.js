@@ -369,9 +369,9 @@
             if(this.items[i].ownData){
               for(let c in connectionList){
                 if(this.items[i].connectionId == connectionList[c].connection){
-                  if(connectionList[this.items[i].connectionId].appid){
+                  if(connectionList[c].appid){
                     this.items[i].canUseOwnData = true;
-                    this.items[i].appid = connectionList[this.items[i].connectionId].appid;
+                    this.items[i].appid = connectionList[c].appid;
                   }
                   break;
                 }
