@@ -32,7 +32,7 @@ function authenticate(){
     Playground.authenticate(config);
   }
   else{
-    window.location.pathname = "";
+    window.location.pathname = "main.html";
   }
   // return;
 }
