@@ -9,7 +9,9 @@ var express = require('express'),
     Cookie = require('cookie'),
     cookieParser = require('cookie-parser'),
     QRS = require('../controllers/qrs'),
-    http = require('http');
+    http = require('http'),
+    request = require('request'),
+    qs = require('querystring');
 
 router.get('/sampledata', function(req, res){
   res.json(sampleData);
@@ -172,7 +174,7 @@ router.get('/authorise/:connection', function(req, res){
       consumer_secret: req.session.consumerSecret
     };
     var url = req.session.dictionary.auth_options.oauth_request_url;
-    Request.post({url:url, oauth:oauthparams}, function(err, response, body){
+    request.post({url:url, oauth:oauthparams}, function(err, response, body){
       var reqData = qs.parse(body);
       var authUrl = req.session.dictionary.auth_options.oauth_authorize_url;
       authUrl += "?" + qs.stringify({oauth_token: reqData.oauth_token});

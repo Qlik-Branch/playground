@@ -154,6 +154,94 @@
     }
   });
 
+  app.PubSub = ng.core.Injectable({
+
+  })
+  .Class({
+    constructor: [function(){
+      this.publications = {};
+    }],
+    subscribe(publication, subscriber, fn){
+      if(!this.publications[publication]){
+        this.publications[publication] = {
+          subscribers: {}
+        }
+      }
+      this.publications[publication].subscribers[subscriber] = fn;
+    },
+    publish(publication, params){
+      if(this.publications[publication]){
+        for(let s in this.publications[publication].subscribers){
+          this.publications[publication].subscribers[s].call(null, params);
+        }
+      }
+    }
+  })
+
+  app.QSocksService = ng.core.Injectable({
+
+  })
+  .Class({
+      constructor: [ng.http.Http, app.PubSub, function(http, pubsub){
+        this.http = http;
+        this.pubsub = pubsub;
+        this.currentAppId;
+        this.global;
+        this.app;
+        this.ticket;
+      }],
+      connect: function(config, callbackFn){
+        if(this.currentAppId!=config.appname){
+          if(this.currentAppId){
+            this.disconnect();
+          }
+          this.currentAppId = config.appname;
+        }
+        if(!this.global){
+          this.authenticate(config, (err, ticket)=>{
+            if(err){
+              callbackFn(err);
+            }
+            else{
+              config.ticket = ticket;
+              qsocks.ConnectOpenApp(config).then((result)=>{
+                this.global = result[0];
+                this.app = result[1];
+                callbackFn(null, this.global, this.app);
+              });
+            }
+          })
+        }
+        else{
+          config.ticket = this.ticket;
+          qsocks.ConnectOpenApp(config).then((result)=>{
+            this.global = result[0];
+            this.app = result[1];
+            callbackFn(null, this.global, this.app);
+          });
+        }
+      },
+      authenticate: function(config, callbackFn){
+        this.http.get('/api/ticket?apikey='+config.apiKey).subscribe((response)=>{
+          if(response._body!==""){
+            response = JSON.parse(response._body);
+            config.ticket = response.ticket;
+            callbackFn(null, response.ticket)
+          }
+          else{
+            console.log('error getting ticket');
+            callbackFn('error getting ticket');
+          }
+        });
+      },
+      disconnect: function(){
+        if(this.app && this.app.connection){
+          this.app.connection.close();
+        }
+      },
+
+  });
+
   //
   // //main component declarations
   app.Header = ng.core.Component({
@@ -207,7 +295,7 @@
 
   app.FooterComponent = ng.core.Component({
     selector: 'playground-footer',
-    directives: [ng.router.ROUTER_DIRECTIVES, app.FooterList],
+    directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/footer.html'
   })
   .Class({
@@ -272,25 +360,6 @@
     }
   });
 
-  // // include "./components/my-playground/sample-data-details.js"
-  app.SampleDataList = ng.core.Component({
-    selector: 'sample-data-list',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/my-playground/sample-data-list.html'
-  })
-  .Class({
-    constructor: [app.UserService, function(userService){
-      this.apps = {};
-      this.appKeys = [];    
-      userService.getUser(false, (user)=>{
-        this.apps = user.sampleData;
-        this.appKeys = Object.keys(this.apps);
-      });
-    }]
-  })
-
-  // // include "./components/my-playground/your-data-details.js"
 
   app.Apis = ng.core.Component({
     selector: 'playground-apis',
@@ -427,8 +496,23 @@
     ]
   })
 
-  // // include "./components/my-playground/data-connection-details.js"
-  // // include "./components/my-playground/data-connection-list.js"
+  app.SampleDataList = ng.core.Component({
+    selector: 'sample-data-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [],
+    templateUrl: '/views/my-playground/sample-data-list.html'
+  })
+  .Class({
+    constructor: [app.UserService, function(userService){
+      this.apps = {};
+      this.appKeys = [];    
+      userService.getUser(false, (user)=>{
+        this.apps = user.sampleData;
+        this.appKeys = Object.keys(this.apps);
+      });
+    }]
+  })
+
   app.GenericDataDetailStatus = ng.core.Component({
     selector: 'playground-my-playground-generic-data-detail-status',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -454,7 +538,7 @@
     },
     onConnectionInfo: function(info){
       if(info.appname){
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       }
       else {
         this.connectionStatus = "Stopped";
@@ -482,7 +566,7 @@
     },
     onConnectionInfo: function(info){
       if(info.appname){
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       }
       else {
         this.connectionStatus = "Stopped";
@@ -505,6 +589,66 @@
           hljs.highlightBlock(block);
         });
       }, 100);
+    }
+  })
+
+  app.GenericDataDetailFieldExplorer = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail-field-explorer',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/generic-data-detail-field-explorer.html'
+  })
+  .Class({
+    constructor: [ng.router.ActivatedRoute, ng.core.ChangeDetectorRef, app.UserService, app.DataConnectionService, app.QSocksService, function(route, cdr, userService, dataConnectionService, qsocksService){
+      this.userService = userService;
+      this.dataConnectionService = dataConnectionService;
+      this.qsocksService = qsocksService;
+      this.cdr = cdr;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
+      this.connectionId = route.parent.url.value[0].path;
+      this.loading = true;
+      this.fields = {};
+      this.fieldKeys;
+      this.selectedFields = [];
+      this.userService.getUser(false, (user)=>{
+        this.dataConnectionService.getConnectionInfo(this.connectionId, (connInfo)=>{
+            this.qsocksService.connect(connInfo, (err, global, app)=>{
+              if(err){
+                this.connectionStatus = "Error!";
+                this.connectionDetail = err;
+              }
+              if(app){
+                let fieldListDef = {
+                  qInfo:{
+                    qType: "FieldList"
+                  },
+                  qFieldListDef: {}
+                }
+                app.createSessionObject(fieldListDef).then((fieldsObject)=>{
+                  fieldsObject.getLayout().then((layout)=>{
+                    this.loading = false;
+                    layout.qFieldList.qItems.forEach((item, index)=>{
+                      this.fields[item.qName]={ selected: false};
+                    });
+                    console.log(this.fields);
+                    this.fieldKeys = Object.keys(this.fields).sort();
+                    this.cdr.detectChanges();
+                  });
+                });
+              }
+            })
+        });
+
+      });
+    }],
+    toggleField: function(field){
+      let fieldIndex = this.selectedFields.indexOf(field);
+      if(fieldIndex==-1){
+        this.selectedFields.push(field);
+      }
+      else{
+        this.selectedFields.splice(fieldIndex, 1);
+      }
     }
   })
 
@@ -558,7 +702,7 @@
           this.connection = user.myParsedConnections[connectionId];
         }
         else{
-          this.connectionStatus = "Started";
+          this.connectionStatus = "Running";
           this.connection = user.sampleData[connectionId];
         }
         this.getConnectionInfo(connectionId);
@@ -571,7 +715,7 @@
     },
     onConnectionInfo: function(info){
       if(info.appname){
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       }
       else {
         this.connectionStatus = "Stopped";
@@ -623,7 +767,6 @@
     }
   })
 
-  // // include "./components/my-playground/my-playground-your-data.js"
   app.MyPlaygroundConnect = ng.core.Component({
     selector: 'playground-my-playground-connect',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -641,7 +784,105 @@
   })
 
 
-  // //my playgorund main component
+  app.ListObject = ng.core.Component({
+    selector: 'playground-vis-listobject',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    inputs: ['field:field'],
+    templateUrl: '/views/vis/list-object.html'
+  }).Class({
+    constructor: [ng.core.ChangeDetectorRef, app.QSocksService, app.PubSub, function(cdr, qsocksService, pubsub){
+      this.cdr = cdr;
+      this.qsocksService = qsocksService;
+      this.pubsub = pubsub;
+      this.field = "";
+      this.listValues = [];
+      this.genericObject;
+    }],
+    ngOnInit(){
+      let def = {
+        qInfo:{
+          qType: "ListObject"
+        },
+        qListObjectDef:{
+          qDef: {
+            qFieldDefs:[  //the name of the field to load
+              this.field
+            ],
+            qFieldLabels:[  //the label we want to give the field
+              this.field
+            ],
+            qSortCriterias: [
+              {
+                qSortByState: 1 //we sort by state first asc
+              },
+              {
+                qSortByAscii: 1 //and then text value asc
+              }
+            ]
+          },
+          qInitialDataFetch:[ //an array of data pages we want to fetch when we first call 'getLayout()' on the list object
+            {
+                qTop: 0,
+                qLeft: 0,
+                qWidth: 1,
+                qHeight: 100
+            }
+          ]
+        }
+      }
+      this.qsocksService.app.createSessionObject(def).then((genericObject)=>{
+        this.pubsub.subscribe('update', genericObject.handle, this.getLayout.bind(this));
+        this.genericObject = genericObject;
+        this.getLayout();
+      });
+    },
+    clearAll(){
+
+    },
+    search(){
+
+    },
+    getLayout(){
+      this.listValues = [];
+      this.genericObject.getLayout().then((layout)=>{
+        let matrix = layout.qListObject.qDataPages[0].qMatrix;
+        matrix.forEach((row, index)=>{
+          this.listValues.push(row[0]);
+        });
+        this.cdr.detectChanges();
+      });
+
+    },
+    toggleValue(elemNum){
+      this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then((response)=>{
+        this.pubsub.publish('update');
+      });
+    }
+  });
+
+  // app.ListObject = (function(){
+  //   function ListObject(){
+  //
+  //   }
+  //   ListObject.prototype = Object.create(Object.prototype({
+  //     field: {
+  //       writable: true,
+  //       value: null
+  //     },
+  //
+  //   }));
+  // });
+  //
+  // app.ListObject.annotations = [
+  //   new ng.core.Component({
+  //     selector: 'playground-vis-listobject',
+  //     inputs: ['field:field'],
+  //     templateUrl: '/views/vis/list-object.html'
+  //   })
+  // ];
+
+
+  // //my playground main component
   app.MyPlayground = ng.core.Component({
     selector: 'playground-my-playground',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -667,6 +908,10 @@
     {
       path: 'templates',
       component: app.GenericDataDetailTemplates
+    },
+    {
+      path: 'explorer',
+      component: app.GenericDataDetailFieldExplorer
     }
   ];
 
@@ -813,14 +1058,18 @@
       app.GenericDataDetailStatus,
       app.GenericDataDetailGettingStarted,
       app.GenericDataDetailTemplates,
+      app.GenericDataDetailFieldExplorer,
       app.GenericDataDetail,
-      app.Showcase
+      app.Showcase,
+      app.ListObject
     ],
     providers: [
       ng.http.HTTP_PROVIDERS,
       app.ResourceCenterService,
       app.UserService,
-      app.DataConnectionService
+      app.DataConnectionService,
+      app.QSocksService,
+      app.PubSub
     ],
     bootstrap: [ app.AppComponent ]
   })

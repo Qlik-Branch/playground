@@ -9,7 +9,7 @@ module.exports = function(passport){
 
   passport.deserializeUser(function(id, done) {
     UserProfile.findOne({"_id": id}).populate('role').exec(function(err, user) {
-      mongoHelper.checkAPIKey(id, "playground", function(err, data){
+      mongoHelper.checkAPIKey(id, function(err, data){
         if(err){
           console.log('error checking api key');
           console.log(err);
@@ -21,7 +21,7 @@ module.exports = function(passport){
             done(null, user);
           }
           else{
-            mongoHelper.createAPIKey(id, "playground", function(err, key){
+            mongoHelper.createAPIKey(id, function(err, key){
               user.apiKey = key.api_key;
               done(null, user);
             });

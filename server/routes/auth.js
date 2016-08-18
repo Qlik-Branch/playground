@@ -31,7 +31,10 @@ router.get('/connection/callback', function(req, res){
           req.logout();
         }
         var tokenData = qs.parse(body);
-        res.json({token: tokenData.oauth_token, tokenSecret: tokenData.oauth_token_secret});
+        var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.oauth_token, tokenData.oauth_token_secret, session.consumerKey, session.consumerSecret);
+        saveConnectionString(req.user._id, req.session.connectionInfo.id, connectionString, function(err){
+          res.redirect('/myplayground/mydata/'+req.session.connectionInfo.id);
+        })
       });
     }
     else{
@@ -75,29 +78,10 @@ router.get('/connection/callback', function(req, res){
             responseData = qs.parse(body);
           }
           var tokenData = getTokens(responseData);
-          mongoHelper.getConnectionString(req.user._id, req.session.connectionInfo.id, function(err, connectionStrings){
-            if(err){
-              console.log('error getting checking connection strings after authorisation');
-              res.redirect('/myplayground');
-            }
-            else if (!connectionStrings || connectionStrings.length==0) {
-              console.log('token data');
-              console.log(tokenData);
-              var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
-              mongoHelper.storeConnectionString(req.user._id, req.session.connectionInfo.id, connectionString, function(err, result){
-                if(err){
-                  console.log(err);
-                  res.redirect('/myplayground');
-                }
-                else {
-                  res.redirect('/myplayground');
-                }
-              });
-            }
-            else{
-              res.redirect('/myplayground');
-            }
-          });
+          var connectionString = buildConnectionString(req.session.connectionInfo.directory, req.session.connectionInfo.endpoint, tokenData.access_token);
+          saveConnectionString(req.user._id, req.session.connectionInfo.id, connectionString, function(err){
+            res.redirect('/myplayground/mydata/'+req.session.connectionInfo.id);
+          })
 
         }
       });
@@ -126,19 +110,47 @@ function traverseProperties(input, output){
   return output;
 }
 
-function buildConnectionString(dictionary, endpoint, token, tokenSecret){
-  var conn = "CUSTOM CONNECT TO \"provider=GenericRestConnector.exe;source=local;auth-method=OAuth;username=admin;";
-  conn += "dictionary="+dictionary;
+function buildConnectionString(dictionary, endpoint, token, tokenSecret, consumerKey, consumerSecret){
+  var conn = "CUSTOM CONNECT TO \"provider=GenericRestConnector.exe;source=local;auth-method=OAuth";
+  conn += ";dictionary="+dictionary;
   conn += ";url="+endpoint;
   if(tokenSecret){
     conn += ";password="+tokenSecret;
     conn += ";token="+token;
+    if(consumerKey){
+      conn += ";username="+consumerKey;
+      conn += ";consumer_secret="+consumerSecret;
+    }
   }
   else{
+    conn += ";username="+admin;
     conn += ";password="+token;
   }
   conn += "\"";
   return conn;
+}
+
+function saveConnectionString(userId, connectionId, connectionString, callbackFn){
+  console.log('saving connection string');
+  console.log(connectionId);
+  console.log(userId);
+  mongoHelper.getConnectionString(userId, connectionId, function(err, connectionStrings){
+    console.log('checking for connection strings');
+    console.log(connectionStrings);
+    if(err){
+      console.log('error checking connection strings after authorisation');
+      res.redirect('/myplayground');
+    }
+    else{
+        var connectionStringId;
+        if(connectionStrings && connectionStrings.length>0){
+          connectionStringId = connectionStrings[0].id;
+        }
+        mongoHelper.saveConnectionString(connectionStringId, userId, connectionId, connectionString, function(err, result){
+          callbackFn(err);
+        });
+    }
+  });
 }
 
 module.exports = router;

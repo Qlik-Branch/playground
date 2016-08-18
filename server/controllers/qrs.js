@@ -29,13 +29,16 @@ module.exports = {
   getTicket: function(req, callbackFn){
     var that = this;
     var query = req.query;
-    mongoHelper.getUserFromAPIKey(query.apikey, "playground", function(err, keys){
+    mongoHelper.getUserFromAPIKey(query.apikey, function(err, keys){
+      console.log('checked user');
       if(err){
         console.log('error fetching user from api key');
         console.log(err);
         callbackFn({err: err});
       }
       else{
+        console.log('keys are');
+        console.log(keys);
         if(keys && keys.length > 0){
           var data = {
             UserDirectory: "Playground",
@@ -50,18 +53,7 @@ module.exports = {
               console.log(ticketResponse);
               var ticket = JSON.parse(ticketResponse);
               if(ticket.Ticket){
-                // that.fakeHub(ticket.Ticket, function(err, hubResponse){
-                //   if(err){
-                //     callbackFn(err);
-                //   }
-                //   else{
-                //     var cookies;
-                //     if(hubResponse){
-                //       cookies = hubResponse.headers['set-cookie'];
-                //     }
-                    callbackFn(null, {cookies: null, ticket: ticket.Ticket});
-                //   }
-                // })
+                callbackFn(null, {cookies: null, ticket: ticket.Ticket});
               }
               else {
                 callbackFn(null);
@@ -70,7 +62,9 @@ module.exports = {
           });
         }
         else{
-          callbackFn({err: "API Key not valid"});
+          console.log('keys are');
+          console.log(keys);
+          callbackFn("API Key not valid");
         }
       }
     });

@@ -19,7 +19,7 @@ app.GenericDataDetail = ng.core.Component({
         this.connection = user.myParsedConnections[connectionId];
       }
       else{
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
         this.connection = user.sampleData[connectionId];
       }
       this.getConnectionInfo(connectionId);
@@ -32,7 +32,7 @@ app.GenericDataDetail = ng.core.Component({
   },
   onConnectionInfo: function(info){
     if(info.appname){
-      this.connectionStatus = "Started";
+      this.connectionStatus = "Running";
     }
     else {
       this.connectionStatus = "Stopped";

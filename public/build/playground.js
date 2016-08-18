@@ -142,6 +142,87 @@
     }
   });
 
+  app.PubSub = ng.core.Injectable({}).Class({
+    constructor: [function () {
+      this.publications = {};
+    }],
+    subscribe: function subscribe(publication, subscriber, fn) {
+      if (!this.publications[publication]) {
+        this.publications[publication] = {
+          subscribers: {}
+        };
+      }
+      this.publications[publication].subscribers[subscriber] = fn;
+    },
+    publish: function publish(publication, params) {
+      if (this.publications[publication]) {
+        for (var s in this.publications[publication].subscribers) {
+          this.publications[publication].subscribers[s].call(null, params);
+        }
+      }
+    }
+  });
+
+  app.QSocksService = ng.core.Injectable({}).Class({
+    constructor: [ng.http.Http, app.PubSub, function (http, pubsub) {
+      this.http = http;
+      this.pubsub = pubsub;
+      this.currentAppId;
+      this.global;
+      this.app;
+      this.ticket;
+    }],
+    connect: function connect(config, callbackFn) {
+      var _this4 = this;
+
+      if (this.currentAppId != config.appname) {
+        if (this.currentAppId) {
+          this.disconnect();
+        }
+        this.currentAppId = config.appname;
+      }
+      if (!this.global) {
+        this.authenticate(config, function (err, ticket) {
+          if (err) {
+            callbackFn(err);
+          } else {
+            config.ticket = ticket;
+            qsocks.ConnectOpenApp(config).then(function (result) {
+              _this4.global = result[0];
+              _this4.app = result[1];
+              callbackFn(null, _this4.global, _this4.app);
+            });
+          }
+        });
+      } else {
+        config.ticket = this.ticket;
+        qsocks.ConnectOpenApp(config).then(function (result) {
+          _this4.global = result[0];
+          _this4.app = result[1];
+          callbackFn(null, _this4.global, _this4.app);
+        });
+      }
+    },
+    authenticate: function authenticate(config, callbackFn) {
+      this.http.get('/api/ticket?apikey=' + config.apiKey).subscribe(function (response) {
+        if (response._body !== "") {
+          response = JSON.parse(response._body);
+          config.ticket = response.ticket;
+          callbackFn(null, response.ticket);
+        } else {
+          console.log('error getting ticket');
+          callbackFn('error getting ticket');
+        }
+      });
+    },
+    disconnect: function disconnect() {
+      if (this.app && this.app.connection) {
+        this.app.connection.close();
+      }
+    }
+
+  });
+
   //
   // //main component declarations
   app.Header = ng.core.Component({
@@ -150,7 +231,7 @@
     templateUrl: '/views/header.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.dialog;
       this.user;
@@ -158,9 +239,9 @@
       this.returnUrl;
       if (!userService.user) {
         userService.getUser(false, function (user) {
-          _this4.user = user.user;
-          _this4.loginUrl = user.loginUrl;
-          _this4.returnUrl = user.returnUrl;
+          _this5.user = user.user;
+          _this5.loginUrl = user.loginUrl;
+          _this5.returnUrl = user.returnUrl;
         });
       }
     }]
@@ -192,7 +273,7 @@
 
   app.FooterComponent = ng.core.Component({
     selector: 'playground-footer',
-    directives: [ng.router.ROUTER_DIRECTIVES, app.FooterList],
+    directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/footer.html'
   }).Class({
     constructor: function constructor() {
@@ -245,27 +326,6 @@
       console.log('constructor');
     }
   });
-
-  // // include "./components/my-playground/sample-data-details.js"
-  app.SampleDataList = ng.core.Component({
-    selector: 'sample-data-list',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/my-playground/sample-data-list.html'
-  }).Class({
-    constructor: [app.UserService, function (userService) {
-      var _this5 = this;
-
-      this.apps = {};
-      this.appKeys = [];
-      userService.getUser(false, function (user) {
-        _this5.apps = user.sampleData;
-        _this5.appKeys = Object.keys(_this5.apps);
-      });
-    }]
-  });
-
-  // // include "./components/my-playground/your-data-details.js"
 
   app.Apis = ng.core.Component({
     selector: 'playground-apis',
@@ -399,15 +459,31 @@
     }]
   });
 
-  // // include "./components/my-playground/data-connection-details.js"
-  // // include "./components/my-playground/data-connection-list.js"
+  app.SampleDataList = ng.core.Component({
+    selector: 'sample-data-list',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    viewProviders: [],
+    templateUrl: '/views/my-playground/sample-data-list.html'
+  }).Class({
+    constructor: [app.UserService, function (userService) {
+      var _this9 = this;
+
+      this.apps = {};
+      this.appKeys = [];
+      userService.getUser(false, function (user) {
+        _this9.apps = user.sampleData;
+        _this9.appKeys = Object.keys(_this9.apps);
+      });
+    }]
+  });
+
   app.GenericDataDetailStatus = ng.core.Component({
     selector: 'playground-my-playground-generic-data-detail-status',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/generic-data-detail-status.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this9 = this;
+      var _this10 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -416,20 +492,20 @@
       this.connectionStatus = 'Checking Status...';
       this.connectionStatusDetail = "";
       userService.getUser(false, function (user) {
-        _this9.myRunningAppCount = user.runningAppCount;
-        _this9.getConnectionInfo(_this9.connectionId);
+        _this10.myRunningAppCount = user.runningAppCount;
+        _this10.getConnectionInfo(_this10.connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this10 = this;
+      var _this11 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this10.onConnectionInfo(connInfo);
+        _this11.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
       if (info.appname) {
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       } else {
         this.connectionStatus = "Stopped";
         this.connectionStatusDetail = "Please start the application to see more options.";
@@ -449,15 +525,15 @@
       this.getConnectionInfo(connectionId);
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this11 = this;
+      var _this12 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this11.onConnectionInfo(connInfo);
+        _this12.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
       if (info.appname) {
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       } else {
         this.connectionStatus = "Stopped";
       }
@@ -480,13 +556,72 @@
     }
   });
 
+  app.GenericDataDetailFieldExplorer = ng.core.Component({
+    selector: 'playground-my-playground-generic-data-detail-field-explorer',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    templateUrl: '/views/my-playground/generic-data-detail-field-explorer.html'
+  }).Class({
+    constructor: [ng.router.ActivatedRoute, ng.core.ChangeDetectorRef, app.UserService, app.DataConnectionService, app.QSocksService, function (route, cdr, userService, dataConnectionService, qsocksService) {
+      var _this13 = this;
+
+      this.userService = userService;
+      this.dataConnectionService = dataConnectionService;
+      this.qsocksService = qsocksService;
+      this.cdr = cdr;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
+      this.connectionId = route.parent.url.value[0].path;
+      this.loading = true;
+      this.fields = {};
+      this.fieldKeys;
+      this.selectedFields = [];
+      this.userService.getUser(false, function (user) {
+        _this13.dataConnectionService.getConnectionInfo(_this13.connectionId, function (connInfo) {
+          _this13.qsocksService.connect(connInfo, function (err, global, app) {
+            if (err) {
+              _this13.connectionStatus = "Error!";
+              _this13.connectionDetail = err;
+            }
+            if (app) {
+              var fieldListDef = {
+                qInfo: {
+                  qType: "FieldList"
+                },
+                qFieldListDef: {}
+              };
+              app.createSessionObject(fieldListDef).then(function (fieldsObject) {
+                fieldsObject.getLayout().then(function (layout) {
+                  _this13.loading = false;
+                  layout.qFieldList.qItems.forEach(function (item, index) {
+                    _this13.fields[item.qName] = { selected: false };
+                  });
+                  console.log(_this13.fields);
+                  _this13.fieldKeys = Object.keys(_this13.fields).sort();
+                  _this13.cdr.detectChanges();
+                });
+              });
+            }
+          });
+        });
+      });
+    }],
+    toggleField: function toggleField(field) {
+      var fieldIndex = this.selectedFields.indexOf(field);
+      if (fieldIndex == -1) {
+        this.selectedFields.push(field);
+      } else {
+        this.selectedFields.splice(fieldIndex, 1);
+      }
+    }
+  });
+
   app.GenericDataDetailTemplates = ng.core.Component({
     selector: 'playground-my-playground-generic-data-detail-templates',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/generic-data-detail-templates.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
-      var _this12 = this;
+      var _this14 = this;
 
       var connectionId = route.parent.url.value[0].path;
       this.connection = {};
@@ -494,12 +629,12 @@
       this.isMyData = false;
       userService.getUser(false, function (user) {
         if (user.myParsedConnections[connectionId]) {
-          _this12.isMyData = true;
-          _this12.connection = user.myParsedConnections[connectionId];
+          _this14.isMyData = true;
+          _this14.connection = user.myParsedConnections[connectionId];
         } else {
-          _this12.connection = user.sampleData[connectionId];
+          _this14.connection = user.sampleData[connectionId];
         }
-        _this12.sampleProjects = user.sampleProjects;
+        _this14.sampleProjects = user.sampleProjects;
       });
     }],
     copyToClipboard: function copyToClipboard(index) {
@@ -515,7 +650,7 @@
     templateUrl: '/views/my-playground/generic-data-detail.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this13 = this;
+      var _this15 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -525,57 +660,57 @@
       this.connection = {};
       this.isMyData = false;
       userService.getUser(false, function (user) {
-        _this13.myRunningAppCount = user.runningAppCount;
+        _this15.myRunningAppCount = user.runningAppCount;
         if (user.myParsedConnections[connectionId]) {
-          _this13.isMyData = true;
-          _this13.connection = user.myParsedConnections[connectionId];
+          _this15.isMyData = true;
+          _this15.connection = user.myParsedConnections[connectionId];
         } else {
-          _this13.connectionStatus = "Started";
-          _this13.connection = user.sampleData[connectionId];
+          _this15.connectionStatus = "Running";
+          _this15.connection = user.sampleData[connectionId];
         }
-        _this13.getConnectionInfo(connectionId);
+        _this15.getConnectionInfo(connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this14 = this;
+      var _this16 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this14.onConnectionInfo(connInfo);
+        _this16.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
       if (info.appname) {
-        this.connectionStatus = "Started";
+        this.connectionStatus = "Running";
       } else {
         this.connectionStatus = "Stopped";
         this.connectionStatusDetail = "";
       }
     },
     startApp: function startApp(connectionId) {
-      var _this15 = this;
+      var _this17 = this;
 
       this.connectionStatus = "Starting";
       this.connectionStatusDetail = "Starting application.";
       this.dataConnectionService.startApp(connectionId, function (connInfo) {
-        _this15.getConnectionInfo(connectionId);
+        _this17.getConnectionInfo(connectionId);
       });
     },
     stopApp: function stopApp(connectionId) {
-      var _this16 = this;
+      var _this18 = this;
 
       this.connectionStatus = "Stopping";
       this.connectionStatusDetail = "Stopping application.";
       this.dataConnectionService.stopApp(connectionId, function (connInfo) {
-        _this16.getConnectionInfo(connectionId);
+        _this18.getConnectionInfo(connectionId);
       });
     },
     reloadApp: function reloadApp(connectionId) {
-      var _this17 = this;
+      var _this19 = this;
 
       this.connectionStatus = "Reloading";
       this.connectionStatusDetail = "Reloading application.";
       this.dataConnectionService.reloadApp(connectionId, function (connInfo) {
-        _this17.getConnectionInfo(connectionId);
+        _this19.getConnectionInfo(connectionId);
       });
     }
   });
@@ -596,25 +731,117 @@
     constructor: function constructor() {}
   });
 
-  // // include "./components/my-playground/my-playground-your-data.js"
   app.MyPlaygroundConnect = ng.core.Component({
     selector: 'playground-my-playground-connect',
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground-connect.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this18 = this;
+      var _this20 = this;
 
       this.conns;
       this.connKeys;
       userService.getUser(false, function (user) {
-        _this18.conns = user.dataConnections;
-        _this18.connKeys = Object.keys(_this18.conns);
+        _this20.conns = user.dataConnections;
+        _this20.connKeys = Object.keys(_this20.conns);
       });
     }]
   });
 
-  // //my playgorund main component
+  app.ListObject = ng.core.Component({
+    selector: 'playground-vis-listobject',
+    directives: [ng.router.ROUTER_DIRECTIVES],
+    inputs: ['field:field'],
+    templateUrl: '/views/vis/list-object.html'
+  }).Class({
+    constructor: [ng.core.ChangeDetectorRef, app.QSocksService, app.PubSub, function (cdr, qsocksService, pubsub) {
+      this.cdr = cdr;
+      this.qsocksService = qsocksService;
+      this.pubsub = pubsub;
+      this.field = "";
+      this.listValues = [];
+      this.genericObject;
+    }],
+    ngOnInit: function ngOnInit() {
+      var _this21 = this;
+
+      var def = {
+        qInfo: {
+          qType: "ListObject"
+        },
+        qListObjectDef: {
+          qDef: {
+            qFieldDefs: [//the name of the field to load
+            this.field],
+            qFieldLabels: [//the label we want to give the field
+            this.field],
+            qSortCriterias: [{
+              qSortByState: 1 //we sort by state first asc
+            }, {
+              qSortByAscii: 1 //and then text value asc
+            }]
+          },
+          qInitialDataFetch: [//an array of data pages we want to fetch when we first call 'getLayout()' on the list object
+          {
+            qTop: 0,
+            qLeft: 0,
+            qWidth: 1,
+            qHeight: 100
+          }]
+        }
+      };
+      this.qsocksService.app.createSessionObject(def).then(function (genericObject) {
+        _this21.pubsub.subscribe('update', genericObject.handle, _this21.getLayout.bind(_this21));
+        _this21.genericObject = genericObject;
+        _this21.getLayout();
+      });
+    },
+    clearAll: function clearAll() {},
+    search: function search() {},
+    getLayout: function getLayout() {
+      var _this22 = this;
+
+      this.listValues = [];
+      this.genericObject.getLayout().then(function (layout) {
+        var matrix = layout.qListObject.qDataPages[0].qMatrix;
+        matrix.forEach(function (row, index) {
+          _this22.listValues.push(row[0]);
+        });
+        _this22.cdr.detectChanges();
+      });
+    },
+    toggleValue: function toggleValue(elemNum) {
+      var _this23 = this;
+
+      this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
+        _this23.pubsub.publish('update');
+      });
+    }
+  });
+
+  // app.ListObject = (function(){
+  //   function ListObject(){
+  //
+  //   }
+  //   ListObject.prototype = Object.create(Object.prototype({
+  //     field: {
+  //       writable: true,
+  //       value: null
+  //     },
+  //
+  //   }));
+  // });
+  //
+  // app.ListObject.annotations = [
+  //   new ng.core.Component({
+  //     selector: 'playground-vis-listobject',
+  //     inputs: ['field:field'],
+  //     templateUrl: '/views/vis/list-object.html'
+  //   })
+  // ];
+
+
+  // //my playground main component
   app.MyPlayground = ng.core.Component({
     selector: 'playground-my-playground',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -635,6 +862,9 @@
   }, {
     path: 'templates',
     component: app.GenericDataDetailTemplates
+  }, {
+    path: 'explorer',
+    component: app.GenericDataDetailFieldExplorer
   }];
 
   var mainRoutes = [{
@@ -728,8 +958,8 @@
 
   app.AppModule = ng.core.NgModule({
     imports: [ng.platformBrowser.BrowserModule, app.MainRoutingProvider],
-    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Apis, app.Engine, app.Capability, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailStatus, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetail, app.Showcase],
-    providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService],
+    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Apis, app.Engine, app.Capability, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailStatus, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject],
+    providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService, app.QSocksService, app.PubSub],
     bootstrap: [app.AppComponent]
   }).Class({
     constructor: function constructor() {}
