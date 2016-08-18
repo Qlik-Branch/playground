@@ -338,9 +338,9 @@
             if (_this6.items[i].ownData) {
               for (var c in connectionList) {
                 if (_this6.items[i].connectionId == connectionList[c].connection) {
-                  if (connectionList[_this6.items[i].connectionId].appid) {
+                  if (connectionList[c].appid) {
                     _this6.items[i].canUseOwnData = true;
-                    _this6.items[i].appid = connectionList[_this6.items[i].connectionId].appid;
+                    _this6.items[i].appid = connectionList[c].appid;
                   }
                   break;
                 }
