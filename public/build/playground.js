@@ -327,7 +327,9 @@
       this.itemKeys;
       this.apiKey;
       this.userService.getUser(false, function (user) {
-        _this6.apiKey = user.user.apiKey;
+        if (user && user.user) {
+          _this6.apiKey = user.user.apiKey;
+        }
       });
       this.dataConnectionService.getShowcaseItems(function (items) {
         _this6.items = items;

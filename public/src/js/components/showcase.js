@@ -10,7 +10,9 @@ app.Showcase = ng.core.Component({
     this.itemKeys;
     this.apiKey;
     this.userService.getUser(false, user=>{
-      this.apiKey = user.user.apiKey;
+      if(user && user.user){
+        this.apiKey = user.user.apiKey;  
+      }
     });
     this.dataConnectionService.getShowcaseItems(items=>{
       this.items = items;
