@@ -1,7 +1,7 @@
 <div class='playground-listobject-container'>
   <div class='title'>{{field}}</div>
   <ul class="plainlist" data-field='field'>
-    <li *ngFor="let value of listValues" [attr.data-state]="value.qState" (click)="toggleValue(value.qElemNumber)">
+    <li *ngFor="let value of listValues" [attr.data-state]="value.qState" (click)="toggleValue(value.qElemNumber, $event)">
       {{value.qText}}
     </li>
   </ul>

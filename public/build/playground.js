@@ -810,10 +810,11 @@
         _this22.cdr.detectChanges();
       });
     },
-    toggleValue: function toggleValue(elemNum) {
+    toggleValue: function toggleValue(elemNum, event) {
       var _this23 = this;
 
       this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
+        event.target.parentElement.scrollTop = 0;
         _this23.pubsub.publish('update');
       });
     }
