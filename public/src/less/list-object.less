@@ -1,0 +1,38 @@
+.playground-listobject-container{
+  border: 1px solid @grey;
+  margin: 5px 0px;
+  border-radius: 4px;
+  height: 400px;
+  .title{
+    padding: 5px 15px;
+    color: @body-grey;
+    font-weight: bold;
+  }
+  ul{
+    overflow-y: auto;
+    height: calc(100% - 30px);
+    li{
+      height: 30px;
+      line-height: 20px;
+      padding: 5px 15px;
+      border-bottom: 1px solid @light-grey;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      &:last-of-type{
+        border-bottom: none;
+      }
+      &[data-state='S']{
+        background-color: @green-lighten-15;
+        color: #404040;
+      }
+
+      &[data-state='X']{
+        background-color: @greyscale-55;
+        color: #FFFFFF;
+      }
+    }
+  }
+}

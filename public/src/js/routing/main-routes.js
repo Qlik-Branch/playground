@@ -11,6 +11,10 @@ let genericDataDetailRoutes = [
   {
     path: 'templates',
     component: app.GenericDataDetailTemplates
+  },
+  {
+    path: 'explorer',
+    component: app.GenericDataDetailFieldExplorer
   }
 ];
 

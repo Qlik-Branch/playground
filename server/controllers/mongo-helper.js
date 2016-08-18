@@ -1,38 +1,44 @@
 var APIKey = require('../models/apikey');
 var ConnectionString = require('../models/connection-string');
 module.exports = {
-  checkAPIKey: function(userid, keyType, callbackFn){
-    APIKey.find({userid: userid, keyType: keyType}, function(err, keys){
+  checkAPIKey: function(userid, callbackFn){
+    APIKey.find({userid: userid}, function(err, keys){
       callbackFn(err, keys);
     })
   },
-  createAPIKey: function(userid, keyType, callbackFn){
-    var key = new APIKey({userid: userid, keyType: keyType});
+  createAPIKey: function(userid, callbackFn){
+    var key = new APIKey({userid: userid});
     key.save(function(err){
       callbackFn(err, key);
     })
   },
-  getUserFromAPIKey: function(apiKey, keyType, callbackFn){
-    APIKey.find({api_key: apiKey, keyType: keyType}).populate('userid').exec(function(err, keys){
+  getUserFromAPIKey: function(apiKey, callbackFn){
+    APIKey.find({api_key: apiKey}).populate('userid').exec(function(err, keys){
       callbackFn(err, keys);
     });
   },
   getConnectionString: function(userid, connectionName, callbackFn){
     ConnectionString.find({userid: userid, connection: connectionName}, function(err, connString){
-      console.log('connections found for '+userid+' and app '+connectionName);
-      console.log(connString);
       callbackFn(err, connString[0]);
     })
   },
-  storeConnectionString: function(userid, connectionName, connectionString, callbackFn){
-    var connString = new ConnectionString({
+  saveConnectionString: function(connectionStringId, userid, connectionName, connectionString, callbackFn){
+    var connString = {
       userid: userid,
       connection: connectionName,
       connectionString: connectionString
-    });
-    connString.save(function(err){
-      callbackFn(err, connString);
-    })
+    };
+    if(connectionStringId){
+      ConnectionString.update(connectionStringId, connString, {upsert: true},  function(err){
+        callbackFn(err);
+      })
+    }
+    else{
+      var conn = new ConnectionString(connString);
+      conn.save(function(err){
+        callbackFn(err);
+      });
+    }
   },
   updateConnectionString: function(userid, connectionName, data, returnUpdatedDocument, callbackFn){
     ConnectionString.findOneAndUpdate({userid: userid, connection: connectionName}, data, {returnNewDocument: returnUpdatedDocument}, function(err, connectionString){

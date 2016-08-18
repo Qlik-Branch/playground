@@ -4,12 +4,12 @@
     <h2 class="default-text">Actions</h2>
     <div class="">
       <button *ngIf="connectionStatus=='Stopped' && myRunningAppCount<MAX_RUNNING_APPS" class="lui-button lui-button--warning" (click)="startApp(connectionId)">Start</button>
-      <button *ngIf="connectionStatus=='Started'" class="lui-button lui-button--warning" (click)="stopApp(connectionId)">Stop</button>
-      <button *ngIf="connectionStatus=='Started'" class="lui-button lui-button--warning" (click)="reloadApp(connectionId)">Reload</button>
+      <button *ngIf="connectionStatus=='Running'" class="lui-button lui-button--warning" (click)="stopApp(connectionId)">Stop</button>
+      <button *ngIf="connectionStatus=='Running'" class="lui-button lui-button--warning" (click)="reloadApp(connectionId)">Reload</button>
     </div>
   </div>
 </div>
-<div class="row page-detail" *ngIf="connectionStatus!=='Started'">
+<div class="row page-detail" *ngIf="connectionStatus!=='Running'">
   <div class="col-md-12">
     <div class='playground-notifier-inner-container grey'>
       <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>

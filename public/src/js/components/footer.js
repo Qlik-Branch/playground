@@ -1,6 +1,6 @@
 app.FooterComponent = ng.core.Component({
   selector: 'playground-footer',
-  directives: [ng.router.ROUTER_DIRECTIVES, app.FooterList],
+  directives: [ng.router.ROUTER_DIRECTIVES],
   templateUrl: '/views/footer.html'
 })
 .Class({

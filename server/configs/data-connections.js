@@ -18,7 +18,7 @@ module.exports = {
     name: "Untappd",
     directory: "untappd-checkins-master",
     endpoint: "https://api.untappd.com",
-    description: "All your GitHub repos, issues and stars.",
+    description: "All your Beers, Badges and Toasts.",
     dictionary: "/dictionaries/untappd/dictionary.json",
     icon: "/dictionaries/untappd/icon.png",
     loadscript: `
@@ -108,6 +108,162 @@ module.exports = {
     projects: [
       "basic-engine-template",
       "untappd-capability-dashboard"
+    ]
+  },
+  twitter:{
+    id: "twitter",
+    name: "Twitter",
+    directory: "twitter-dictionary-master",
+    endpoint: "https://api.twitter.com",
+    description: "Your last 1000 tweets. If you have that many of course.",
+    dictionary: "/dictionaries/twitter/dictionary.json",
+    icon: "/dictionaries/twitter/icon.png",
+    loadscript: `
+      Let vCount = 20;
+      MonthMap:
+      Mapping Load * Inline [Month, Num
+      Jan, 1
+      Feb, 2
+      Mar, 3
+      Apr, 4
+      May, 5
+      Jun, 6
+      Jul, 7
+      Aug, 8
+      Sep, 9
+      Oct, 10
+      Nov, 11
+      Dec, 12
+      ];
+
+      TweetsTemp:
+      Load *, 'tweet' as tweetstemp;
+      SQL SELECT *
+      FROM UserTimeline
+      WHERE ?count=$(vCount)
+      Cache;
+
+      Let vMinId = Peek('TweetId', -1, 'TweetsTemp');
+
+      TweetsTemp2:
+      Load *, 'dummy' as dummy;
+      Select *
+      FROM UserTimeline
+      WHERE ?count=$(vCount)&max_id=$(vMinId)
+      Cache;
+
+      Concatenate (TweetsTemp)
+      Load *
+      Resident TweetsTemp2
+      Where TweetId <> $(vMinId);
+
+      Drop Table TweetsTemp2;
+
+      Let vMinId = Peek('TweetId', -1, 'TweetsTemp');
+
+      TweetsTemp3:
+      Load *, 'dummy' as dummy;
+      Select *
+      FROM UserTimeline
+      WHERE ?count=$(vCount)&max_id=$(vMinId)
+      Cache;
+
+      Concatenate (TweetsTemp)
+      Load *
+      Resident TweetsTemp3
+      Where TweetId <> $(vMinId);
+
+      Drop Table TweetsTemp3;
+
+      Let vMinId = Peek('TweetId', -1, 'TweetsTemp');
+
+      TweetsTemp4:
+      Load *, 'dummy' as dummy;
+      Select *
+      FROM UserTimeline
+      WHERE ?count=$(vCount)&max_id=$(vMinId)
+      Cache;
+
+      Concatenate (TweetsTemp)
+      Load *
+      Resident TweetsTemp4
+      Where TweetId <> $(vMinId);
+
+      Drop Table TweetsTemp4;
+
+      Let vMinId = Peek('TweetId', -1, 'TweetsTemp');
+
+      TweetsTemp5:
+      Load *, 'dummy' as dummy;
+      Select *
+      FROM UserTimeline
+      WHERE ?count=$(vCount)&max_id=$(vMinId)
+      Cache;
+
+      Concatenate (TweetsTemp)
+      Load *
+      Resident TweetsTemp5
+      Where TweetId <> $(vMinId);
+
+      Drop Table TweetsTemp5;
+
+      Let vMinId = Peek('TweetId', -1, 'TweetsTemp');
+
+      TweetsTemp6:
+      Load *, 'dummy' as dummy;
+      Select *
+      FROM UserTimeline
+      WHERE ?count=5&max_id=$(vMinId)
+      Cache;
+
+      Concatenate (TweetsTemp)
+      Load *
+      Resident TweetsTemp6
+      Where TweetId <> $(vMinId);
+
+      Drop Table TweetsTemp6;
+
+      Tweets:
+      Load *,
+      Date(Num(TweetDate) + Num(TweetTime)) as [Tweet DateTime],
+      Year(TweetDate) as [Tweet Year],
+      Month(TweetDate) as [Tweet Month],
+      Year(TweetDate) & '-' & Month(TweetDate) as [Tweet MonthYear],
+      Date(Num(JoinDate) + Num(JoinTime)) as [Join DateTime],
+      Year(JoinDate) as [Join Year],
+      Month(JoinDate) as [Join Month],
+      Year(JoinDate) & '-' & Month(JoinDate) as [Join MonthYear];
+      Load *,
+      MakeDate(Subfield([Tweet Date], ' ', 6), ApplyMap('MonthMap', Subfield([Tweet Date], ' ', 2)), Subfield([Tweet Date], ' ', 3)) as TweetDate,
+      MakeTime(Subfield(Subfield([Tweet Date], ' ', 4), ':', 1), Subfield(Subfield([Tweet Date], ' ', 4), ':', 2), Subfield(Subfield([Tweet Date], ' ', 4), ':', 3)) as TweetTime,
+      MakeDate(Subfield([Join Date], ' ', 6), ApplyMap('MonthMap', Subfield([Join Date], ' ', 2)), Subfield([Join Date], ' ', 3)) as JoinDate,
+      MakeTime(Subfield(Subfield([Join Date], ' ', 4), ':', 1), Subfield(Subfield([Join Date], ' ', 4), ':', 2), Subfield(Subfield([Join Date], ' ', 4), ':', 3)) as JoinTime;
+      Load *
+      Resident TweetsTemp;
+
+      Drop Table TweetsTemp;
+      Drop Field dummy;
+      Drop Field tweetstemp;
+
+      Tag FIELDS Followers, Following, [Listed Count], Favourites, Retweeted, Favourited WITH $measure;
+
+      Hashtags:
+      LOAD *, 'hashtag' as hashtagtemp;
+      SQL SELECT *
+      FROM UserTimeline_Hashtags;
+
+      Mentions:
+      LOAD *, 'mention' as mentiontemp;
+      SQL SELECT *
+      FROM UserTimeline_UserMentions;
+
+      Urls:
+      LOAD *, 'urls' as urlstemp;
+      SQL SELECT *
+      FROM UserTimeline_Urls;
+    `,
+    projects: [
+      "basic-engine-template"
     ]
   }
 }

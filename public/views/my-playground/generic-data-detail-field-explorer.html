@@ -1,0 +1,26 @@
+<div class="row body-grey">
+  <div class="field-explorer-fields" [ngClass]="{'playground-hidden':loading===true}">
+    <ul class="plainlist field-explorer-list">
+      <li *ngFor="let key of fieldKeys">
+        {{key}}
+        <input class="form-control" type="checkbox" (click)="toggleField(key)"/>
+      </li>
+    </ul>
+    <div class="row">
+      <div class="col-md-3" *ngFor="let field of selectedFields">
+        <playground-vis-listobject [field]="field"></playground-vis-listobject>
+      </div>
+    </div>
+  </div>
+  <div class="playground-notifier-container" [ngClass]="{'playground-hidden':loading===false}">
+    <div class='playground-notifier-inner-container grey'>
+      <div class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div class='notifier-title'>{{connectionStatus}}</div>
+          <div class='notifier-message'>{{connectionDetail}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

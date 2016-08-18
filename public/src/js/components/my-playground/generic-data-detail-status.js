@@ -23,7 +23,7 @@ app.GenericDataDetailStatus = ng.core.Component({
   },
   onConnectionInfo: function(info){
     if(info.appname){
-      this.connectionStatus = "Started";
+      this.connectionStatus = "Running";
     }
     else {
       this.connectionStatus = "Stopped";

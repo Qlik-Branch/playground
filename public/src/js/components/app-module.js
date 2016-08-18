@@ -21,14 +21,18 @@ app.AppModule = ng.core.NgModule({
     app.GenericDataDetailStatus,
     app.GenericDataDetailGettingStarted,
     app.GenericDataDetailTemplates,
+    app.GenericDataDetailFieldExplorer,
     app.GenericDataDetail,
-    app.Showcase
+    app.Showcase,
+    app.ListObject
   ],
   providers: [
     ng.http.HTTP_PROVIDERS,
     app.ResourceCenterService,
     app.UserService,
-    app.DataConnectionService
+    app.DataConnectionService,
+    app.QSocksService,
+    app.PubSub
   ],
   bootstrap: [ app.AppComponent ]
 })
