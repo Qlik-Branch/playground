@@ -6,6 +6,7 @@ ng.core.Injectable({
   constructor: [ng.http.Http, function(http){
     this.http = http;
     this.data;
+    this.showcaseItems;
   }],
   getDataConnections: function(force, callbackFn){
     if(!this.data || force===true){
@@ -34,20 +35,15 @@ ng.core.Injectable({
       }
     });
   },
-  getConnectionDictionary: function(index, callbackFn){
-    if(this.dataConnections){
-      var dictionaryUrl = this.dataConnections[index].dictionary;
-      this.http.get(dictionaryUrl).subscribe(response => {
-        callbackFn(JSON.parse(response._body));
+  getShowcaseItems: function(callbackFn){
+    if(!this.showcaseItems){
+      this.http.get("/server/showcaseitems").subscribe(response=>{
+        this.showcaseitems = JSON.parse(response._body)
+        callbackFn(this.showcaseitems);
       });
     }
-    else{
-      this.getDataConnections((response)=>{
-        var dictionaryUrl = this.dataConnections[index].dictionary;
-        this.http.get(dictionaryUrl).subscribe(response => {
-          callbackFn(JSON.parse(response._body));
-        });
-      });
+    else {
+      callbackFn(this.showcaseItems);
     }
   },
   authoriseConnection: function(connectionId, callbackFn){

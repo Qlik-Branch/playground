@@ -1,3 +1,28 @@
 <div class="content">
-  <h1>Showcase</h1>
+  <div class="row title-block">
+    <div class="col-md-12">
+      <h1>Showcase</h1>
+    </div>
+    <div class="col-md-6">
+      <p>
+        Here is a brief description about the showcase section on playground
+      </p>
+    </div>
+  </div>
+  <div class="row options-cards data-connections-container">
+    <div *ngFor="let key of itemKeys" class="col-md-3">
+      <div class="card">
+        <img src="{{items[key].icon}}" alt="" />
+        <div class="card-title">
+          {{items[key].name}}
+        </div>
+        <p class="card-text">
+          {{items[key].description}}
+        </p>
+        <a href="{{items[key].url}}" class="lui-button lui-button--warning" type="button" name="button">View</a>
+        <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" class="lui-button lui-button--warning" type="button" name="button">View with my data</a>
+        <!-- <a href="{{items[key].url}}?appid=5f384fd3-fa98-4a33-bc55-c9dbd39bec3e&apikey=UiFcxMKalruZyza2RldZDlHlkucRRZQc" class="lui-button lui-button--warning" type="button" name="button">View with my data</a> -->
+      </div>
+    </div>
+  </div>
 </div>

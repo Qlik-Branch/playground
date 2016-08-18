@@ -30,6 +30,7 @@ app.use('/qlik', express.static(__dirname + '/node_modules/@qlik/leonardo-ui/dis
 app.use('/css', express.static(__dirname + '/public/build'));
 app.use('/js', express.static(__dirname + '/public/build'));
 app.use('/resources', express.static(__dirname + '/public/resources'));
+app.use('/showcaseresources', express.static(__dirname + '/public/views/showcase'));
 app.use('/views', express.static(__dirname + '/public/views'));
 app.use('/configs', express.static(__dirname + '/public/configs'));
 app.use('/dictionaries', express.static(__dirname + '/dictionaries'));
@@ -46,8 +47,10 @@ app.set('views', __dirname +'/server/views')
 var apiRoutes = require(__dirname+'/server/routes/api');
 var serverRoutes = require(__dirname+'/server/routes/server');
 var authRoutes = require(__dirname+'/server/routes/auth');
+var showcaseRoutes = require(__dirname+'/server/routes/showcase');
 
 app.use('/api', apiRoutes);
+app.use('/liveshowcase', showcaseRoutes);
 
 app.use(expressSession({
   secret: 'mySecretKey',

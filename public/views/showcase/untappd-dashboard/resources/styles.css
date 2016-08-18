@@ -1,0 +1,175 @@
+@font-face {
+  src: url('/resources/BELLABOO-Regular.ttf');
+  font-family: BellaBoo;
+}
+@font-face {
+  src: url('/resources/Kankin.ttf');
+  font-family: Kankin;
+}
+.orange {
+  color: #f8981d !important;
+}
+html,
+body {
+  margin: 0;
+}
+.aspot {
+  padding: 30px;
+  text-align: center;
+  height: 800px;
+  background: url('/resources/beer.jpg') center center no-repeat;
+  background-size: cover;
+}
+.aspot .aspot-text {
+  padding: 150px 30px;
+  height: 100%;
+  font-family: Kankin;
+  font-size: 80px;
+  text-align: right;
+  color: white;
+}
+.aspot .aspot-text .text {
+  height: 100px;
+}
+.aspot .aspot-text .footnote {
+  font-size: 24px;
+  font-family: BellaBoo;
+  letter-spacing: 3px;
+}
+.section {
+  position: relative;
+  padding: 20px 30px;
+}
+.absolute {
+  position: absolute;
+}
+.left {
+  left: 30px;
+}
+.right {
+  right: 30px;
+}
+.top {
+  top: 20px;
+}
+.bottom {
+  bottom: 20px;
+}
+.half {
+  width: 50%;
+}
+.summary {
+  background-color: #404040;
+  color: white;
+  height: 250px;
+}
+.beer-style-word-cloud {
+  background-color: #8C8C8C;
+  height: 300px;
+}
+.beer-style-word-cloud .wordCloud {
+  width: 80%;
+  margin: 0 auto;
+}
+.beer-style-word-cloud .wordCloud,
+.beer-style-word-cloud .qv-object-wrapper,
+.beer-style-word-cloud .qv-object-content {
+  height: 300px;
+}
+.beer-style-word-cloud .wordcloud {
+  font-family: Kankin !important;
+}
+.beer-style-rating {
+  height: 300px;
+  text-align: center;
+}
+.beer-style-rating h1 {
+  height: 100px;
+  line-height: 100px;
+  margin: 0;
+  font-size: 50px;
+  font-weight: lighter;
+  font-family: BellaBoo;
+}
+.beer-style-rating .styleRatings {
+  width: 80%;
+  margin: 0 auto;
+  height: calc(200px);
+}
+.beer-style-rating .qv-object-wrapper,
+.beer-style-rating .qv-object-content {
+  height: 200px;
+}
+.badges-container {
+  height: 250px;
+  text-align: center;
+}
+.badges-container h1 {
+  height: 100px;
+  line-height: 100px;
+  margin: 0;
+  font-size: 50px;
+  font-weight: lighter;
+  font-family: BellaBoo;
+}
+.badges-container .badges {
+  width: 80%;
+  margin: 0 auto;
+  height: calc(150px);
+}
+.badges-container .badges .qv-object-header {
+  display: none;
+}
+.badges-container .qv-object-wrapper,
+.badges-container .qv-object-content {
+  height: 150px;
+}
+.statement {
+  display: inline-block;
+  height: 100px;
+  line-height: 100px;
+  font-family: Kankin;
+  font-size: 60px;
+  color: white;
+}
+.statement.small {
+  font-size: 40px;
+}
+.summary-stat {
+  height: 100px;
+}
+.summary-stat h1 {
+  font-weight: lighter;
+  line-height: 80px;
+  font-size: 60px;
+  font-family: Kankin;
+  display: inline-block;
+}
+.summary-stat .kpi {
+  height: 100px;
+  width: 90px;
+  margin: 0 10px;
+  display: inline-block;
+}
+.summary-stat .kpi .statistic {
+  margin-top: 20px !important;
+  width: 100%;
+}
+.summary-stat .kpi .statistic .value {
+  font-family: Kankin !important;
+  font-size: 90px !important;
+  color: #f8981d !important;
+}
+.summary-stat .kpi.small {
+  width: 70px;
+}
+.summary-stat .kpi.small .statistic .value {
+  font-size: 70px !important;
+}
+.summary-stat .kpi.text-right .statistic .value {
+  text-align: right !important;
+}
+.graphic {
+  height: 100%;
+  background-color: white;
+}

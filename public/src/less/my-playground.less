@@ -17,12 +17,7 @@
     100% {transform: scale(1);}
   }
 
-    .options-cards{
-      padding-top: 20px;
-      padding-bottom: 20px;
-      height: 350px;
-      background-color: white
-    }
+
     .sample-project-list{
       li{
         margin-bottom: 5px;
@@ -139,4 +134,33 @@
   min-height: ~"calc(100% - 430px)";
   padding-left: 265px;
   width: 100%;
+}
+
+.options-cards{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 350px;
+  background-color: white
+}
+
+.data-connections-container, .sample-data-container{
+  min-height: 300px;
+  .card{
+    &:hover{
+      background-color: @light-grey;
+    }
+  }
+  img{
+    display: block;
+    max-height: 50%;
+    margin: 0 auto;
+  }
+  .card-title, .card-text{
+    color: @default-text;
+  }
+  .app-running-status{
+    display: block;
+    color: @orange;
+    font-weight: bold;
+  }
 }
