@@ -32,7 +32,7 @@ function authenticate(){
     Playground.authenticate(config);
   }
   else{
-    window.location.pathname = "main.html";
+    window.location.pathname = "/liveshowcase/untappd/main.html";
   }
   // return;
 }
