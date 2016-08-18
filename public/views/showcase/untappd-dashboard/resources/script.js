@@ -24,10 +24,17 @@ function authenticate(){
     config.prefix = "/playground/";
     config.apiKey = apiKey;
     config.appname = appid;
-    config.redirectUrl = window.location.origin + window.location.pathname;
+    config.customParams = {
+      redirectUrl: window.location.origin + "/liveshowcase/untappd/main.html",
+      apikey: apiKey,
+      appid: appid
+    }
+    Playground.authenticate(config);
+  }
+  else{
+    window.location.pathname = "";
   }
   // return;
-  Playground.authenticate(config);
 }
 
 
