@@ -1,9 +1,9 @@
 @font-face {
-  src: url('/resources/BELLABOO-Regular.ttf');
+  src: url('/showcaseresources/untappd-dashboard/resources/BELLABOO-Regular.ttf');
   font-family: BellaBoo;
 }
 @font-face {
-  src: url('/resources/Kankin.ttf');
+  src: url('/showcaseresources/untappd-dashboard/resources/Kankin.ttf');
   font-family: Kankin;
 }
 .orange {
@@ -17,7 +17,7 @@ body {
   padding: 30px;
   text-align: center;
   height: 800px;
-  background: url('/resources/beer.jpg') center center no-repeat;
+  background: url('/showcaseresources/untappd-dashboard/resources/beer.jpg') center center no-repeat;
   background-size: cover;
 }
 .aspot .aspot-text {
