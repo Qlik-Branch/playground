@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://playground.qlik.com/css/playground.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/node_modules/playground-js-api/dist/playground-ui.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/resources/styles.css" media="screen" title="no title" charset="utf-8">
+    <title>Playground Untappd Dashboard</title>
+  </head>
+  <body>
+    <playground component="notifier" id='not1' class="notifier-cover"></playground>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 aspot">
+          <div class="row">
+            <div class="col-md-12 aspot-text">
+              <div class="text">a beer pints</div>
+              <div class="text">a thousand words</div>
+              <div class="footnote">made possible by untappd and the Qlik Analytics Platform</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row summary">
+        <div class="col-md-12 summary-stat">
+          <div class="text-center">
+            <span class="statement">You've been drinking</span>
+            <div id="distinctBeers"  class="kpi"></div>
+            <span class="statement">different beers</span>
+          </div>
+        </div>
+        <div class="col-md-12 summary-stat">
+          <div class="text-center">
+            <span class="statement small">Made by</span>
+            <div id="distinctBreweries"  class="kpi small"></div>
+            <span class="statement small">different breweries</span>
+          </div>
+        </div>
+      </div>
+      <div class="row beer-style-word-cloud">
+        <div class="col-md-12">
+          <div id="wordCloud" class="wordCloud">
+
+          </div>
+        </div>
+      </div>
+      <div class="row beer-style-rating">
+        <div class="col-md-12">
+          <h1>Your favourite beer styles</h1>
+          <div class="">
+            <div id="styleRatings" class="styleRatings">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row badges-container">
+        <div class="col-md-12">
+          <h1 class="orange">Some of your badges</h1>
+          <div class="">
+            <div id="badges" class="badges">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="beerLabels" class="">
+
+      </div>
+      <div id="breweryLabels" class="">
+
+      </div>
+
+    </div>
+    <script type="text/javascript" src="https://playground.qlik.com/playground/resources/assets/external/requirejs/require.js"></script>
+    <script type="text/javascript" src="/node_modules/playground-js-api/dist/playground-js-api.min.js"></script>
+    <script type="text/javascript" src="/node_modules/playground-js-api/dist/playground-ui.min.js"></script>
+    <script type="text/javascript" src="/resources/script.js"></script>
+    <script type="text/javascript">
+      main();
+    </script>
+  </body>
+</html>

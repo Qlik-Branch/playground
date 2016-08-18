@@ -28,6 +28,7 @@
     constructor: [ng.http.Http, function(http){
       this.http = http;
       this.data;
+      this.showcaseItems;
     }],
     getDataConnections: function(force, callbackFn){
       if(!this.data || force===true){
@@ -56,20 +57,15 @@
         }
       });
     },
-    getConnectionDictionary: function(index, callbackFn){
-      if(this.dataConnections){
-        var dictionaryUrl = this.dataConnections[index].dictionary;
-        this.http.get(dictionaryUrl).subscribe(response => {
-          callbackFn(JSON.parse(response._body));
+    getShowcaseItems: function(callbackFn){
+      if(!this.showcaseItems){
+        this.http.get("/server/showcaseitems").subscribe(response=>{
+          this.showcaseitems = JSON.parse(response._body)
+          callbackFn(this.showcaseitems);
         });
       }
-      else{
-        this.getDataConnections((response)=>{
-          var dictionaryUrl = this.dataConnections[index].dictionary;
-          this.http.get(dictionaryUrl).subscribe(response => {
-            callbackFn(JSON.parse(response._body));
-          });
-        });
+      else {
+        callbackFn(this.showcaseItems);
       }
     },
     authoriseConnection: function(connectionId, callbackFn){
@@ -355,9 +351,36 @@
     templateUrl: '/views/showcase.html'
   })
   .Class({
-    constructor: function(){
-      console.log('constructor');
-    }
+    constructor: [app.DataConnectionService, app.UserService, function(dataConnectionService, userService){
+      this.dataConnectionService = dataConnectionService;
+      this.userService = userService;
+      this.items;
+      this.itemKeys;
+      this.apiKey;
+      this.userService.getUser(false, user=>{
+        this.apiKey = user.user.apiKey;
+      });
+      this.dataConnectionService.getShowcaseItems(items=>{
+        this.items = items;
+        this.itemKeys = Object.keys(items);
+        this.userService.getUserConnections(connections=>{
+          let connectionList = connections.connections;
+          for(let i in this.items){
+            if(this.items[i].ownData){
+              for(let c in connectionList){
+                if(this.items[i].connectionId == connectionList[c].connection){
+                  if(connectionList[this.items[i].connectionId].appid){
+                    this.items[i].canUseOwnData = true;
+                    this.items[i].appid = connectionList[this.items[i].connectionId].appid;
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        });
+      });
+    }]
   });
 
 

@@ -22,6 +22,7 @@
     constructor: [ng.http.Http, function (http) {
       this.http = http;
       this.data;
+      this.showcaseItems;
     }],
     getDataConnections: function getDataConnections(force, callbackFn) {
       var _this = this;
@@ -49,21 +50,16 @@
         }
       });
     },
-    getConnectionDictionary: function getConnectionDictionary(index, callbackFn) {
+    getShowcaseItems: function getShowcaseItems(callbackFn) {
       var _this2 = this;
 
-      if (this.dataConnections) {
-        var dictionaryUrl = this.dataConnections[index].dictionary;
-        this.http.get(dictionaryUrl).subscribe(function (response) {
-          callbackFn(JSON.parse(response._body));
+      if (!this.showcaseItems) {
+        this.http.get("/server/showcaseitems").subscribe(function (response) {
+          _this2.showcaseitems = JSON.parse(response._body);
+          callbackFn(_this2.showcaseitems);
         });
       } else {
-        this.getDataConnections(function (response) {
-          var dictionaryUrl = _this2.dataConnections[index].dictionary;
-          _this2.http.get(dictionaryUrl).subscribe(function (response) {
-            callbackFn(JSON.parse(response._body));
-          });
-        });
+        callbackFn(this.showcaseItems);
       }
     },
     authoriseConnection: function authoriseConnection(connectionId, callbackFn) {
@@ -322,9 +318,38 @@
     selector: 'playground-showcase',
     templateUrl: '/views/showcase.html'
   }).Class({
-    constructor: function constructor() {
-      console.log('constructor');
-    }
+    constructor: [app.DataConnectionService, app.UserService, function (dataConnectionService, userService) {
+      var _this6 = this;
+
+      this.dataConnectionService = dataConnectionService;
+      this.userService = userService;
+      this.items;
+      this.itemKeys;
+      this.apiKey;
+      this.userService.getUser(false, function (user) {
+        _this6.apiKey = user.user.apiKey;
+      });
+      this.dataConnectionService.getShowcaseItems(function (items) {
+        _this6.items = items;
+        _this6.itemKeys = Object.keys(items);
+        _this6.userService.getUserConnections(function (connections) {
+          var connectionList = connections.connections;
+          for (var i in _this6.items) {
+            if (_this6.items[i].ownData) {
+              for (var c in connectionList) {
+                if (_this6.items[i].connectionId == connectionList[c].connection) {
+                  if (connectionList[_this6.items[i].connectionId].appid) {
+                    _this6.items[i].canUseOwnData = true;
+                    _this6.items[i].appid = connectionList[_this6.items[i].connectionId].appid;
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        });
+      });
+    }]
   });
 
   app.Apis = ng.core.Component({
@@ -357,18 +382,18 @@
     templateUrl: '/views/apis/api-content.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.ResourceCenterService, function (route, resourceCenterService) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.route = route;
       this.resourceCenterService = resourceCenterService;
       this.api = this.route.parent.url.value[0].path;
       route.params.subscribe(function (route) {
         var resourceSubject = route.subject;
-        _this6.getResourceContent(resourceSubject);
+        _this7.getResourceContent(resourceSubject);
       });
     }],
     getResourceContent: function getResourceContent(subject) {
-      var _this7 = this;
+      var _this8 = this;
 
       var resourceId = null;
       this.resourceTitle = "";
@@ -421,9 +446,9 @@
           resource = JSON.parse(resource);
           if (resource && resource.data && resource.data.length > 0) {
             resource = resource.data[0];
-            _this7.resourceTitle = resource.title;
+            _this8.resourceTitle = resource.title;
             console.log(resource);
-            _this7.content = marked(_this7.arrayBufferToBase64(resource.content.data));
+            _this8.content = marked(_this8.arrayBufferToBase64(resource.content.data));
           }
         });
       }
@@ -445,16 +470,16 @@
     templateUrl: '/views/my-playground/my-data-list.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this8 = this;
+      var _this9 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
       this.myConns;
       this.myConnKeys;
       userService.getUser(false, function (user) {
-        _this8.myConns = user.myParsedConnections;
-        _this8.myConnKeys = Object.keys(_this8.myConns);
-        _this8.myRunningAppCount = user.runningAppCount;
+        _this9.myConns = user.myParsedConnections;
+        _this9.myConnKeys = Object.keys(_this9.myConns);
+        _this9.myRunningAppCount = user.runningAppCount;
       });
     }]
   });
@@ -466,13 +491,13 @@
     templateUrl: '/views/my-playground/sample-data-list.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this9 = this;
+      var _this10 = this;
 
       this.apps = {};
       this.appKeys = [];
       userService.getUser(false, function (user) {
-        _this9.apps = user.sampleData;
-        _this9.appKeys = Object.keys(_this9.apps);
+        _this10.apps = user.sampleData;
+        _this10.appKeys = Object.keys(_this10.apps);
       });
     }]
   });
@@ -483,7 +508,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-status.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this10 = this;
+      var _this11 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -492,15 +517,15 @@
       this.connectionStatus = 'Checking Status...';
       this.connectionStatusDetail = "";
       userService.getUser(false, function (user) {
-        _this10.myRunningAppCount = user.runningAppCount;
-        _this10.getConnectionInfo(_this10.connectionId);
+        _this11.myRunningAppCount = user.runningAppCount;
+        _this11.getConnectionInfo(_this11.connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this11 = this;
+      var _this12 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this11.onConnectionInfo(connInfo);
+        _this12.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -525,10 +550,10 @@
       this.getConnectionInfo(connectionId);
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this12 = this;
+      var _this13 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this12.onConnectionInfo(connInfo);
+        _this13.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -562,7 +587,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-field-explorer.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, ng.core.ChangeDetectorRef, app.UserService, app.DataConnectionService, app.QSocksService, function (route, cdr, userService, dataConnectionService, qsocksService) {
-      var _this13 = this;
+      var _this14 = this;
 
       this.userService = userService;
       this.dataConnectionService = dataConnectionService;
@@ -576,11 +601,11 @@
       this.fieldKeys;
       this.selectedFields = [];
       this.userService.getUser(false, function (user) {
-        _this13.dataConnectionService.getConnectionInfo(_this13.connectionId, function (connInfo) {
-          _this13.qsocksService.connect(connInfo, function (err, global, app) {
+        _this14.dataConnectionService.getConnectionInfo(_this14.connectionId, function (connInfo) {
+          _this14.qsocksService.connect(connInfo, function (err, global, app) {
             if (err) {
-              _this13.connectionStatus = "Error!";
-              _this13.connectionDetail = err;
+              _this14.connectionStatus = "Error!";
+              _this14.connectionDetail = err;
             }
             if (app) {
               var fieldListDef = {
@@ -591,13 +616,13 @@
               };
               app.createSessionObject(fieldListDef).then(function (fieldsObject) {
                 fieldsObject.getLayout().then(function (layout) {
-                  _this13.loading = false;
+                  _this14.loading = false;
                   layout.qFieldList.qItems.forEach(function (item, index) {
-                    _this13.fields[item.qName] = { selected: false };
+                    _this14.fields[item.qName] = { selected: false };
                   });
-                  console.log(_this13.fields);
-                  _this13.fieldKeys = Object.keys(_this13.fields).sort();
-                  _this13.cdr.detectChanges();
+                  console.log(_this14.fields);
+                  _this14.fieldKeys = Object.keys(_this14.fields).sort();
+                  _this14.cdr.detectChanges();
                 });
               });
             }
@@ -621,7 +646,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-templates.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
-      var _this14 = this;
+      var _this15 = this;
 
       var connectionId = route.parent.url.value[0].path;
       this.connection = {};
@@ -629,12 +654,12 @@
       this.isMyData = false;
       userService.getUser(false, function (user) {
         if (user.myParsedConnections[connectionId]) {
-          _this14.isMyData = true;
-          _this14.connection = user.myParsedConnections[connectionId];
+          _this15.isMyData = true;
+          _this15.connection = user.myParsedConnections[connectionId];
         } else {
-          _this14.connection = user.sampleData[connectionId];
+          _this15.connection = user.sampleData[connectionId];
         }
-        _this14.sampleProjects = user.sampleProjects;
+        _this15.sampleProjects = user.sampleProjects;
       });
     }],
     copyToClipboard: function copyToClipboard(index) {
@@ -650,7 +675,7 @@
     templateUrl: '/views/my-playground/generic-data-detail.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this15 = this;
+      var _this16 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -660,22 +685,22 @@
       this.connection = {};
       this.isMyData = false;
       userService.getUser(false, function (user) {
-        _this15.myRunningAppCount = user.runningAppCount;
+        _this16.myRunningAppCount = user.runningAppCount;
         if (user.myParsedConnections[connectionId]) {
-          _this15.isMyData = true;
-          _this15.connection = user.myParsedConnections[connectionId];
+          _this16.isMyData = true;
+          _this16.connection = user.myParsedConnections[connectionId];
         } else {
-          _this15.connectionStatus = "Running";
-          _this15.connection = user.sampleData[connectionId];
+          _this16.connectionStatus = "Running";
+          _this16.connection = user.sampleData[connectionId];
         }
-        _this15.getConnectionInfo(connectionId);
+        _this16.getConnectionInfo(connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this16 = this;
+      var _this17 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this16.onConnectionInfo(connInfo);
+        _this17.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -687,30 +712,30 @@
       }
     },
     startApp: function startApp(connectionId) {
-      var _this17 = this;
+      var _this18 = this;
 
       this.connectionStatus = "Starting";
       this.connectionStatusDetail = "Starting application.";
       this.dataConnectionService.startApp(connectionId, function (connInfo) {
-        _this17.getConnectionInfo(connectionId);
+        _this18.getConnectionInfo(connectionId);
       });
     },
     stopApp: function stopApp(connectionId) {
-      var _this18 = this;
+      var _this19 = this;
 
       this.connectionStatus = "Stopping";
       this.connectionStatusDetail = "Stopping application.";
       this.dataConnectionService.stopApp(connectionId, function (connInfo) {
-        _this18.getConnectionInfo(connectionId);
+        _this19.getConnectionInfo(connectionId);
       });
     },
     reloadApp: function reloadApp(connectionId) {
-      var _this19 = this;
+      var _this20 = this;
 
       this.connectionStatus = "Reloading";
       this.connectionStatusDetail = "Reloading application.";
       this.dataConnectionService.reloadApp(connectionId, function (connInfo) {
-        _this19.getConnectionInfo(connectionId);
+        _this20.getConnectionInfo(connectionId);
       });
     }
   });
@@ -737,13 +762,13 @@
     templateUrl: '/views/my-playground/my-playground-connect.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this20 = this;
+      var _this21 = this;
 
       this.conns;
       this.connKeys;
       userService.getUser(false, function (user) {
-        _this20.conns = user.dataConnections;
-        _this20.connKeys = Object.keys(_this20.conns);
+        _this21.conns = user.dataConnections;
+        _this21.connKeys = Object.keys(_this21.conns);
       });
     }]
   });
@@ -763,7 +788,7 @@
       this.genericObject;
     }],
     ngOnInit: function ngOnInit() {
-      var _this21 = this;
+      var _this22 = this;
 
       var def = {
         qInfo: {
@@ -791,31 +816,31 @@
         }
       };
       this.qsocksService.app.createSessionObject(def).then(function (genericObject) {
-        _this21.pubsub.subscribe('update', genericObject.handle, _this21.getLayout.bind(_this21));
-        _this21.genericObject = genericObject;
-        _this21.getLayout();
+        _this22.pubsub.subscribe('update', genericObject.handle, _this22.getLayout.bind(_this22));
+        _this22.genericObject = genericObject;
+        _this22.getLayout();
       });
     },
     clearAll: function clearAll() {},
     search: function search() {},
     getLayout: function getLayout() {
-      var _this22 = this;
+      var _this23 = this;
 
       this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
-          _this22.listValues.push(row[0]);
+          _this23.listValues.push(row[0]);
         });
-        _this22.cdr.detectChanges();
+        _this23.cdr.detectChanges();
       });
     },
     toggleValue: function toggleValue(elemNum, event) {
-      var _this23 = this;
+      var _this24 = this;
 
       this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
         event.target.parentElement.scrollTop = 0;
-        _this23.pubsub.publish('update');
+        _this24.pubsub.publish('update');
       });
     }
   });

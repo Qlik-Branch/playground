@@ -3,6 +3,7 @@ var express = require('express'),
     sampleData = require('../configs/sample-data'),
     sampleProjects = require('../configs/sample-projects'),
     dataConnections = require('../configs/data-connections'),
+    showcaseProjects = require('../configs/showcase-projects'),
     mongoHelper = require('../controllers/mongo-helper'),
     generalConfig = require('../configs/general'),
     OAuthInfo = require('../configs/oauth-info'),
@@ -41,6 +42,10 @@ router.get('/dataconnections', function(req, res){
     sampleData,
     sampleProjects
   });
+});
+
+router.get('/showcaseitems', function(req, res){
+  res.json(showcaseProjects);
 });
 
 router.get('/connectioninfo/:id', function(req, res){
