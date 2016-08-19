@@ -99,7 +99,8 @@ var accessList = [
   "lgz",
   "hsg",
   "jbj",
-  "cbl"
+  "cbl",
+  "mgo"
 ];
 
 app.get('/', function(req, res){
