@@ -116,6 +116,18 @@ router.get('/reloadapp/:app', function(req, res){
   });
 });
 
+router.get('/deleteconnection/:id', function(req, res){
+  var connectionId = req.params.id;
+  mongoHelper.deleteConnectionString(req.user._id, connectionId, function(err, connectionString){
+    if(err){
+      res.json({err: err});
+    }
+    else {
+      res.json({});
+    }
+  });
+});
+
 router.get('/currentuser', function(req, res){
   if(req.user){
     mongoHelper.getUserConnections(req.user._id, function(err, connections){

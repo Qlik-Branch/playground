@@ -18,7 +18,7 @@ app.AppModule = ng.core.NgModule({
     app.MyDataList,
     app.SampleDataList,
     app.GenericDataDetail,
-    app.GenericDataDetailStatus,
+    app.GenericDataDetailDelete,
     app.GenericDataDetailGettingStarted,
     app.GenericDataDetailTemplates,
     app.GenericDataDetailFieldExplorer,

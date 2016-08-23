@@ -23,7 +23,7 @@
 
   include "./components/my-playground/my-data-list.js"
   include "./components/my-playground/sample-data-list.js"
-  include "./components/my-playground/generic-data-detail-status.js"
+  include "./components/my-playground/generic-data-detail-delete.js"
   include "./components/my-playground/generic-data-detail-gettingstarted.js"
   include "./components/my-playground/generic-data-detail-field-explorer.js"
   include "./components/my-playground/generic-data-detail-templates.js"

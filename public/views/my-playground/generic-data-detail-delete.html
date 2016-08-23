@@ -1,0 +1,15 @@
+<div class="row relative page-detail">
+  <div class="col-md-12">
+    <div class='playground-notifier-inner-container grey'>
+      <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div *ngIf="connectionStatus=='Deleting'" class='notifier-title'>Please wait...</div>
+          <div *ngIf="connectionStatus!='Stopping' && connectionStatus!='Starting' && connectionStatus!='Reloading' && connectionStatus!='Deleting'" class='notifier-title'>Delete application and connection?</div>
+          <div class='notifier-message'>{{connectionStatusDetail}}</div>
+          <button class="lui-button lui-button--warning" (click)="deleteAppAndConnection(connection.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,7 @@
       <li><a [routerLink]="['gettingstarted']" routerLinkActive="active">Getting Started</a></li>
       <li><a [routerLink]="['templates']" routerLinkActive="active">Templates</a></li>
       <li><a [routerLink]="['explorer']" routerLinkActive="active">Field Explorer</a></li>
+      <li *ngIf="isMyData"><a style="color: #f05555;" [routerLink]="['delete']" routerLinkActive="active">Delete</a></li>      
     </ul>
   </div>
   <div class="generic-data-detail-content">

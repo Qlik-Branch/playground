@@ -50,6 +50,11 @@ module.exports = {
       }
     });
   },
+  deleteConnectionString: function(userid, connectionName, callbackFn){
+    ConnectionString.find({userid: userid, connection: connectionName}).remove().exec(function(err){
+      callbackFn(err);
+    });
+  },
   getUserConnections: function(userid, callbackFn) {
     ConnectionString.find({userid: userid}, function(err, connections){
       callbackFn(err, connections);
