@@ -65,6 +65,11 @@ ng.core.Injectable({
     this.http.get("/server/reloadapp/"+connectionId).subscribe(response => {
       callbackFn(JSON.parse(response._body));
     });
+  },
+  deleteConnection: function(connectionId, callbackFn){
+    this.http.get("/server/deleteconnection/"+connectionId).subscribe(response => {
+      callbackFn(JSON.parse(response._body));
+    });
   }
 
 });

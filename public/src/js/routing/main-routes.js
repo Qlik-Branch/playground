@@ -15,6 +15,10 @@ let genericDataDetailRoutes = [
   {
     path: 'explorer',
     component: app.GenericDataDetailFieldExplorer
+  },
+  {
+    path: 'delete',
+    component: app.GenericDataDetailDelete
   }
 ];
 
