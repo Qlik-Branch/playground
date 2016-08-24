@@ -109,17 +109,16 @@ app.get('/', function(req, res){
 });
 
 //all other routes should be dealt with by the client
-app.get('/*',  ntlm(ntlmConfig), function(req, res){
-  console.log('trying ot get to page');
-  if(req.ntlm && accessList.indexOf(req.ntlm.UserName.toLowerCase())==-1){
-    console.log('user doesnt exist');
-    res.redirect('/denied');
-  }
-  else{
+app.get('/*',  ntlm(ntlmConfig), function(req, res){  
+  // if(req.ntlm && accessList.indexOf(req.ntlm.UserName.toLowerCase())==-1){
+  //   console.log('user doesnt exist');
+  //   res.redirect('/denied');
+  // }
+  // else{
     console.log('user is');
     console.log(req.ntlm);
     res.render('index.jade', {});
-  }
+  // }
 });
 
 app.listen(process.env.PORT || 3000, function(){

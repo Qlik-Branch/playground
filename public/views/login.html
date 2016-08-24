@@ -1,0 +1,17 @@
+<div class="row relative content page-detail">
+  <div class="col-md-12">
+    <div class='playground-notifier-inner-container grey'>
+      <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div class='notifier-title'>Qlik Playground Login</div>
+          <div class='notifier-message'>To login to Qlik Playground you'll need a Qlik Branch user. Don't worry if you don't have one, it's quick to sign up and best of all it's free.</div>
+          <br>
+          <ul class="plainlist">
+            <li *ngIf="!user" class="inline-block lui-button lui-button--warning"><a class="white" href="{{loginUrl}}?url={{returnUrl}}">Login or Signup</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

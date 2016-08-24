@@ -256,13 +256,11 @@
       this.user;
       this.loginUrl;
       this.returnUrl;
-      if(!userService.user){
-        userService.getUser(false, (user) => {
-          this.user = user.user;
-          this.loginUrl = user.loginUrl;
-          this.returnUrl = user.returnUrl;
-        });
-      }
+      userService.getUser(false, (user) => {
+        this.user = user.user;
+        this.loginUrl = user.loginUrl;
+        this.returnUrl = user.returnUrl;
+      });
     }]
   });
 
@@ -386,6 +384,24 @@
             }
           }
         });
+      });
+    }]
+  });
+
+  app.Login = ng.core.Component({
+    selector: 'playground-login',
+    templateUrl: '/views/login.html'
+  })
+  .Class({
+    constructor: [app.UserService, function(userService){
+      this.dialog;
+      this.user;
+      this.loginUrl;
+      this.returnUrl;
+      userService.getUser(false, (user) => {
+        this.user = user.user;
+        this.loginUrl = user.loginUrl;
+        this.returnUrl = user.returnUrl;
       });
     }]
   });
@@ -529,9 +545,15 @@
       this.myConns;
       this.myConnKeys;
       userService.getUser(false, (user)=>{
-        this.myConns = user.myParsedConnections;
-        this.myConnKeys = Object.keys(this.myConns);
-        this.myRunningAppCount = user.runningAppCount;
+        if(user){
+          if(user.myParsedConnections){
+            this.myConns = user.myParsedConnections;
+            this.myConnKeys = Object.keys(this.myConns);
+          }
+          if(user.runningAppCount){
+            this.myRunningAppCount = user.runningAppCount;
+          }
+        }
       })
     }
     ]
@@ -955,9 +977,14 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: function(){
-
-    }
+    constructor: [app.UserService, ng.router.Router, function (userService, route) {
+      userService.getUser(false, function (user) {
+        if(!user.user){
+          route.navigate(["/login"]);
+          // window.location.pathname = "login";
+        }
+      });
+    }]
   });
 
   //
@@ -1089,6 +1116,10 @@
     {
       path: "showcase",
       component: app.Showcase
+    },
+    {
+      path: "login",
+      component: app.Login
     }
   ];
 
@@ -1132,7 +1163,8 @@
       app.GenericDataDetailFieldExplorer,
       app.GenericDataDetail,
       app.Showcase,
-      app.ListObject
+      app.ListObject,
+      app.Login
     ],
     providers: [
       ng.http.HTTP_PROVIDERS,

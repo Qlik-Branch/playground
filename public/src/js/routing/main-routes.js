@@ -125,6 +125,10 @@ let mainRoutes = [
   {
     path: "showcase",
     component: app.Showcase
+  },
+  {
+    path: "login",
+    component: app.Login
   }
 ];
 

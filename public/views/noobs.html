@@ -1,3 +1,13 @@
-<div class="content">
-  <h1>N00bs</h1>
+<div class="row relative content page-detail">
+  <div class="col-md-12">
+    <div class='playground-notifier-inner-container grey'>
+      <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div class='notifier-title'>Coming Soon</div>
+          <div class='notifier-message'>Watch this space.</div>          
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -15,6 +15,7 @@
   include "./components/home.js"
   include "./components/noobs.js"
   include "./components/showcase.js"
+  include "./components/login.js"
 
   include "./components/apis/apis.js"
   include "./components/apis/engine.js"
