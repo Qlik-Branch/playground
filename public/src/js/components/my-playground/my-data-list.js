@@ -10,9 +10,15 @@ app.MyDataList = ng.core.Component({
     this.myConns;
     this.myConnKeys;
     userService.getUser(false, (user)=>{
-      this.myConns = user.myParsedConnections;
-      this.myConnKeys = Object.keys(this.myConns);
-      this.myRunningAppCount = user.runningAppCount;
+      if(user){
+        if(user.myParsedConnections){
+          this.myConns = user.myParsedConnections;
+          this.myConnKeys = Object.keys(this.myConns);
+        }
+        if(user.runningAppCount){
+          this.myRunningAppCount = user.runningAppCount;
+        }
+      }
     })
   }
   ]

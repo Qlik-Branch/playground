@@ -1,7 +1,6 @@
-app.Header = ng.core.Component({
-  selector: 'playground-header',
-  directives: [ng.router.ROUTER_DIRECTIVES],
-  templateUrl: '/views/header.html'
+app.Login = ng.core.Component({
+  selector: 'playground-login',
+  templateUrl: '/views/login.html'
 })
 .Class({
   constructor: [app.UserService, function(userService){

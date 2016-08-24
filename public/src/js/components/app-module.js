@@ -24,7 +24,8 @@ app.AppModule = ng.core.NgModule({
     app.GenericDataDetailFieldExplorer,
     app.GenericDataDetail,
     app.Showcase,
-    app.ListObject
+    app.ListObject,
+    app.Login
   ],
   providers: [
     ng.http.HTTP_PROVIDERS,
