@@ -13,7 +13,7 @@ module.exports = {
     name: "Pokemon",
     description: "Pokemon data set",
     icon: "/resources/pokemon.jpg",
-    app: "afc7b46b-823c-429b-ac40-29a063c33ece",
+    app: "d8f60a81-5613-4c01-96a7-7888d8d18262",
     projects:[
       "basic-engine-template",
       "playground-capabilities-template"
@@ -24,6 +24,16 @@ module.exports = {
     description: "Human injury data from the National Electronic Injury Surveillance System (NEISS)",
     icon: "/resources/bandaid.jpg",
     app: "7dc54f8a-5238-4c20-ad78-fc5965db7150",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
+  "systembolaget":{
+    name: "Swedish Liquor Control Board",
+    description: "Data set of the alcohol purchased by the Swedish liquor control board",
+    icon: "/resources/liquor.png",
+    app: "7cf92dad-43a4-46c5-862a-1b939a6d6ede",
     projects:[
       "basic-engine-template",
       "playground-capabilities-template"
