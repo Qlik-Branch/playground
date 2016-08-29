@@ -1,9 +1,15 @@
 module.exports = {
   "basic-engine-template":{
     "name": "Basic Engine API Template",
-    "description": "An empty template for you to play with",
+    "description": "An empty Engine API template for you to play with",
     "github-repo": "https://github.com/Qlik-Branch/playground-basic-engine",
     "clone-url": "https://github.com/Qlik-Branch/playground-basic-engine.git"
+  },
+  "playground-capabilities-template":{
+    "name": "Basic Capabilities API Template",
+    "description": "An empty Capabilities API template for you to play with",
+    "github-repo": "https://github.com/Qlik-Branch/playground-capabilities-template",
+    "clone-url": "https://github.com/Qlik-Branch/playground-capabilities-template.git"
   },
   "github-search-template":{
     "name": "GitHub Search Template",
