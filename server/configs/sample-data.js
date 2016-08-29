@@ -1,4 +1,34 @@
 module.exports = {
+  "airbnb":{
+    name: "AirBnB",
+    description: "Data from AirBnB activity",
+    icon: "/resources/airbnb-logo.png",
+    app: "2b10add1-472f-4192-aac9-44a99125825c",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
+  "pokemon":{
+    name: "Pokemon",
+    description: "Pokemon data set",
+    icon: "/resources/pokemon.jpg",
+    app: "afc7b46b-823c-429b-ac40-29a063c33ece",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
+  "injury-data":{
+    name: "Injury Data",
+    description: "Human injury data from the National Electronic Injury Surveillance System (NEISS)",
+    icon: "/resources/bandaid.jpg",
+    app: "7dc54f8a-5238-4c20-ad78-fc5965db7150",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
   "punk-api":{
     name: "Punk API",
     description: "Brewdog beer data and food pairings. Data provided by https://punkapi.com",
