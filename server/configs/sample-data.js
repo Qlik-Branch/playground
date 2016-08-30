@@ -45,7 +45,8 @@ module.exports = {
     icon: "/resources/brewdog.png",
     app: "93444781-e6e6-4476-bc19-f32fa0dd6536",
     projects:[
-      "basic-engine-template"
+      "basic-engine-template",
+      "playground-capabilities-template"
     ]
   },
   "game-db":{
@@ -54,7 +55,8 @@ module.exports = {
     icon: "/resources/nescontroller.png",
     app: "e19e9eb5-a29c-4814-8c53-8ddb22559f52",
     projects:[
-      "basic-engine-template"
+      "basic-engine-template",
+      "playground-capabilities-template"
     ]
   },
   "tfl-station-facilities":{
@@ -63,7 +65,8 @@ module.exports = {
     icon: "/resources/tfl.png",
     app: "54642382-3b76-45fa-819f-0636c267141a",
     projects:[
-      "basic-engine-template"
+      "basic-engine-template",
+      "playground-capabilities-template"
     ]
   },
   "tfl-accidents":{
@@ -72,7 +75,8 @@ module.exports = {
     icon: "/resources/tfl.png",
     app: "42ab61c0-3536-4707-9e73-9f00caf42692",
     projects:[
-      "basic-engine-template"
+      "basic-engine-template",
+      "playground-capabilities-template"
     ]
   }
 }
