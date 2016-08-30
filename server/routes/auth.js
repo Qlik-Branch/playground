@@ -123,7 +123,7 @@ function buildConnectionString(dictionary, endpoint, token, tokenSecret, consume
     }
   }
   else{
-    conn += ";username="+admin;
+    conn += ";username=admin";
     conn += ";password="+token;
   }
   conn += "\"";
