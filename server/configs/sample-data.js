@@ -12,7 +12,7 @@ module.exports = {
   "pokemon":{
     name: "Pokemon",
     description: "Pokemon data set",
-    icon: "/resources/pokemon.jpg",
+    icon: "/resources/pokemon.png",
     app: "d8f60a81-5613-4c01-96a7-7888d8d18262",
     projects:[
       "basic-engine-template",
@@ -22,7 +22,7 @@ module.exports = {
   "injury-data":{
     name: "Injury Data",
     description: "Human injury data from the National Electronic Injury Surveillance System (NEISS)",
-    icon: "/resources/bandaid.jpg",
+    icon: "/resources/bandaid.png",
     app: "7dc54f8a-5238-4c20-ad78-fc5965db7150",
     projects:[
       "basic-engine-template",

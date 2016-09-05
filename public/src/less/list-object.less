@@ -1,12 +1,16 @@
 .playground-listobject-container{
+  position: relative;
   border: 1px solid @grey;
   margin: 5px 0px;
   border-radius: 4px;
   height: 400px;
+  overflow: hidden;
   .title{
     padding: 5px 15px;
     color: @body-grey;
     font-weight: bold;
+    display: inline-block;
+    width: ~"calc(100% - 35px)";
   }
   ul{
     overflow-y: auto;
@@ -33,6 +37,34 @@
         background-color: @greyscale-55;
         color: #FFFFFF;
       }
+    }
+  }
+  .lui-search{
+    padding-left: 10px;
+  }
+  .playground-listobject-loading{
+    // margin: 5px 0px;
+    // border-radius: 4px;
+    z-index: 10;
+    background-color: @smokey;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    .playground-listobject-loading-inner{
+      position: absolute;
+      top: ~"calc(50% - 10px)";
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 30px;
+      -webkit-animation: pulse 2s infinite; /* Chrome, Safari, Opera */
+      animation: pulse 2s infinite;
+    }
+    &.loading{
+      display: block;
     }
   }
 }

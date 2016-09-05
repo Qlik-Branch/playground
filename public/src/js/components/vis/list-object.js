@@ -46,6 +46,7 @@ app.ListObject = ng.core.Component({
     }
     this.qsocksService.app.createSessionObject(def).then((genericObject)=>{
       this.pubsub.subscribe('update', genericObject.handle, this.getLayout.bind(this));
+      this.pubsub.subscribe('loading', genericObject.handle, this.setLoading.bind(this));
       this.genericObject = genericObject;
       this.getLayout();
     });
@@ -53,8 +54,55 @@ app.ListObject = ng.core.Component({
   clearAll(){
 
   },
-  search(){
-
+  search(field, event){
+    this.pubsub.publish('loading');
+    if(event.keyCode === 13){
+      //confirm the search
+      event.target.value = "";
+      this.genericObject.acceptListObjectSearch("/qListObjectDef", true).then((response)=>{
+        this.pubsub.publish('update');
+      });
+    }
+    else if (event.keyCode === 27 || event.target.value.length == 0) {
+      //cancel the search
+      event.target.value = "";
+      this.genericObject.abortListObjectSearch("/qListObjectDef").then((response)=>{
+        this.pubsub.publish('update');
+      });
+    }
+    else{
+      if(event.target.value.length > 1){
+        this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then((response)=>{
+          this.pubsub.publish('update');
+        });
+      }
+      else{
+        this.genericObject.abortListObjectSearch("/qListObjectDef").then((response)=>{
+          this.pubsub.publish('update');
+        });
+      }
+    }
+    console.log('searching');
+  },
+  clearSearch(field, event){
+    this.pubsub.publish('loading');
+    var inputEl = document.getElementById(field+"_search_input");
+    if(inputEl){
+      inputEl.value = "";
+    }
+    console.log('clearing search');
+  },
+  clearFieldSelections(){
+    this.pubsub.publish('loading');
+    this.genericObject.clearSelections("/qListObjectDef").then((response)=>{
+      this.pubsub.publish('update');
+    });
+  },
+  setLoading(){
+    var loadingEl = document.getElementById(this.field+"_listbox_loading");
+    if(loadingEl){
+      loadingEl.classList.add('loading');
+    }
   },
   getLayout(){
     this.listValues = [];
@@ -64,10 +112,15 @@ app.ListObject = ng.core.Component({
         this.listValues.push(row[0]);
       });
       this.cdr.detectChanges();
+      var loadingEl = document.getElementById(this.field+"_listbox_loading");
+      if(loadingEl){
+        loadingEl.classList.remove('loading');
+      }
     });
 
   },
   toggleValue(elemNum, event){
+    this.pubsub.publish('loading');
     this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then((response)=>{
       event.target.parentElement.scrollTop = 0;
       this.pubsub.publish('update');
