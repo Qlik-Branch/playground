@@ -19,11 +19,11 @@
           <div class="card-title">
             {{myConns[key].name}}
           </div>
-          <p class="card-text">
-            {{myConns[key].description}}
-            <span class='app-running-status' *ngIf="myConns[key].appid">Running</span>
-          </p>
         </a>
+        <p class="card-text">
+          {{myConns[key].description}}
+          <span class='app-running-status' *ngIf="myConns[key].appid">Running</span>
+        </p>
       </div>
       <div class="col-md-3">
         <a [routerLink]="['/myplayground/connect']" routerLinkActive="active" class="card grey border border-thick border-dashed">
@@ -33,10 +33,10 @@
           <div class="card-title center">
             Add new connection
           </div>
-          <p class="card-text">
-            Authorise another connection to use
-          </p>
         </a>
+        <p class="card-text">
+          Authorise another connection to use
+        </p>
       </div>
     </div>
   </div>

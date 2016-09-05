@@ -883,30 +883,86 @@
       };
       this.qsocksService.app.createSessionObject(def).then(function (genericObject) {
         _this24.pubsub.subscribe('update', genericObject.handle, _this24.getLayout.bind(_this24));
+        _this24.pubsub.subscribe('loading', genericObject.handle, _this24.setLoading.bind(_this24));
         _this24.genericObject = genericObject;
         _this24.getLayout();
       });
     },
     clearAll: function clearAll() {},
-    search: function search() {},
-    getLayout: function getLayout() {
+    search: function search(field, event) {
       var _this25 = this;
+
+      this.pubsub.publish('loading');
+      if (event.keyCode === 13) {
+        //confirm the search
+        event.target.value = "";
+        this.genericObject.acceptListObjectSearch("/qListObjectDef", true).then(function (response) {
+          _this25.pubsub.publish('update');
+        });
+      } else if (event.keyCode === 27 || event.target.value.length == 0) {
+        //cancel the search
+        event.target.value = "";
+        this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
+          _this25.pubsub.publish('update');
+        });
+      } else {
+        if (event.target.value.length > 1) {
+          this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then(function (response) {
+            _this25.pubsub.publish('update');
+          });
+        } else {
+          this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
+            _this25.pubsub.publish('update');
+          });
+        }
+      }
+      console.log('searching');
+    },
+    clearSearch: function clearSearch(field, event) {
+      this.pubsub.publish('loading');
+      var inputEl = document.getElementById(field + "_search_input");
+      if (inputEl) {
+        inputEl.value = "";
+      }
+      console.log('clearing search');
+    },
+    clearFieldSelections: function clearFieldSelections() {
+      var _this26 = this;
+
+      this.pubsub.publish('loading');
+      this.genericObject.clearSelections("/qListObjectDef").then(function (response) {
+        _this26.pubsub.publish('update');
+      });
+    },
+    setLoading: function setLoading() {
+      var loadingEl = document.getElementById(this.field + "_listbox_loading");
+      if (loadingEl) {
+        loadingEl.classList.add('loading');
+      }
+    },
+    getLayout: function getLayout() {
+      var _this27 = this;
 
       this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
-          _this25.listValues.push(row[0]);
+          _this27.listValues.push(row[0]);
         });
-        _this25.cdr.detectChanges();
+        _this27.cdr.detectChanges();
+        var loadingEl = document.getElementById(_this27.field + "_listbox_loading");
+        if (loadingEl) {
+          loadingEl.classList.remove('loading');
+        }
       });
     },
     toggleValue: function toggleValue(elemNum, event) {
-      var _this26 = this;
+      var _this28 = this;
 
+      this.pubsub.publish('loading');
       this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
         event.target.parentElement.scrollTop = 0;
-        _this26.pubsub.publish('update');
+        _this28.pubsub.publish('update');
       });
     }
   });

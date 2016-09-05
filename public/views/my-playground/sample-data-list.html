@@ -10,16 +10,16 @@
     </div>
   </div>
   <div class="row options-cards sample-data-container">
-    <div *ngFor="let key of appKeys" (click)="showDetail(key, 'sampledata')"  class="col-md-2">
+    <div *ngFor="let key of appKeys" (click)="showDetail(key, 'sampledata')"  class="col-md-3 ">
       <a [routerLink]="[key]" class="card">
         <img src="{{apps[key].icon}}" alt="" />
         <div class="card-title">
           {{apps[key].name}}
         </div>
-        <p class="card-text">
-          {{apps[key].description}}
-        </p>
       </a>
+      <p class="card-text">
+        {{apps[key].description}}
+      </p>
     </div>
   </div>
 </div>

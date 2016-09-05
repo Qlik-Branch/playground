@@ -1,8 +1,19 @@
 <div class='playground-listobject-container'>
-  <div class='title'>{{field}}</div>
+  <div class="">
+    <div class='title'>{{field}}</div>
+    <i (click)="clearFieldSelections()" class="lui-icon lui-icon--clear-selections"></i>
+    <div class="lui-search">
+  		<span class="lui-search__search-icon"></span>
+  		<input id="{{field}}_search_input" (keydown)="search(field, $event)" class="lui-search__input" maxlength="255" spellcheck="false" type="text" placeholder="Search"/>
+  		<span (click)="clearSearch(field, $event)" class="lui-search__clear-icon"></span>
+  	</div>
+  </div>
   <ul class="plainlist" data-field='field'>
     <li *ngFor="let value of listValues" [attr.data-state]="value.qState" (click)="toggleValue(value.qElemNumber, $event)">
       {{value.qText}}
     </li>
   </ul>
+  <div id="{{field}}_listbox_loading" class="playground-listobject-loading">
+    <div class="playground-listobject-loading-inner white">&#60;&nbsp;&#62;</div>
+  </div>
 <div>
