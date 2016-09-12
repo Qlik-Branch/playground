@@ -98,7 +98,7 @@ module.exports = {
       }
     });
   },
-  reloadApp: function(appId, callbackFn){
+  reloadApp: function(user, appId, callbackFn){
     var connectionDetails;
     if(!user){
       callbackFn("No User", null);
