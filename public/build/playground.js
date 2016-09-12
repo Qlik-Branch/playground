@@ -919,19 +919,23 @@
       console.log('searching');
     },
     clearSearch: function clearSearch(field, event) {
+      var _this26 = this;
+
       this.pubsub.publish('loading');
       var inputEl = document.getElementById(field + "_search_input");
       if (inputEl) {
         inputEl.value = "";
+        this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
+          _this26.pubsub.publish('update');
+        });
       }
-      console.log('clearing search');
     },
     clearFieldSelections: function clearFieldSelections() {
-      var _this26 = this;
+      var _this27 = this;
 
       this.pubsub.publish('loading');
       this.genericObject.clearSelections("/qListObjectDef").then(function (response) {
-        _this26.pubsub.publish('update');
+        _this27.pubsub.publish('update');
       });
     },
     setLoading: function setLoading() {
@@ -941,28 +945,28 @@
       }
     },
     getLayout: function getLayout() {
-      var _this27 = this;
+      var _this28 = this;
 
       this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
-          _this27.listValues.push(row[0]);
+          _this28.listValues.push(row[0]);
         });
-        _this27.cdr.detectChanges();
-        var loadingEl = document.getElementById(_this27.field + "_listbox_loading");
+        _this28.cdr.detectChanges();
+        var loadingEl = document.getElementById(_this28.field + "_listbox_loading");
         if (loadingEl) {
           loadingEl.classList.remove('loading');
         }
       });
     },
     toggleValue: function toggleValue(elemNum, event) {
-      var _this28 = this;
+      var _this29 = this;
 
       this.pubsub.publish('loading');
       this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
         event.target.parentElement.scrollTop = 0;
-        _this28.pubsub.publish('update');
+        _this29.pubsub.publish('update');
       });
     }
   });
