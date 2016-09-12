@@ -963,8 +963,10 @@
       var inputEl = document.getElementById(field+"_search_input");
       if(inputEl){
         inputEl.value = "";
-      }
-      console.log('clearing search');
+        this.genericObject.abortListObjectSearch("/qListObjectDef").then((response)=>{
+          this.pubsub.publish('update');
+        });
+      }    
     },
     clearFieldSelections(){
       this.pubsub.publish('loading');
