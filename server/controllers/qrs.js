@@ -129,26 +129,31 @@ module.exports = {
         var ticket = JSON.parse(ticketResponse);
         config.ticket = ticket.Ticket;
         console.log('got ticket');
-        QSocks.Connect(config).then(function(global){
-          global.openDoc(appId).then(function(qApp){
-            var reloadFinished = false;
-            qApp.doReload().then(function(response){
-              reloadFinished = true;
-              qApp.doSave().then(function(){
-                qApp.connection.close();
-                callbackFn(null, connectionString.appid);
+        mongoHelper.getConnectionString(user._id, appId, function(connectionString){
+          QSocks.Connect(config).then(function(global){
+            console.log('connected');
+            console.log('app id is');
+            console.log(connectionString.appid);
+            global.openDoc(connectionString.appid).then(function(qApp){
+              var reloadFinished = false;
+              qApp.doReload().then(function(response){
+                reloadFinished = true;
+                qApp.doSave().then(function(){
+                  qApp.connection.close();
+                  callbackFn(null, connectionString.appid);
+                });
               });
-            });
-            getReloadProgress(global);
+              getReloadProgress(global);
 
-            function getReloadProgress(g) {
-              g.getProgress(0).then(function (reloadProgress) {
-                // console.log(reloadProgress);
-                if (!reloadFinished) {
-                  getReloadProgress(g);
-                }
-              });
-            }
+              function getReloadProgress(g) {
+                g.getProgress(0).then(function (reloadProgress) {
+                  // console.log(reloadProgress);
+                  if (!reloadFinished) {
+                    getReloadProgress(g);
+                  }
+                });
+              }
+            });
           });
         });
       }
