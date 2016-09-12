@@ -129,7 +129,7 @@ module.exports = {
         var ticket = JSON.parse(ticketResponse);
         config.ticket = ticket.Ticket;
         console.log('got ticket');
-        mongoHelper.getConnectionString(user._id, appId, function(connectionString){
+        mongoHelper.getConnectionString(user._id, appId, function(err, connectionString){
           QSocks.Connect(config).then(function(global){
             console.log('connected');
             console.log('app id is');
