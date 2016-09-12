@@ -130,7 +130,7 @@ module.exports = {
         config.ticket = ticket.Ticket;
         console.log('got ticket');
         QSocks.Connect(config).then(function(global){
-          global.openDoc(newAppId).then(function(qApp){
+          global.openDoc(appId).then(function(qApp){
             var reloadFinished = false;
             qApp.doReload().then(function(response){
               reloadFinished = true;
