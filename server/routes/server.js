@@ -111,8 +111,12 @@ router.get('/stopapp/:app', function(req, res){
 router.get('/reloadapp/:app', function(req, res){
   var app = req.params.app;
   QRS.reloadApp(req.user, app, function(err, appId){
-    res.json({});
-    // res.redirect('/server/connectioninfo/'+app);
+    if(err){
+      res.json(err);
+    }
+    else{
+      res.json({});    
+    }
   });
 });
 
