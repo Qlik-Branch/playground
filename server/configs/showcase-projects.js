@@ -20,5 +20,6 @@ module.exports = {
     sampleProjectId: "airBnBApp-capability-dashboard",
     icon: "/resources/airbnb-logo.png",
     api: "Capability APIs"
+
   }
 }
