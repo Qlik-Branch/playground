@@ -332,7 +332,7 @@
             _this6.connectionDetail = err;
           }
           if (app) {
-            _this6.loading = true;
+            _this6.loading = false;
             _this6.fields = ["Doctor", "Patient", "Drug", "Cost"];
             _this6.cdr.detectChanges();
           }
