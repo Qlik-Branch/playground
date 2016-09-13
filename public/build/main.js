@@ -363,7 +363,7 @@
               this.connectionDetail = err;
             }
             if(app){
-              this.loading = true;
+              this.loading = false;
               this.fields = [
                 "Doctor",
                 "Patient",
