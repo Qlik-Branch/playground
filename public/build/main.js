@@ -307,13 +307,17 @@
             link : "http://www.qlik.com"
           },
           {
-            text: "Qlik Community",
-            link : "http://community.qlik.com"
+            text: "Qlik Market",
+            link : "http://market.qlik.com"
           },
           {
             text: "Qlik Cloud",
             link : "http://www.qlikcloud.com"
-          }
+          },
+          {
+            text: "Qlik Community",
+            link : "http://community.qlik.com"
+          },
         ]
       }
     }
@@ -344,9 +348,29 @@
     templateUrl: '/views/noobs.html'
   })
   .Class({
-    constructor: function(){
-      console.log('constructor');
-    }
+    constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function(cdr, dataConnectionService, qsocksService){
+      this.cdr = cdr;
+      this.dataConnectionService = dataConnectionService;
+      this.qsocksService = qsocksService;
+      this.fields = [];
+      this.dataConnectionService.getConnectionInfo("noobs", (connInfo)=>{
+          this.qsocksService.connect(connInfo, (err, global, app)=>{
+            if(err){
+              this.connectionStatus = "Error!";
+              this.connectionDetail = err;
+            }
+            if(app){
+              this.fields = [
+                "Doctor",
+                "Patient",
+                "Drug",
+                "Cost"
+              ]
+              this.cdr.detectChanges();
+            }
+          });
+      });
+    }]
   });
 
   app.Showcase = ng.core.Component({
