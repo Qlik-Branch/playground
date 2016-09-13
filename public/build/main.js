@@ -353,6 +353,9 @@
       this.dataConnectionService = dataConnectionService;
       this.qsocksService = qsocksService;
       this.fields = [];
+      this.loading = true;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
       this.dataConnectionService.getConnectionInfo("noobs", (connInfo)=>{
           this.qsocksService.connect(connInfo, (err, global, app)=>{
             if(err){
@@ -360,6 +363,7 @@
               this.connectionDetail = err;
             }
             if(app){
+              this.loading = true;
               this.fields = [
                 "Doctor",
                 "Patient",

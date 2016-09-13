@@ -322,6 +322,9 @@
       this.dataConnectionService = dataConnectionService;
       this.qsocksService = qsocksService;
       this.fields = [];
+      this.loading = true;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
       this.dataConnectionService.getConnectionInfo("noobs", function (connInfo) {
         _this6.qsocksService.connect(connInfo, function (err, global, app) {
           if (err) {
@@ -329,6 +332,7 @@
             _this6.connectionDetail = err;
           }
           if (app) {
+            _this6.loading = true;
             _this6.fields = ["Doctor", "Patient", "Drug", "Cost"];
             _this6.cdr.detectChanges();
           }
