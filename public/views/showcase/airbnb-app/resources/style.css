@@ -1,0 +1,587 @@
+html, body {
+	overflow: auto;
+	height: auto;
+	min-height: 100%;
+}
+
+.header {
+	width: 100%;
+	height: 100vh;
+	background-image: url("airbnb-header.jpg");
+	background-size: cover;
+}
+
+.menu {
+	display: flex;
+	justify-content: center;
+	line-height: 80px;
+	width: 100%;
+	height: 80px;
+	background-color: black;
+	opacity: 0.6;
+}
+
+.menu div {
+	font-size: 28px;
+	color: white;
+	margin: 0 35px;
+	cursor: pointer;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+}
+
+.divider {
+	width: 100%;
+	height: 1px;
+	background-color: black;
+	opacity: 0.7;
+}
+
+.logo {
+	width: 50px;
+	height: 50px;
+	margin: 15px;
+	cursor: pointer;
+}
+
+.search, .price, .review {
+	width: 100%;
+	min-height: 100vh;
+}
+
+.map {
+	width: 100%;
+	height: calc(100% - 50px);
+}
+
+.search {
+	display: flex;
+}
+
+.left-panel {
+	/*height: 100vh;*/
+	width: 300px;
+	background-color: #F68D94;
+	padding: 10px 25px;
+	box-sizing: border-box;
+	flex: 0 0 auto;
+}
+
+.text-search {
+	color: white;
+	font-family: 'Oswald', sans-serif;
+	font-size: 30px;
+}
+
+.select-search {
+	display: flex;
+	flex-direction: column;
+	margin-top: 5px;
+}
+
+.select-search span {
+	color: white;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+}
+
+.select-search select {
+	border: none;
+	background-color: white;
+	border-radius: 3px;
+	height: 30px;
+	color: #F68D94;
+	padding-left: 7px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.select-search select option {
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.clear-button {
+	width: 100%;
+	height: 30px;
+	border: 1px solid white;
+	border-radius: 3px;
+	background: #F68D94;
+	color: white;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	font-size: 15px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+.clear-button:active {
+	background: #F34855;
+}
+
+.page-content {
+	flex: 1 1 auto;
+}
+
+.bnb-list {
+	list-style-type: none;
+	display: flex;
+	height: 100%;
+	overflow: auto;
+	padding: 20px 20px 0 20px;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+}
+
+.bnb-list li {
+	height: 250px;
+	width: 250px;
+	background-color: rgba(246, 141, 148, 0.2);
+	border-radius: 4px;
+	margin: 0 20px 20px 0;
+	padding: 8px 13px;
+	color: #F47D86;
+	font-size: 15px;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	position: relative;
+}
+
+.bnb-list li .name {
+	font-weight: bold;
+	padding-bottom: 7px;
+}
+
+.bnb-list li .small-map {
+	border: 1px solid #d9d9d9;
+	flex: 1 1 auto;
+	margin: 10px 0 4px 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+}
+
+.arrow {
+	position: fixed;
+	width: 50px;
+	bottom: 20px;
+	right: 20px;
+	cursor: pointer;
+	visibility: hidden;
+}
+
+.nav {
+	position: fixed;
+	width: 50px;
+	bottom: 70px;
+	right: 20px;
+	cursor: pointer;
+	visibility: hidden;
+}
+
+.w-icon, .s-icon, .m-icon {
+	width: 50px;
+}
+
+.visible {
+	visibility: visible;
+}
+
+.map-wrap {
+	position: relative;
+	height: 100vh;
+}
+
+.map-header {
+	width: 100%;
+	height: 50px;
+}
+
+.text-country {
+	font-weight: bold;
+	line-height: 48px;
+	padding: 0 50px 0 20px;
+	color: #FF7775;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+}
+
+.select-country {
+	width: 100px;
+	height: 30px;
+	position: relative;
+	top: -2px;
+	margin-right: 15px;
+	border-radius: 3px;
+	border: 1px solid #FF7775;
+	background-color: white;
+	color: #FF7775;
+	font-family: 'Oswald', sans-serif;
+	font-size: 15px;
+	cursor: pointer;
+	text-transform: uppercase;
+
+}
+
+.select-country:hover {
+	background-color: #f2f2f2;
+	color: #FF7775;
+}
+
+.select-country.selected {
+	background-color: #FF7775;
+	color: white;
+}
+
+#m-logo {
+	background: url("/resources/airbnb.svg") no-repeat;
+	fill: #FF7977;
+	margin: 10px;
+	float: right;
+	height: 70px;
+	width: 70px;
+	background-size: contain;
+	position: absolute;
+	top: 50px;
+	right: 0;
+}
+
+.ribbon {
+	font-size: 15px !important;
+	width: 50%;
+	position: absolute;
+	background: #F3727B;
+	color: #fff;
+	text-align: center;
+	padding: 2px 20px 3px 20px;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	left: -10px;
+	top: 219px;
+}
+
+.ribbon:after {
+	content: "";
+	position: absolute;
+	display: block;
+	bottom: 0;
+	border: 14px solid #F3727B;
+	z-index: -1;
+	right: -20px;
+	border-left-width: 20px;
+	border-right-color: transparent;
+}
+
+.ribbon .ribbon-content:before {
+	content: "";
+	position: absolute;
+	display: block;
+	border-style: solid;
+	border-color: #F34855 transparent transparent transparent;
+	bottom: -10px;
+	left: 0;
+	border-width: 10px 0 0 10px;
+}
+
+#group {
+	background: url("/resources/group.svg") no-repeat;
+	fill: #FF7977;
+	margin: 0px;
+	height: 35px;
+	width: 200px;
+	padding-left: 40px;
+	background-size: auto 25px;
+	position: relative;
+}
+
+#bed {
+	background: url("/resources/bed.svg") no-repeat;
+	fill: #FF7977;
+	margin: 0px;
+	height: 35px;
+	width: 200px;
+	padding-left: 40px;
+	background-size: auto 30px;
+	position: relative;
+}
+
+#usd {
+	background: url("/resources/usd.svg") no-repeat;
+	fill: #FF7977;
+	margin: 0px;
+	height: 35px;
+	width: 200px;
+	padding-left: 40px;
+	background-size: auto 25px;
+	position: relative;
+}
+
+@font-face {
+	font-family: 'weather';
+	src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot');
+	src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'),
+	url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.woff') format('woff'),
+	url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.ttf') format('truetype'),
+	url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#weather {
+	margin: 0px auto;
+	text-align: center;
+	text-transform: uppercase;
+	background: #1192d3;
+	background-size: cover;
+}
+
+#weather:before {
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+}
+
+#weather i {
+	color: #fff;
+	font-family: weather;
+!important font-size: 150 px;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1.0;
+}
+
+.wicon-0:before {
+	content: ":";
+}
+
+.wicon-1:before {
+	content: "p";
+}
+
+.wicon-2:before {
+	content: "S";
+}
+
+.wicon-3:before {
+	content: "Q";
+}
+
+.wicon-4:before {
+	content: "S";
+}
+
+.wicon-5:before {
+	content: "W";
+}
+
+.wicon-6:before {
+	content: "W";
+}
+
+.wicon-7:before {
+	content: "W";
+}
+
+.wicon-8:before {
+	content: "W";
+}
+
+.wicon-9:before {
+	content: "I";
+}
+
+.wicon-10:before {
+	content: "W";
+}
+
+.wicon-11:before {
+	content: "I";
+}
+
+.wicon-12:before {
+	content: "I";
+}
+
+.wicon-13:before {
+	content: "I";
+}
+
+.wicon-14:before {
+	content: "I";
+}
+
+.wicon-15:before {
+	content: "W";
+}
+
+.wicon-16:before {
+	content: "I";
+}
+
+.wicon-17:before {
+	content: "W";
+}
+
+.wicon-18:before {
+	content: "U";
+}
+
+.wicon-19:before {
+	content: "Z";
+}
+
+.wicon-20:before {
+	content: "Z";
+}
+
+.wicon-21:before {
+	content: "Z";
+}
+
+.wicon-22:before {
+	content: "Z";
+}
+
+.wicon-23:before {
+	content: "Z";
+}
+
+.wicon-24:before {
+	content: "E";
+}
+
+.wicon-25:before {
+	content: "E";
+}
+
+.wicon-26:before {
+	content: "3";
+}
+
+.wicon-27:before {
+	content: "a";
+}
+
+.wicon-28:before {
+	content: "A";
+}
+
+.wicon-29:before {
+	content: "a";
+}
+
+.wicon-30:before {
+	content: "A";
+}
+
+.wicon-31:before {
+	content: "6";
+}
+
+.wicon-32:before {
+	content: "1";
+}
+
+.wicon-33:before {
+	content: "6";
+}
+
+.wicon-34:before {
+	content: "1";
+}
+
+.wicon-35:before {
+	content: "W";
+}
+
+.wicon-36:before {
+	content: "1";
+}
+
+.wicon-37:before {
+	content: "S";
+}
+
+.wicon-38:before {
+	content: "S";
+}
+
+.wicon-39:before {
+	content: "S";
+}
+
+.wicon-40:before {
+	content: "M";
+}
+
+.wicon-41:before {
+	content: "W";
+}
+
+.wicon-42:before {
+	content: "I";
+}
+
+.wicon-43:before {
+	content: "W";
+}
+
+.wicon-44:before {
+	content: "a";
+}
+
+.wicon-45:before {
+	content: "S";
+}
+
+.wicon-46:before {
+	content: "U";
+}
+
+.wicon-47:before {
+	content: "S";
+}
+
+#weather h2 {
+	margin: 0 0 8px;
+	color: #fff;
+	font-size: 100px;
+	font-weight: 300;
+	text-align: center;
+	text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#weather ul {
+	margin: 0;
+	padding: 0;
+}
+
+#weather li {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.90);
+	padding: 20px;
+	display: inline-block;
+	border-radius: 5px;
+}
+
+#weather .currently {
+	margin: 0 20px;
+}
+
+#weather button {
+	display: block;
+	margin: 15px auto;
+	width: 140px;
+	padding: 5px;
+	background: transparent;
+	color: #fff;
+	border: 0;
+	border-radius: 5px;
+}
+
