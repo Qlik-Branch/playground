@@ -9,5 +9,16 @@ module.exports = {
     sampleProjectId: "untappd-capability-dashboard",
     icon: "/dictionaries/untappd/icon.png",
     api: "Capability APIs"
+  },
+  airBnBApp: {
+    id: "airBnBApp",
+    name: "AirBnB App",
+    description: "An example web application which uses data from AirBnB",
+    url: "/liveshowcase/airBnBApp/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "airBnBApp-capability-dashboard",
+    icon: "/resources/airbnb-logo.png",
+    api: "Capability APIs"
   }
 }

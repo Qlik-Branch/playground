@@ -11,7 +11,7 @@ function authenticate () {
 }
 function authenticate(){
  
-    window.location.pathname = "/liveshowcase/airBnB-app/main.html";
+    window.location.pathname = "/liveshowcase/airBnBApp/main.html";
   
   // return;
 }
