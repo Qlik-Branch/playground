@@ -51,8 +51,15 @@ router.get('/showcaseitems', function(req, res){
 router.get('/connectioninfo/:id', function(req, res){
   var connectionId = req.params.id;
   var config = cloneObject(generalConfig);
-  config.apiKey = req.user.apiKey;
-  if(sampleData[connectionId]){
+  if(req.user){
+    config.apiKey = req.user.apiKey;
+  }
+  if(connectionId=="noobs"){
+    config.prefix = "/showcase";
+    config.appname = "5612eefb-818a-4eb6-bd02-c7967c3f2d8e";
+    res.json(config);
+  }
+  else if(sampleData[connectionId]){
     config.appname = sampleData[connectionId].app;
     res.json(config);
   }
@@ -115,7 +122,7 @@ router.get('/reloadapp/:app', function(req, res){
       res.json(err);
     }
     else{
-      res.json({});    
+      res.json({});
     }
   });
 });

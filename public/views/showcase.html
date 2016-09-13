@@ -9,19 +9,21 @@
       </p>
     </div>
   </div>
-  <div class="row options-cards data-connections-container">
+  <div class="row options-cards data-connections-container showcase-item-container">
     <div *ngFor="let key of itemKeys" class="col-md-3">
       <div class="card">
         <img src="{{items[key].icon}}" alt="" />
         <div class="card-title">
           {{items[key].name}}
         </div>
-        <p class="card-text">
-          {{items[key].description}}
-        </p>
-        <a href="{{items[key].url}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View</a>
-        <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View with my data</a>        
       </div>
+      <p class="card-text">
+        {{items[key].description}}
+        <br>
+        <span><strong>API: </strong>{{items[key].api}}</span>
+      </p>
+      <a href="{{items[key].url}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View</a>
+      <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View with my data</a>
     </div>
   </div>
 </div>

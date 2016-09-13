@@ -1,6 +1,8 @@
 <div class="footer-list">
   <span class="footer-list-header">{{data.header}}</span>
   <ul>
-      <li *ngFor="let item of data.items">{{item.text}}</li>
+      <li *ngFor="let item of data.items">
+        <a href="{{item.link}}">{{item.text}}</a>        
+      </li>
   </ul>
 </div>

@@ -20,7 +20,7 @@
     <ul class="navbar-right">
       <li class="dropdown">
         <button data-toggle="dropdown" role="button" class="lui-button  lui-button--inverse"><span class="inline-block lui-button__text">Qlik</span><span class="lui-button__caret  lui-caret"></span></button>
-        <ul role="menu" class="dropdown-menu lui-dialog--inverse">
+        <ul role="menu" class="dropdown-menu">
           <li><a href="http://www.qlik.com" target="_window">Qlik.com</a></li>
           <li><a href="https://qlikcloud.com" target="_window">Qlik Cloud</a></li>
           <li><a href="http://market.qlik.com" target="_window">Qlik Market</a></li>
@@ -31,7 +31,7 @@
       <li *ngIf="!user" class="inline-block lui-button lui-button--warning"><a href="{{loginUrl}}?url={{returnUrl}}">Login</a></li>
       <li *ngIf="user" class="dropdown">
         <button data-toggle="dropdown" role="button" *ngIf="user" class="inline-block lui-button lui-button--warning">{{user.username}}</button>
-        <ul role="menu" class="dropdown-menu lui-dialog--inverse">
+        <ul role="menu" class="dropdown-menu">
           <li><a href="/auth/logout">Logout</a></li>
         </ul>
       </li>

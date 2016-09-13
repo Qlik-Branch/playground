@@ -7,6 +7,7 @@ module.exports = {
     ownData: true,
     connectionId: "untappd",
     sampleProjectId: "untappd-capability-dashboard",
-    icon: "/dictionaries/untappd/icon.png"
+    icon: "/dictionaries/untappd/icon.png",
+    api: "Capability APIs"
   }
 }

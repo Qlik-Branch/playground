@@ -1,18 +1,14 @@
 <div class="footer">
-  <div class="footer-main">
-    <ul class="footer-block-container">
-      <li class="footer-block">
-        <div class="footer-logo"></div>
-        <p>
-          About Qlik playground. Lorum ipsum dolor sit amet.
-          About Qlik playground. Lorum ipsum dolor sit amet.
-          About Qlik playground. Lorum ipsum dolor sit amet.
-        </p>
-      </li>
-      <li class="footer-block"><playground-footer-list [data]="sites"></playground-footer-list></li>
-      <li class="footer-block"><playground-footer-list [data]="sites"></playground-footer-list></li>
-      <li class="footer-block"><playground-footer-list [data]="sites"></playground-footer-list></li>
-    </ul>
+  <div class="footer-main row">
+    <div class="col-md-3">
+      <div class="footer-logo"></div>
+      <p>
+
+      </p>
+    </div>
+    <div class="col-md-3">
+      <playground-footer-list [data]="sites"></playground-footer-list>
+    </div>
   </div>
   <div class="footer-company">
     <span>&copy; 1993-2016 Qliktech International Inc. | Powered by QIX engine | </span>
