@@ -6,9 +6,7 @@ var config = {
 	rejectUnauthorized: false,
 	appname: "2b10add1-472f-4192-aac9-44a99125825c"
 };
-function authenticate () {
-	Playground.authenticate( config );
-}
+
 function authenticate(){
  
     window.location.pathname = "/liveshowcase/airBnBApp/main.html";
