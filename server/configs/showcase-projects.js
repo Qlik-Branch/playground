@@ -10,6 +10,18 @@ module.exports = {
     icon: "/dictionaries/untappd/icon.png",
     api: "Capability APIs"
   },
+  pokemonApp: {
+    id: "pokemonApp",
+    name: "Pokemon App",
+    description: "An example web application using data from Pokemon",
+    url: "/liveshowcase/pokemonApp/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "pokemon-capability-dashboard",
+    icon: "/resources/pokemon.png",
+    api: "Capability APIs"
+
+  },
   airBnBApp: {
     id: "airBnBApp",
     name: "AirBnB App",
