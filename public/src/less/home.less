@@ -8,6 +8,17 @@
   .hero-spot{
     margin-top: 50px;
     margin-bottom: 50px;
+    .button-card{
+      color: inherit;
+      border: 2px solid;
+      .card-title{
+        color: inherit;
+      }
+      .card-text{
+        margin-bottom: 20px;
+        color: @default-text;
+      }
+    }
   }
 }
 
@@ -24,11 +35,16 @@
   .bspot-title{
     font-size: 30px;
     font-weight: bold;
-    color: @green;
     vertical-align: bottom;
+    color: @green;
+  }
+  .button-card{
+    color: inherit;
+    .card-text{
+      margin-bottom: 20px;
+    }
   }
   p{
-    margin-bottom: 20px;
   }
 }
 

@@ -4,7 +4,7 @@
   </div>
   <div class="col-md-3">
     <div class="section-header section-header--green one-line">
-      <h1>{{connection.name}}<br><span class="sub-h1">{{connectionStatus}}</span></h1>
+      <h1>{{connection.name}}<br><span class="sub-h1" *ngIf="isMyData">{{connectionStatus}}</span></h1>
     </div>
   </div>
   <div class="col-md-9 right">

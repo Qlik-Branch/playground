@@ -5,7 +5,7 @@
 body{
   -webkit-font-smoothing: antialiased;
   font-family: proxima-nova, arial, sans-serif;
-  color: @default-text;
+  color: @body-text;
   margin: 0;
   overflow-x: hidden;
 }
@@ -171,7 +171,7 @@ button{
 
 .button-card{
   display: block;
-  border: 2px solid @header-border;
+  border: 2px solid @card-border;
   background-color: @mist;
   padding: 20px;
   margin-bottom: 30px;
@@ -220,7 +220,7 @@ button{
   padding-top: 20px;
   padding-bottom: 20px;
   color: @default-text;
-  border-bottom: 2px solid @header-border;
+  border-bottom: 2px solid @title-block-border;
 }
 
 .section-header{
@@ -290,7 +290,7 @@ a:hover{
   font-size: 13px;
   font-weight: bold;
   height: 50px;
-  border-bottom: 1px solid @header-border;
+  border-bottom: 1px solid @menu-border;
   li{
     display: inline-block;
   }
@@ -299,7 +299,7 @@ a:hover{
     height: 100%;
     line-height: 50px;
     padding: 0 10px;
-    border-right: 1px solid @header-border;
+    border-right: 1px solid @menu-border;
     margin-right: -3px;
     display: inline-block;
     cursor: pointer;
@@ -311,7 +311,7 @@ a:hover{
       text-decoration: none;
     }
     &.active{
-      background-color: @header-border;
+      background-color: @active-tab;
       border-bottom: 3px solid @orange;
     }
   }
@@ -323,7 +323,7 @@ a:hover{
   bottom: 0;
   padding: 0 15px;
   width: 250px;
-  border-right: 1px solid @header-border;
+  border-right: 1px solid @menu-border;
   ul{
     margin: 0;
     padding: 0;
@@ -333,7 +333,7 @@ a:hover{
       height: 44px;
       line-height: 44px;
       width: ~"calc(100% + 15px)";
-      border-bottom: 1px solid @header-border;
+      border-bottom: 1px solid @menu-border;
       a{
         display: block;
         height: 44px;
@@ -344,7 +344,7 @@ a:hover{
           background-color: @light-grey;
         }
         &.active{
-          background-color: @header-border;
+          background-color: @active-tab;
           border-right: 3px solid @orange;
         }
       }

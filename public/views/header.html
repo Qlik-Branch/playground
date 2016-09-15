@@ -20,9 +20,9 @@
     <li>
       <a [routerLink]="['/showcase']" routerLinkActive="active">Showcase</a>
     </li>
-    <li *ngIf="!user" class="green"><a href="{{loginUrl}}?url={{returnUrl}}">Login</a></li>
+    <li *ngIf="!user" class="orange"><a href="{{loginUrl}}?url={{returnUrl}}">Login</a></li>
     <li *ngIf="user" class="dropdown">
-      <a data-toggle="dropdown" role="button" *ngIf="user" class="green">{{user.username}}</a>
+      <a data-toggle="dropdown" role="button" *ngIf="user" class="orange">{{user.username}}</a>
       <ul role="menu" class="dropdown-menu">
         <li><a href="/auth/logout">Logout</a></li>
       </ul>
