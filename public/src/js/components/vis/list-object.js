@@ -55,7 +55,7 @@ app.ListObject = ng.core.Component({
 
   },
   search(field, event){
-    this.pubsub.publish('loading');
+    this.pubsub.publish('loading');    
     if(event.keyCode === 13){
       //confirm the search
       event.target.value = "";
@@ -71,7 +71,7 @@ app.ListObject = ng.core.Component({
       });
     }
     else{
-      if(event.target.value.length > 1){
+      if(event.target.value.length > 0){
         this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then((response)=>{
           this.pubsub.publish('update');
         });
@@ -92,7 +92,7 @@ app.ListObject = ng.core.Component({
       this.genericObject.abortListObjectSearch("/qListObjectDef").then((response)=>{
         this.pubsub.publish('update');
       });
-    }    
+    }
   },
   clearFieldSelections(){
     this.pubsub.publish('loading');
@@ -129,24 +129,3 @@ app.ListObject = ng.core.Component({
     });
   }
 });
-
-// app.ListObject = (function(){
-//   function ListObject(){
-//
-//   }
-//   ListObject.prototype = Object.create(Object.prototype({
-//     field: {
-//       writable: true,
-//       value: null
-//     },
-//
-//   }));
-// });
-//
-// app.ListObject.annotations = [
-//   new ng.core.Component({
-//     selector: 'playground-vis-listobject',
-//     inputs: ['field:field'],
-//     templateUrl: '/views/vis/list-object.html'
-//   })
-// ];

@@ -947,7 +947,7 @@
           _this26.pubsub.publish('update');
         });
       } else {
-        if (event.target.value.length > 1) {
+        if (event.target.value.length > 0) {
           this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then(function (response) {
             _this26.pubsub.publish('update');
           });
@@ -1011,28 +1011,6 @@
       });
     }
   });
-
-  // app.ListObject = (function(){
-  //   function ListObject(){
-  //
-  //   }
-  //   ListObject.prototype = Object.create(Object.prototype({
-  //     field: {
-  //       writable: true,
-  //       value: null
-  //     },
-  //
-  //   }));
-  // });
-  //
-  // app.ListObject.annotations = [
-  //   new ng.core.Component({
-  //     selector: 'playground-vis-listobject',
-  //     inputs: ['field:field'],
-  //     templateUrl: '/views/vis/list-object.html'
-  //   })
-  // ];
-
 
   // //my playground main component
   app.MyPlayground = ng.core.Component({
