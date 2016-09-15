@@ -1,17 +1,19 @@
 <div class="my-playground-connections">
   <div class="row title-block">
     <div class="col-md-12">
-      <h1>Connect to your data</h1>
-    </div>
-    <div class="col-md-6">
-      <p>
-        Want to create projects using your own data. Below are some connections which you can use.
-      </p>
+      <div class="section-header section-header--green one-line">
+        <h1>Connect</h1>
+      </div>
+      <div class="section-description">
+        <p class="section-description-content">
+          Want to create projects using your own data. Below are some connections which you can use.
+        </p>
+      </div>
     </div>
   </div>
   <div class="row options-cards data-connections-container">
     <div *ngFor="let key of connKeys" class="col-md-3">
-      <div class="card">
+      <div class="button-card">
         <img src="{{conns[key].icon}}" alt="" />
         <div class="card-title">
           {{conns[key].name}}
@@ -19,8 +21,10 @@
         <p class="card-text">
           {{conns[key].description}}
         </p>
-        <a *ngIf="!conns[key].authorised" href="/server/authorise/{{key}}" class="lui-button lui-button--warning" type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
-        <span class="grey" *ngIf="conns[key].authorised===true">Authorised</span>
+        <span class="green" *ngIf="conns[key].authorised===true">Authorised</span>
+        <div class="line-button-container">
+          <a *ngIf="!conns[key].authorised" href="/server/authorise/{{key}}" class="playground-button playground-button--orange " type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
+        </div>
       </div>
     </div>
   </div>

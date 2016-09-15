@@ -1,16 +1,26 @@
-@default-text: @greyscale-5;
+@default-text: @greyscale-35;
 @header-grey: @greyscale-25;
 @sub-header-grey: @greyscale-35;
 @body-grey: @greyscale-28;
 @smoke: rgba(71,71,71,0.9); //71 matches the definition for @greyscale-28
 @smokey: rgba(71,71,71,0.6); //71 matches the definition for @greyscale-28
 @fog: rgba(217,217,217,0.7); //217 matches the definition for @greyscale-85
+@mist: rgba(255,255,255,0.8);
 @footer-grey: @greyscale-15;
 @white: @greyscale-100;
 @grey: @greyscale-40;
 @highlight-grey: #606060;
 @light-grey: @greyscale-90;
 
+
+@header: white;
+@header-border: #DEDEE0;
+@sub-header: @greyscale-85;
+@body: white;
+@footer: @green;
+@highlight: #606060;
+
+@light-green: @green-lighten-15;
 
 .orange{
   color: @orange;
@@ -51,12 +61,20 @@
   background-color: @grey;
 }
 
-.body-grey{
-  color: @body-grey;
+.green{
+  color: @green;
 }
 
-.body-grey-bg{
-  background-color: @body-grey;
+.green-bg{
+  background-color: @green;
+}
+
+.body{
+  color: @body;
+}
+
+.body-bg{
+  background-color: @body;
 }
 
 .fog{
