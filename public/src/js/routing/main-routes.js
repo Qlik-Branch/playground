@@ -33,21 +33,30 @@ let mainRoutes = [
     component: app.Home
   },
   {
-    path: "noobs",
-    component: app.Noobs
-  },
-  {
-    path: 'apis',
-    component: app.Apis,
+    path: 'learn',
+    component: app.Learn,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'engine'
+        redirectTo: 'noobs'
+      },
+      {
+        path: 'noobs',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'intro'
+          },
+          {
+            path: 'intro',
+            component: app.Noobs
+          }
+        ]
       },
       {
         path: 'engine',
-        component: app.Engine,
         children: [
           {
             path: '',
@@ -61,8 +70,7 @@ let mainRoutes = [
         ]
       },
       {
-        path: 'capability',
-        component: app.Capability,
+        path: 'capability',        
         children: [
           {
             path: '',

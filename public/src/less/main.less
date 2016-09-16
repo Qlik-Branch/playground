@@ -200,17 +200,17 @@ a:hover{
   padding: 0 15px;
   width: 250px;
   background-color: @sub-header-grey;
-  ul{
+  >ul{
     margin: 0;
     padding: 0;
     margin-left: -15px;
     list-style-type: none;
-    li{
-      height: 44px;
+    >li{
+      min-height: 44px;
       line-height: 44px;
       width: ~"calc(100% + 15px)";
       border-bottom: 1px solid @fog;
-      a{
+      >a{
         display: block;
         height: 44px;
         line-height: 44px;
@@ -227,11 +227,40 @@ a:hover{
     }
   }
 }
+.generic-data-detail-sub-menu{
+  background-color: white;
+  display: none;
+  ul{
+    margin: 0;
+    padding: 0;
+    li{
+      border-bottom: 1px solid @fog;
+      a{
+        color: @default-text;
+        display: block;
+        height: 44px;
+        line-height: 44px;
+        padding-left: 30px;
+        border-right: 1px solid @fog;
+        &:hover{
+          background-color: @light-grey;
+        }
+        &.active{
+          background-color: @light-grey;
+          border-right: 1px solid @orange;
+        }
+      }
+    }
+  }
+  &.open{
+    display: block;
+  }
+}
 .generic-data-detail-content{
   padding: 15px 45px;
   margin-left: 250px;
   width: ~"calc(100% - 265px)";
-  min-height: ~"calc(100% - 430px)";
+  min-height: ~"calc(100% - 385px)";
 }
 
 .playground-hidden{

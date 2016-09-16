@@ -13,14 +13,12 @@
   include "./components/footer.js"
   include "./components/coming-soon.js"
   include "./components/home.js"
-  include "./components/noobs.js"
   include "./components/showcase.js"
   include "./components/login.js"
 
-  include "./components/apis/apis.js"
-  include "./components/apis/engine.js"
-  include "./components/apis/capability.js"
-  include "./components/apis/api-content.js"
+  include "./components/learn/learn.js"
+  include "./components/learn/noobs.js"  
+  include "./components/learn/api-content.js"
 
   include "./components/my-playground/my-data-list.js"
   include "./components/my-playground/sample-data-list.js"
