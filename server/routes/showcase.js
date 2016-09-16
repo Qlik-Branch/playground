@@ -7,6 +7,12 @@ router.get("/:id/:page", function(req, res){
     case "untappd":
       res.sendFile(process.env.appRoot+"/public/views/showcase/untappd-dashboard/"+req.params.page);
       break;
+    case "pokemonApp":
+      res.sendFile(process.env.appRoot+"/public/views/showcase/pokemonApp/"+req.params.page);
+      break;
+    case "airBnBApp":
+      res.sendFile(process.env.appRoot+"/public/views/showcase/airBnBApp/"+req.params.page);
+      break;
     default:
 
   }

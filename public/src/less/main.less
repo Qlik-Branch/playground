@@ -246,7 +246,7 @@ button{
   }
   &.one-line{
     h1{
-      top: ~"calc(50% - 35px)";
+      top: ~"calc(50% - 33px)";
     }
   }
   &.two-line{
@@ -265,6 +265,7 @@ button{
     position: absolute;
     left: 0;
     bottom: 0;
+    font-weight: bold;
   }
 }
 
@@ -311,7 +312,7 @@ a:hover{
       text-decoration: none;
     }
     &.active{
-      background-color: @active-tab;
+      background-color: @menu-border;
       border-bottom: 3px solid @orange;
     }
   }
@@ -324,22 +325,23 @@ a:hover{
   padding: 0 15px;
   width: 250px;
   border-right: 1px solid @menu-border;
-  ul{
+  background-color: @header;
+  >ul{
     margin: 0;
     padding: 0;
     margin-left: -15px;
     list-style-type: none;
-    li{
-      height: 44px;
+    >li{
+      min-height: 44px;
       line-height: 44px;
       width: ~"calc(100% + 15px)";
       border-bottom: 1px solid @menu-border;
-      a{
+      >a{
         display: block;
         height: 44px;
         line-height: 44px;
         padding-left: 15px;
-        color: @default-text;
+        color: white;
         &:hover{
           background-color: @light-grey;
         }
@@ -351,11 +353,42 @@ a:hover{
     }
   }
 }
+.generic-data-detail-sub-menu{
+  background-color: transparent;
+  display: none;
+  ul{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    list-style-type: none;
+    li{
+      border-bottom: 1px solid @fog;
+      a{
+        color: @default-text;
+        display: block;
+        height: 44px;
+        line-height: 44px;
+        padding-left: 30px;
+        border-right: 1px solid @fog;
+        &:hover{
+          background-color: @light-grey;
+        }
+        &.active{
+          background-color: @light-grey;
+          border-right: 1px solid @orange;
+        }
+      }
+    }
+  }
+  &.open{
+    display: block;
+  }
+}
 .generic-data-detail-content{
   padding: 15px 45px;
   margin-left: 250px;
   width: ~"calc(100% - 265px)";
-  min-height: ~"calc(100% - 427px)";
+  min-height: ~"calc(100% - 377px)";
 }
 
 .playground-hidden{
