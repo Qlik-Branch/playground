@@ -5,8 +5,9 @@
 body{
   -webkit-font-smoothing: antialiased;
   font-family: proxima-nova, arial, sans-serif;
-  color: white;
+  color: @body-text;
   margin: 0;
+  overflow-x: hidden;
 }
 
 
@@ -43,6 +44,25 @@ button{
   }
 }
 
+.brand{
+  background-image: url(/resources/playground-logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 60px;
+  width: 210px;
+  line-height: 60px;
+  position: relative;
+  a{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+  }
+  a, a:hover, a:active, a:visited{
+    color: transparent;
+  }
+}
+
 .horizontal-spacer{
   display: inline-block;
   &.horizontal-spacer-small{
@@ -54,6 +74,16 @@ button{
   &.horizontal-spacer-large{
     width: 50px;
   }
+}
+
+.vertical-spacer-small{
+  height: 10px;
+}
+.vertical-spacer-medium{
+  height: 20px;
+}
+.vertical-spacer-large{
+  height: 50px;
 }
 
 .relative{
@@ -75,7 +105,7 @@ button{
 }
 
 .content{
-  min-height: ~"calc(100% - 250px)";
+  min-height: ~"calc(100% - 180px)";
   padding: 0 15px;
   box-sizing: border-box;
 }
@@ -94,9 +124,8 @@ button{
 
 .card{
   display: block;
-  height: 200px;
+  height: 350px;
   width: 100%;
-  border-radius: 7px;
   padding: 20px;
   text-decoration: none;
   &:hover{
@@ -104,6 +133,7 @@ button{
   }
   .card-icon{
     width: 100%;
+    margin-top: 75px;
     span{
       display: block;
       &::before{
@@ -117,6 +147,7 @@ button{
     text-align: center;
     margin-bottom: 20px;
     font-weight: bold;
+    color: @default-text;
   }
   .card-text{
     text-align: left;
@@ -138,10 +169,104 @@ button{
   }
 }
 
+.button-card{
+  display: block;
+  border: 2px solid @card-border;
+  background-color: @mist;
+  padding: 20px;
+  margin-bottom: 30px;
+  height: 350px;
+  img{
+    height: 150px;
+    margin: 0 auto;
+    display: block;
+  }
+  .card-title{
+    color: @orange;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  .card-text{
+    color: @default-text;
+  }
+  text-decoration: none;
+  &:hover{
+    text-decoration: none;
+  }
+  .card-icon{
+    width: 100%;
+    span{
+      display: block;
+      &::before{
+        display: block;
+        text-align: center;
+        font-size: 80px;
+      }
+    }
+  }
+  .line-button-container{
+    position: absolute;
+    bottom: 17px;
+    text-align: center;
+    width: 100%;
+    left: 0;
+  }
+}
+
 .title-block{
-  background-color: @body-grey;
+  background-color: @body;
+  background-image: url(/resources/section-header.png);
+  background-size: cover;
   padding-top: 20px;
   padding-bottom: 20px;
+  color: @default-text;
+  border-bottom: 2px solid @title-block-border;
+}
+
+.section-header{
+  height: 150px;
+  width: 150px;
+  border-radius: 75px;
+  background-color: white;
+  text-align: center;
+  margin: 0 15px;
+  position: relative;
+  display: inline-block;
+  h1{
+    font-size: 22px;
+    position: absolute;
+    width: 120px;
+    left: ~"calc(50% - 60px)";
+    .sub-h1{
+      font-size: 12px;
+    }
+  }
+  &.section-header--green{
+    border: 15px solid @light-green;
+  }
+  &.one-line{
+    h1{
+      top: ~"calc(50% - 33px)";
+    }
+  }
+  &.two-line{
+    h1{
+      top: ~"calc(50% - 40px)";
+    }
+  }
+}
+
+.section-description{
+  display: inline-block;
+  height: 150px;
+  width: ~"calc(100% - 200px)";
+  position: relative;
+  .section-description-content{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-weight: bold;
+  }
 }
 
 .border{
@@ -162,32 +287,32 @@ a:hover{
 }
 
 .playground-primary-menu{
-  background-color: @sub-header-grey;
-  color: @white;
+  color: @default-text;
   font-size: 13px;
   font-weight: bold;
-  height: 44px;
+  height: 50px;
+  border-bottom: 1px solid @menu-border;
   li{
     display: inline-block;
   }
   li a{
-    color: @white;
+    color: @default-text;
     height: 100%;
-    line-height: 44px;
+    line-height: 50px;
     padding: 0 10px;
-    border-right: 1px solid @fog;
+    border-right: 1px solid @menu-border;
     margin-right: -3px;
     display: inline-block;
     cursor: pointer;
     &:hover{
-      background-color: @highlight-grey;
+      background-color: @light-grey;
       text-decoration: none;
     }
     &:active{
       text-decoration: none;
     }
     &.active{
-      background-color: @grey;
+      background-color: @menu-border;
       border-bottom: 3px solid @orange;
     }
   }
@@ -199,7 +324,8 @@ a:hover{
   bottom: 0;
   padding: 0 15px;
   width: 250px;
-  background-color: @sub-header-grey;
+  border-right: 1px solid @menu-border;
+  background-color: @header;
   >ul{
     margin: 0;
     padding: 0;
@@ -209,18 +335,18 @@ a:hover{
       min-height: 44px;
       line-height: 44px;
       width: ~"calc(100% + 15px)";
-      border-bottom: 1px solid @fog;
+      border-bottom: 1px solid @menu-border;
       >a{
         display: block;
         height: 44px;
         line-height: 44px;
         padding-left: 15px;
-        color: @white;
+        color: white;
         &:hover{
-          background-color: @highlight-grey;
+          background-color: @light-grey;
         }
         &.active{
-          background-color: @grey;
+          background-color: @active-tab;
           border-right: 3px solid @orange;
         }
       }
@@ -228,11 +354,13 @@ a:hover{
   }
 }
 .generic-data-detail-sub-menu{
-  background-color: white;
+  background-color: transparent;
   display: none;
   ul{
     margin: 0;
     padding: 0;
+    background-color: white;
+    list-style-type: none;
     li{
       border-bottom: 1px solid @fog;
       a{
@@ -260,7 +388,7 @@ a:hover{
   padding: 15px 45px;
   margin-left: 250px;
   width: ~"calc(100% - 265px)";
-  min-height: ~"calc(100% - 385px)";
+  min-height: ~"calc(100% - 377px)";
 }
 
 .playground-hidden{
@@ -287,6 +415,29 @@ a:hover{
 
 a.lui-button{
   display: inline-block;
+}
+
+.playground-button{
+  height: 28px;
+  display: inline-block;
+  min-width: 44px;
+  padding: 1px 15px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+  &.playground-button--yellow{
+    background-color: @yellow;
+    border: 2px solid @yellow-darken-30;
+  }
+  &.playground-button--orange{
+    background-color: @orange;
+    border: 2px solid @orange-darken-30;
+  }
+  &.playground-button--green{
+    background-color: @green;
+    border: 2px solid @green-darken-30;
+  }
 }
 
 @import "./home.less";

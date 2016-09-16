@@ -1,19 +1,23 @@
 <div class="footer">
   <div class="footer-main row">
     <div class="col-md-3">
-      <div class="footer-logo"></div>
-      <p>
-
-      </p>
+      <div class="brand">        
+      </div>
     </div>
     <div class="col-md-3">
-      <playground-footer-list [data]="sites"></playground-footer-list>
+      <playground-footer-list [data]="sitesone"></playground-footer-list>
     </div>
-  </div>
-  <div class="footer-company">
-    <span>&copy; 1993-2016 Qliktech International Inc. | Powered by QIX engine | </span>
-    <span class="lui-text-warning">Privacy policy</span>
-    <span> | </span>
-    <span class="lui-text-warning">Terms of service</span>
+    <div class="col-md-3">
+      <playground-footer-list [data]="sitestwo"></playground-footer-list>
+    </div>
+    <div class="col-md-3">
+      <playground-footer-list [data]="sitesthree"></playground-footer-list>
+    </div>
+    <div class="col-md-12 vertical-spacer-small">
+
+    </div>
+    <div class="col-md-12">
+      <span>&copy; 1993-2016 Qliktech International Inc. | Powered by QIX engine</span>
+    </div>
   </div>
 </div>

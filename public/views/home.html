@@ -1,39 +1,65 @@
-<div class="">
+<div class="body-bg">
   <div class="row">
-    <div class="col-md-12">
-      <div class="hero-spot-image">
-        <div class="hero-spot">
-          <div class="hero-spot-text">
-            <h1>Learn, create and share with the Qlik API's</h1>
-            <p>It's more than just charts and dashboards</p>
+    <div class="col-md-12 hero-spot-image">
+        <div class="container hero-spot">
+          <div class="row">
+            <div class="col-md-6 yellow">
+              <div class="button-card">
+                <img src="/resources/Showcase-Gears.png" alt="" />
+                <div class="card-title">
+                  Showcase
+                </div>
+                <p class="card-text">
+                  Stuck for ideas? Take a look at our showcase items for inspiration.
+                </p>
+                <div class="line-button-container">
+                  <a [routerLink]="['/showcase']" class="playground-button playground-button--yellow " type="button" name="button">View Showcase</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 orange">
+              <div class="button-card">
+                <img src="/resources/bulb.png" alt="" />
+                <div class="card-title">
+                  Learn
+                </div>
+                <p class="card-text">
+                  New to Qlik? Checkout our Noobs page where you can discover just what our technology does.
+                </p>
+                <div class="line-button-container">
+                  <a [routerLink]="['/learn']" class="playground-button playground-button--orange " type="button" name="button">Noobs start here</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+    </div>
+  </div>
+  <div class="container bspot">
+    <div class="row">
+      <div class="col-md-2">
+
+      </div>
+      <div class="col-md-8">
+        <div class="bspot-header">
+          <img src="/resources/Beaker.png" alt="" />
+          <span class="bspot-title">Play</span>
+        </div>
+        <p>
+          Want to start using Qlik Playground and working with the Qlik API's?
+          In the 'My Playground' area you can connect to familiar data sources or work with sample data to start building solutions.
+        </p>
+        <a [routerLink]="['/myplayground']" class="playground-button playground-button--green " type="button" name="button">Start playing</a>
+      </div>
+      <div class="col-md-2">
+
       </div>
     </div>
   </div>
-  <div class="row home-steps title-block">
-    <div class="col-md-4">
-      <div class="home-step" data-step="1">
-        <p>
-          Learn what the Qlik Platform can do for you.
-        </p>
-        <button class="lui-button  lui-button--toolbar-inverse" type="button" name="button">Learn</button>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="home-step" data-step="2">
-        <p>
-          Connect to your data and start building solutions.
-        </p>
-        <button class="lui-button  lui-button--toolbar-inverse" type="button" name="button">Create</button>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="home-step" data-step="3">
-        <p>
-          Showcase your projects for the world to see.
-        </p>
-        <button class="lui-button  lui-button--toolbar-inverse" type="button" name="button">Share</button>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="cspot">
+
       </div>
     </div>
   </div>

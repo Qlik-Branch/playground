@@ -1,15 +1,19 @@
 <div class="row title-block">
-  <div class="col-md-6">
-    <a class="white" [routerLink]="['/myplayground/'+parentPath]"><span class="lui-icon lui-icon--back"></span> <strong>back</strong></a>
-    <h1>{{connection.name}} ({{connectionStatus}})</h1>
-    <div class="" *ngIf="isMyData">
-      <button *ngIf="(connectionStatus=='Stopped' || connectionStatus=='Starting') && myRunningAppCount<MAX_RUNNING_APPS" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Starting'}" (click)="startApp(connection.id)">Start</button>
-      <button *ngIf="(connectionStatus=='Running' || connectionStatus=='Stopping')" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Stopping'}" (click)="stopApp(connection.id)">Stop</button>
-      <button *ngIf="connectionStatus=='Running'" class="lui-button lui-button--warning" [ngClass]="{'lui-disabled':connectionStatus=='Reloading'}" (click)="reloadApp(connection.id)">Reload</button>
+  <div class="col-md-12">
+    <a class="default-text" [routerLink]="['/myplayground/'+parentPath]"><span class="lui-icon lui-icon--back"></span> <strong>back</strong></a>
+  </div>
+  <div class="col-md-3">
+    <div class="section-header section-header--green one-line">
+      <h1>{{connection.name}}<br><span class="sub-h1" *ngIf="isMyData">{{connectionStatus}}</span></h1>
     </div>
   </div>
-  <div class="col-md-6 right">
+  <div class="col-md-9 right">
     <img src="{{connection.icon}}" alt="" />
+    <div class="" *ngIf="isMyData">
+      <button *ngIf="(connectionStatus=='Stopped' || connectionStatus=='Starting') && myRunningAppCount<MAX_RUNNING_APPS" class="playground-button playground-button--yellow" [ngClass]="{'lui-disabled':connectionStatus=='Starting'}" (click)="startApp(connection.id)">Start</button>
+      <button *ngIf="(connectionStatus=='Running' || connectionStatus=='Stopping')" class="playground-button playground-button--yellow" [ngClass]="{'lui-disabled':connectionStatus=='Stopping'}" (click)="stopApp(connection.id)">Stop</button>
+      <button *ngIf="connectionStatus=='Running'" class="playground-button playground-button--orange" [ngClass]="{'lui-disabled':connectionStatus=='Reloading'}" (click)="reloadApp(connection.id)">Reload</button>
+    </div>
   </div>
 </div>
 <div class="row relative" [ngClass]="{'playground-hidden': connectionStatus!=='Running'}">
@@ -18,7 +22,7 @@
       <li><a [routerLink]="['gettingstarted']" routerLinkActive="active">Getting Started</a></li>
       <li><a [routerLink]="['templates']" routerLinkActive="active">Templates</a></li>
       <li><a [routerLink]="['explorer']" routerLinkActive="active">Field Explorer</a></li>
-      <li *ngIf="isMyData"><a style="color: #f05555;" [routerLink]="['delete']" routerLinkActive="active">Delete</a></li>      
+      <li *ngIf="isMyData"><a style="color: #f05555;" [routerLink]="['delete']" routerLinkActive="active">Delete</a></li>
     </ul>
   </div>
   <div class="generic-data-detail-content">

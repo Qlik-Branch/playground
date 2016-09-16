@@ -4,7 +4,7 @@
     <i (click)="clearFieldSelections()" class="lui-icon lui-icon--clear-selections"></i>
     <div class="lui-search">
   		<span class="lui-search__search-icon"></span>
-  		<input id="{{field}}_search_input" (keydown)="search(field, $event)" class="lui-search__input" maxlength="255" spellcheck="false" type="text" placeholder="Search"/>
+  		<input id="{{field}}_search_input" (keyup)="search(field, $event)" class="lui-search__input" maxlength="255" spellcheck="false" type="text" placeholder="Search"/>
   		<span (click)="clearSearch(field, $event)" class="lui-search__clear-icon"></span>
   	</div>
   </div>

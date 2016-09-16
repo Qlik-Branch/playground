@@ -1,0 +1,29 @@
+<div class="">
+  <div class="row title-block">
+    <div class="col-md-12">
+      <div class="section-header section-header--green two-line">
+        <h1>Engine<br>API</h1>
+      </div>
+      <div class="section-description">
+        <p class="section-description-content">
+          The Qlik Engine API is a WebSocket protocol that uses JSON to pass information between the Qlik Sense engine and the clients.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row relative">
+    <div class="generic-data-detail-menu">
+      <ul>
+        <li><a [routerLink]="['overview']" routerLinkActive="active">Overview</a></li>
+        <li><a [routerLink]="['authenticating']" routerLinkActive="active">Authenticating</a></li>
+        <li><a [routerLink]="['connecting']" routerLinkActive="active">Connecting</a></li>
+        <li><a [routerLink]="['hypercube']" routerLinkActive="active">Hypercube Basics</a></li>
+        <!-- <li><a [routerLink]="['listobject']" routerLinkActive="active">List Object Basics</a></li> -->
+        <!-- <li><a [routerLink]="['filtering']" routerLinkActive="active">Filtering Data</a></li> -->
+      </ul>
+    </div>
+    <div class="generic-data-detail-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

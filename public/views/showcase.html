@@ -1,29 +1,33 @@
 <div class="content">
   <div class="row title-block">
     <div class="col-md-12">
-      <h1>Showcase</h1>
-    </div>
-    <div class="col-md-6">
-      <p>
-        Here is a brief description about the showcase section on playground
-      </p>
+      <div class="section-header section-header--green one-line">
+        <h1>Showcase</h1>
+      </div>
+      <div class="section-description">
+        <p class="section-description-content">
+          Here is a brief description about the showcase section on playground
+        </p>
+      </div>
     </div>
   </div>
   <div class="row options-cards data-connections-container showcase-item-container">
     <div *ngFor="let key of itemKeys" class="col-md-3">
-      <div class="card">
+      <div class="button-card">
         <img src="{{items[key].icon}}" alt="" />
         <div class="card-title">
           {{items[key].name}}
         </div>
+        <p class="card-text">
+          {{items[key].description}}
+          <br>
+          <span><strong>API: </strong>{{items[key].api}}</span>
+        </p>
+        <div class="line-button-container">
+          <a href="{{items[key].url}}" target="_blank" class="playground-button playground-button--yellow" type="button" name="button">View</a>
+          <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" target="_blank" class="playground-button playground-button--orange" type="button" name="button">View with my data</a>
+        </div>
       </div>
-      <p class="card-text">
-        {{items[key].description}}
-        <br>
-        <span><strong>API: </strong>{{items[key].api}}</span>
-      </p>
-      <a href="{{items[key].url}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View</a>
-      <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" target="_blank" class="lui-button lui-button--warning" type="button" name="button">View with my data</a>
     </div>
   </div>
 </div>

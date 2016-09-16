@@ -1,4 +1,4 @@
-@default-text: @greyscale-5;
+@default-text: @greyscale-35;
 @header-grey: @greyscale-25;
 @sub-header-grey: @greyscale-35;
 @body-grey: @greyscale-28;
@@ -11,6 +11,37 @@
 @highlight-grey: #606060;
 @light-grey: @greyscale-90;
 
+// light-theme
+// @header: white;
+// @header-text: @default-text;
+// @header-border: #DEDEE0;
+// @sub-header: @greyscale-85;
+// @footer: @green;
+// @highlight: #606060;
+// @body-text: @default-text;
+@body: white;
+// @mist: rgba(255,255,255,0.8);
+// @active-tab: #DEDEE0;
+// @menu-border: #DEDEE0;
+// @card-border: #DEDEE0;
+// @title-block-border: #DEDEE0;
+
+//dark-theme
+@header: @greyscale-25;
+@header-text: white;
+@header-border: @greyscale-25;
+@sub-header: @greyscale-85;
+@footer: @greyscale-15;
+@highlight: #606060;
+@body-text: @default-text;
+// @body: @greyscale-28;
+@mist: transparent;
+@active-tab: @greyscale-45;
+@menu-border: #DEDEE0;
+@card-border: #DEDEE0;
+@title-block-border: #DEDEE0;
+
+@light-green: @green-lighten-15;
 
 .orange{
   color: @orange;
@@ -51,12 +82,20 @@
   background-color: @grey;
 }
 
-.body-grey{
-  color: @body-grey;
+.green{
+  color: @green;
 }
 
-.body-grey-bg{
-  background-color: @body-grey;
+.green-bg{
+  background-color: @green;
+}
+
+.body{
+  color: @body;
+}
+
+.body-bg{
+  background-color: @body;
 }
 
 .fog{
@@ -87,4 +126,20 @@
 
 .red-bg{
   background-color: @red;
+}
+
+.orange{
+  color: @orange;
+}
+
+.orange-bg{
+  background-color: @orange;
+}
+
+.yellow{
+  color: @yellow;
+}
+
+.yellow-bg{
+  background-color: @yellow;
 }

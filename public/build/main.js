@@ -299,16 +299,12 @@
   })
   .Class({
     constructor: function(){
-      this.sites = {
-        header: "Qlik Sites",
+      this.sitesone = {
+        header: "QLIK SITES",
         items:[
           {
             text: "Qlik.com",
             link : "http://www.qlik.com"
-          },
-          {
-            text: "Qlik Market",
-            link : "http://market.qlik.com"
           },
           {
             text: "Qlik Cloud",
@@ -318,6 +314,32 @@
             text: "Qlik Community",
             link : "http://community.qlik.com"
           },
+        ]
+      }
+      this.sitestwo = {
+        header: "",
+        items:[
+          {
+            text: "Partner Portal",
+            link : "https://login.qlik.com/login.aspx?returnURL=%2fexternal%2fportal.aspx"
+          },
+          {
+            text: "Qlik Support",
+            link : "https://qliksupport.force.com/apex/QS_Home_Page"
+          }
+        ]
+      }
+      this.sitesthree = {
+        header: "",
+        items:[
+          {
+            text: "Qlik Market",
+            link : "http://market.qlik.com"
+          },
+          {
+            text: "Demo Site",
+            link : "http://sense-demo.qlik.com"
+          }
         ]
       }
     }
@@ -942,7 +964,7 @@
 
     },
     search(field, event){
-      this.pubsub.publish('loading');
+      this.pubsub.publish('loading');    
       if(event.keyCode === 13){
         //confirm the search
         event.target.value = "";
@@ -958,7 +980,7 @@
         });
       }
       else{
-        if(event.target.value.length > 1){
+        if(event.target.value.length > 0){
           this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then((response)=>{
             this.pubsub.publish('update');
           });
@@ -979,7 +1001,7 @@
         this.genericObject.abortListObjectSearch("/qListObjectDef").then((response)=>{
           this.pubsub.publish('update');
         });
-      }    
+      }
     },
     clearFieldSelections(){
       this.pubsub.publish('loading');
@@ -1016,27 +1038,6 @@
       });
     }
   });
-
-  // app.ListObject = (function(){
-  //   function ListObject(){
-  //
-  //   }
-  //   ListObject.prototype = Object.create(Object.prototype({
-  //     field: {
-  //       writable: true,
-  //       value: null
-  //     },
-  //
-  //   }));
-  // });
-  //
-  // app.ListObject.annotations = [
-  //   new ng.core.Component({
-  //     selector: 'playground-vis-listobject',
-  //     inputs: ['field:field'],
-  //     templateUrl: '/views/vis/list-object.html'
-  //   })
-  // ];
 
 
   // //my playground main component
