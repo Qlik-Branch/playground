@@ -1,6 +1,6 @@
 app.Noobs = ng.core.Component({
   selector: 'playground-noobs',
-  templateUrl: '/views/noobs.html'
+  templateUrl: '/views/learn/noobs.html'
 })
 .Class({
   constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function(cdr, dataConnectionService, qsocksService){

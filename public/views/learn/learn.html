@@ -1,0 +1,51 @@
+<div class="content api">
+  <div class="row title-block">
+    <div class="col-md-12">
+      <h1>Learn</h1>
+    </div>
+    <div class="col-md-6">
+      <p>
+        Learning is fun with Qlik Playground!
+      </p>
+    </div>
+  </div>
+  <div class="row relative">
+    <div class="generic-data-detail-menu">
+      <ul>
+        <li>
+          <a [routerLink]="['noobs']" routerLinkActive="active">Qlik For Noobs</a>
+          <div class="generic-data-detail-sub-menu" [ngClass]="{'open':isPath('noobs')}">
+            <ul>
+              <li><a [routerLink]="['noobs/intro']" routerLinkActive="active">Intro</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a [routerLink]="['engine']" routerLinkActive="active">Engine API</a>
+          <div class="generic-data-detail-sub-menu" [ngClass]="{'open':isPath('engine')}">
+            <ul>
+              <li><a [routerLink]="['engine/overview']" routerLinkActive="active">Overview</a></li>
+              <li><a [routerLink]="['engine/authenticating']" routerLinkActive="active">Authenticating</a></li>
+              <li><a [routerLink]="['engine/connecting']" routerLinkActive="active">Connecting</a></li>
+              <li><a [routerLink]="['engine/hypercube']" routerLinkActive="active">Hypercube Basics</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a [routerLink]="['capability']" routerLinkActive="active">Capability APIs</a>
+          <div class="generic-data-detail-sub-menu" [ngClass]="{'open':isPath('capability')}">
+            <ul>
+              <li><a [routerLink]="['capability/overview']" routerLinkActive="active">Overview</a></li>
+              <li><a [routerLink]="['capability/authenticating']" routerLinkActive="active">Authenticating</a></li>
+              <li><a [routerLink]="['capability/connecting']" routerLinkActive="active">Connecting</a></li>
+              <li><a [routerLink]="['capability/visualizations']" routerLinkActive="active">Creating Visualizations</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="generic-data-detail-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

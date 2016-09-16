@@ -343,40 +343,6 @@
     }
   });
 
-  app.Noobs = ng.core.Component({
-    selector: 'playground-noobs',
-    templateUrl: '/views/noobs.html'
-  })
-  .Class({
-    constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function(cdr, dataConnectionService, qsocksService){
-      this.cdr = cdr;
-      this.dataConnectionService = dataConnectionService;
-      this.qsocksService = qsocksService;
-      this.fields = [];
-      this.loading = true;
-      this.connectionStatus = "Please wait...";
-      this.connectionDetail = "Connecting";
-      this.dataConnectionService.getConnectionInfo("noobs", (connInfo)=>{
-          this.qsocksService.connect(connInfo, (err, global, app)=>{
-            if(err){
-              this.connectionStatus = "Error!";
-              this.connectionDetail = err;
-            }
-            if(app){
-              this.loading = false;
-              this.fields = [
-                "Doctor",
-                "Patient",
-                "Drug",
-                "Cost"
-              ]
-              this.cdr.detectChanges();
-            }
-          });
-      });
-    }]
-  });
-
   app.Showcase = ng.core.Component({
     selector: 'playground-showcase',
     templateUrl: '/views/showcase.html'
@@ -435,40 +401,59 @@
   });
 
 
-  app.Apis = ng.core.Component({
-    selector: 'playground-apis',
+  app.Learn = ng.core.Component({
+    selector: 'playground-learn',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/apis.html'
+    templateUrl: '/views/learn/learn.html'
   }).Class({
-    constructor: function(){
-
+    constructor: [ng.router.ActivatedRoute, function(route){
+      this.route = route;
+    }],
+    isPath: function(path){
+      console.log('child url is');
+      console.log(this.route.children[0].url.value[0]);
+      return this.route.children[0].url.value[0].path == path;
     }
   });
 
-  app.Engine = ng.core.Component({
-    selector: 'playground-engine',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/engine.html'
-  }).Class({
-    constructor: function(){
-
-    }
-  });
-
-  app.Capability = ng.core.Component({
-    selector: 'playground-capability',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/capability.html'
-  }).Class({
-    constructor: function(){
-
-    }
+  app.Noobs = ng.core.Component({
+    selector: 'playground-noobs',
+    templateUrl: '/views/learn/noobs.html'
+  })
+  .Class({
+    constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function(cdr, dataConnectionService, qsocksService){
+      this.cdr = cdr;
+      this.dataConnectionService = dataConnectionService;
+      this.qsocksService = qsocksService;
+      this.fields = [];
+      this.loading = true;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
+      this.dataConnectionService.getConnectionInfo("noobs", (connInfo)=>{
+          this.qsocksService.connect(connInfo, (err, global, app)=>{
+            if(err){
+              this.connectionStatus = "Error!";
+              this.connectionDetail = err;
+            }
+            if(app){
+              this.loading = false;
+              this.fields = [
+                "Doctor",
+                "Patient",
+                "Drug",
+                "Cost"
+              ]
+              this.cdr.detectChanges();
+            }
+          });
+      });
+    }]
   });
 
   app.APIContent = ng.core.Component({
     selector: 'playground-api-content',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/api-content.html'
+    templateUrl: '/views/learn/api-content.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.ResourceCenterService, function(route, resourceCenterService){
       this.route = route;
@@ -1107,21 +1092,30 @@
       component: app.Home
     },
     {
-      path: "noobs",
-      component: app.Noobs
-    },
-    {
-      path: 'apis',
-      component: app.Apis,
+      path: 'learn',
+      component: app.Learn,
       children: [
         {
           path: '',
           pathMatch: 'full',
-          redirectTo: 'engine'
+          redirectTo: 'noobs'
+        },
+        {
+          path: 'noobs',
+          children: [
+            {
+              path: '',
+              pathMatch: 'full',
+              redirectTo: 'intro'
+            },
+            {
+              path: 'intro',
+              component: app.Noobs
+            }
+          ]
         },
         {
           path: 'engine',
-          component: app.Engine,
           children: [
             {
               path: '',
@@ -1135,8 +1129,7 @@
           ]
         },
         {
-          path: 'capability',
-          component: app.Capability,
+          path: 'capability',        
           children: [
             {
               path: '',
@@ -1229,9 +1222,7 @@
       app.FooterList,
       app.Home,
       app.Noobs,
-      app.Apis,
-      app.Engine,
-      app.Capability,
+      app.Learn,    
       app.APIContent,
       app.MyPlayground,
       app.MyPlaygroundMyData,

@@ -311,42 +311,12 @@
     }
   });
 
-  app.Noobs = ng.core.Component({
-    selector: 'playground-noobs',
-    templateUrl: '/views/noobs.html'
-  }).Class({
-    constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function (cdr, dataConnectionService, qsocksService) {
-      var _this6 = this;
-
-      this.cdr = cdr;
-      this.dataConnectionService = dataConnectionService;
-      this.qsocksService = qsocksService;
-      this.fields = [];
-      this.loading = true;
-      this.connectionStatus = "Please wait...";
-      this.connectionDetail = "Connecting";
-      this.dataConnectionService.getConnectionInfo("noobs", function (connInfo) {
-        _this6.qsocksService.connect(connInfo, function (err, global, app) {
-          if (err) {
-            _this6.connectionStatus = "Error!";
-            _this6.connectionDetail = err;
-          }
-          if (app) {
-            _this6.loading = false;
-            _this6.fields = ["Doctor", "Patient", "Drug", "Cost"];
-            _this6.cdr.detectChanges();
-          }
-        });
-      });
-    }]
-  });
-
   app.Showcase = ng.core.Component({
     selector: 'playground-showcase',
     templateUrl: '/views/showcase.html'
   }).Class({
     constructor: [app.DataConnectionService, app.UserService, function (dataConnectionService, userService) {
-      var _this7 = this;
+      var _this6 = this;
 
       this.dataConnectionService = dataConnectionService;
       this.userService = userService;
@@ -355,21 +325,21 @@
       this.apiKey;
       this.userService.getUser(false, function (user) {
         if (user && user.user) {
-          _this7.apiKey = user.user.apiKey;
+          _this6.apiKey = user.user.apiKey;
         }
       });
       this.dataConnectionService.getShowcaseItems(function (items) {
-        _this7.items = items;
-        _this7.itemKeys = Object.keys(items);
-        _this7.userService.getUserConnections(function (connections) {
+        _this6.items = items;
+        _this6.itemKeys = Object.keys(items);
+        _this6.userService.getUserConnections(function (connections) {
           var connectionList = connections.connections;
-          for (var i in _this7.items) {
-            if (_this7.items[i].ownData) {
+          for (var i in _this6.items) {
+            if (_this6.items[i].ownData) {
               for (var c in connectionList) {
-                if (_this7.items[i].connectionId == connectionList[c].connection) {
+                if (_this6.items[i].connectionId == connectionList[c].connection) {
                   if (connectionList[c].appid) {
-                    _this7.items[i].canUseOwnData = true;
-                    _this7.items[i].appid = connectionList[c].appid;
+                    _this6.items[i].canUseOwnData = true;
+                    _this6.items[i].appid = connectionList[c].appid;
                   }
                   break;
                 }
@@ -386,48 +356,69 @@
     templateUrl: '/views/login.html'
   }).Class({
     constructor: [app.UserService, function (userService) {
-      var _this8 = this;
+      var _this7 = this;
 
       this.dialog;
       this.user;
       this.loginUrl;
       this.returnUrl;
       userService.getUser(false, function (user) {
-        _this8.user = user.user;
-        _this8.loginUrl = user.loginUrl;
-        _this8.returnUrl = user.returnUrl;
+        _this7.user = user.user;
+        _this7.loginUrl = user.loginUrl;
+        _this7.returnUrl = user.returnUrl;
       });
     }]
   });
 
-  app.Apis = ng.core.Component({
-    selector: 'playground-apis',
+  app.Learn = ng.core.Component({
+    selector: 'playground-learn',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/apis.html'
+    templateUrl: '/views/learn/learn.html'
   }).Class({
-    constructor: function constructor() {}
+    constructor: [ng.router.ActivatedRoute, function (route) {
+      this.route = route;
+    }],
+    isPath: function isPath(path) {
+      console.log('child url is');
+      console.log(this.route.children[0].url.value[0]);
+      return this.route.children[0].url.value[0].path == path;
+    }
   });
 
-  app.Engine = ng.core.Component({
-    selector: 'playground-engine',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/engine.html'
+  app.Noobs = ng.core.Component({
+    selector: 'playground-noobs',
+    templateUrl: '/views/learn/noobs.html'
   }).Class({
-    constructor: function constructor() {}
-  });
+    constructor: [ng.core.ChangeDetectorRef, app.DataConnectionService, app.QSocksService, function (cdr, dataConnectionService, qsocksService) {
+      var _this8 = this;
 
-  app.Capability = ng.core.Component({
-    selector: 'playground-capability',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/capability.html'
-  }).Class({
-    constructor: function constructor() {}
+      this.cdr = cdr;
+      this.dataConnectionService = dataConnectionService;
+      this.qsocksService = qsocksService;
+      this.fields = [];
+      this.loading = true;
+      this.connectionStatus = "Please wait...";
+      this.connectionDetail = "Connecting";
+      this.dataConnectionService.getConnectionInfo("noobs", function (connInfo) {
+        _this8.qsocksService.connect(connInfo, function (err, global, app) {
+          if (err) {
+            _this8.connectionStatus = "Error!";
+            _this8.connectionDetail = err;
+          }
+          if (app) {
+            _this8.loading = false;
+            _this8.fields = ["Doctor", "Patient", "Drug", "Cost"];
+            _this8.cdr.detectChanges();
+          }
+        });
+      });
+    }]
   });
 
   app.APIContent = ng.core.Component({
     selector: 'playground-api-content',
     directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/apis/api-content.html'
+    templateUrl: '/views/learn/api-content.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.ResourceCenterService, function (route, resourceCenterService) {
       var _this9 = this;
@@ -1061,18 +1052,24 @@
     path: "home",
     component: app.Home
   }, {
-    path: "noobs",
-    component: app.Noobs
-  }, {
-    path: 'apis',
-    component: app.Apis,
+    path: 'learn',
+    component: app.Learn,
     children: [{
       path: '',
       pathMatch: 'full',
-      redirectTo: 'engine'
+      redirectTo: 'noobs'
+    }, {
+      path: 'noobs',
+      children: [{
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'intro'
+      }, {
+        path: 'intro',
+        component: app.Noobs
+      }]
     }, {
       path: 'engine',
-      component: app.Engine,
       children: [{
         path: '',
         pathMatch: 'full',
@@ -1083,7 +1080,6 @@
       }]
     }, {
       path: 'capability',
-      component: app.Capability,
       children: [{
         path: '',
         pathMatch: 'full',
@@ -1147,7 +1143,7 @@
 
   app.AppModule = ng.core.NgModule({
     imports: [ng.platformBrowser.BrowserModule, app.MainRoutingProvider],
-    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Apis, app.Engine, app.Capability, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
+    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Learn, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
     providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService, app.QSocksService, app.PubSub],
     bootstrap: [app.AppComponent]
   }).Class({

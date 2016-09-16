@@ -1,7 +1,7 @@
 app.APIContent = ng.core.Component({
   selector: 'playground-api-content',
   directives: [ng.router.ROUTER_DIRECTIVES],
-  templateUrl: '/views/apis/api-content.html'
+  templateUrl: '/views/learn/api-content.html'
 }).Class({
   constructor: [ng.router.ActivatedRoute, app.ResourceCenterService, function(route, resourceCenterService){
     this.route = route;
