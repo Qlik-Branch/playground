@@ -80,7 +80,7 @@ function main(){
       qHyperCubeDef:{
         qMeasures:[{
           qDef:{
-            qDef: "=Count(DISTINCT Beer)",
+            qDef: "=Count(DISTINCT beer_bid)",
             hideLabel: true
           }
         }],
