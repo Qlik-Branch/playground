@@ -212,16 +212,16 @@ button{
     left: 0;
   }
 }
-
 .title-block{
   background-color: @body;
   background-image: url(/resources/section-header.png);
   background-size: cover;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   color: @default-text;
   border-bottom: 2px solid @title-block-border;
 }
+
 
 .section-header{
   height: 150px;
@@ -229,9 +229,12 @@ button{
   border-radius: 75px;
   background-color: white;
   text-align: center;
-  margin: 0 15px;
+  margin: 0 68px;
   position: relative;
   display: inline-block;
+  -webkit-box-shadow: 4px 4px 11px 0px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    4px 4px 11px 0px rgba(50, 50, 50, 0.75);
+box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
   h1{
     font-size: 22px;
     position: absolute;
@@ -259,9 +262,10 @@ button{
 .section-description{
   display: inline-block;
   height: 150px;
-  width: ~"calc(100% - 200px)";
+  width: ~"calc(100% - 300px)";
   position: relative;
   .section-description-content{
+    color:white;
     position: absolute;
     left: 0;
     bottom: 0;
@@ -439,7 +443,24 @@ a.lui-button{
     border: 2px solid @green-darken-30;
   }
 }
-
+playground-showcase{
+    .title-block{
+        background-image: url(/resources/showcase_bg.jpg);
+        background-position: 0px -149px;
+    }
+}
+playground-learn{
+    .title-block{
+        background-image: url(/resources/learn_bg.jpg);
+        background-position: 0px -173px;
+    }
+}
+playground-my-playground{
+    .title-block{
+        background-image: url(/resources/play_bg.jpg);
+        background-position: 0px 0px;
+    }
+}
 @import "./home.less";
 @import "./coming-soon.less";
 @import "./apis.less";
