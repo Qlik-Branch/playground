@@ -67,58 +67,21 @@ app.get('/denied', function(req, res){
   res.render(__dirname+'/server/views/denied.jade', {});
 });
 
-var ntlmConfig ={
-  debug: function() {
-      var args = Array.prototype.slice.apply(arguments);
-      console.log.apply(null, args);
-  },
-  domain: "QTSEL"
-}
-
-var accessList = [
-  "nwr",
-  "bmz",
-  "akl",
-  "rie",
-  "baz",
-  "jwr",
-  "dsa",
-  "pnt",
-  "aai",
-  "swr",
-  "lhr",
-  "axt",
-  "bfk",
-  "okg",
-  "tmg",
-  "dfs",
-  "mry",
-  "nby",
-  "jyr",
-  "gmn",
-  "lgz",
-  "hsg",
-  "jbj",
-  "cbl",
-  "mgo",
-  "pwb"
-];
+// var ntlmConfig ={
+//   debug: function() {
+//       var args = Array.prototype.slice.apply(arguments);
+//       console.log.apply(null, args);
+//   },
+//   domain: "QTSEL"
+// }
 
 app.get('/', function(req, res){
   res.redirect('/home');
 });
 
 //all other routes should be dealt with by the client
-app.get('/*',  ntlm(ntlmConfig), function(req, res){  
-  // if(req.ntlm && accessList.indexOf(req.ntlm.UserName.toLowerCase())==-1){
-  //   console.log('user doesnt exist');
-  //   res.redirect('/denied');
-  // }
-  // else{
-    console.log('user is');
-    console.log(req.ntlm);
-    res.render('index.jade', {});
-  // }
+app.get('/*', function(req, res){
+  res.render('index.jade', {});
 });
 
 app.listen(process.env.PORT || 3000, function(){
