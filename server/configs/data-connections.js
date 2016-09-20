@@ -11,8 +11,7 @@ module.exports = {
     projects: [
       "basic-engine-template",
       "playground-capabilities-template",
-      "playground-natural-language-vis",
-      "github-search-template"
+      "playground-natural-language-vis"
     ]
   },
   untappd:{
