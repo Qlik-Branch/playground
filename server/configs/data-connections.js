@@ -4,7 +4,7 @@ module.exports = {
     name: "GitHub",
     directory: "github-dictionary-master",
     endpoint: "https://api.github.com",
-    description: "All your GitHub repos, issues and stars.",
+    description: "Connecting to this dataset will grab all of your GitHub repositories, issues and stars.",
     dictionary: "/dictionaries/github/dictionary.json",
     icon: "/dictionaries/github/icon.png",
     loadscript: "Users:LOAD *; SQL SELECT * FROM User;Repos:LOAD *; SQL SELECT * FROM Repos;",
@@ -19,7 +19,7 @@ module.exports = {
     name: "Untappd",
     directory: "untappd-checkins-master",
     endpoint: "https://api.untappd.com",
-    description: "All your Beers, Badges and Toasts.",
+    description: "Connect to your Untappd account to access data on your rated beers, badges and toasts.",
     dictionary: "/dictionaries/untappd/dictionary.json",
     icon: "/dictionaries/untappd/icon.png",
     loadscript: `
@@ -118,7 +118,7 @@ module.exports = {
     name: "Twitter",
     directory: "twitter-dictionary-master",
     endpoint: "https://api.twitter.com",
-    description: "Your last 1000 tweets. If you have that many of course.",
+    description: "This dataset will contain your last 1000 tweets, if you have that many of course.",
     dictionary: "/dictionaries/twitter/dictionary.json",
     icon: "/dictionaries/twitter/icon.png",
     loadscript: `
