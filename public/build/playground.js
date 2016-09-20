@@ -550,15 +550,26 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-data-list.html'
   }).Class({
-    constructor: [app.UserService, function (userService) {
+    constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
       var _this11 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
-      this.myConns;
-      this.myConnKeys;
+      //my data
+      this.myConns = {};
+      this.myConnKeys = [];
+      //sample data
+      this.apps = {};
+      this.appKeys = [];
+      //connect
+      this.conns = {};
+      this.connKeys = [];
+      route.params.subscribe(function (route) {
+        _this11.tab = route.tab;
+      });
       userService.getUser(false, function (user) {
         if (user) {
+          //my data
           if (user.myParsedConnections) {
             _this11.myConns = user.myParsedConnections;
             _this11.myConnKeys = Object.keys(_this11.myConns);
@@ -566,25 +577,13 @@
           if (user.runningAppCount) {
             _this11.myRunningAppCount = user.runningAppCount;
           }
+          //sample data
+          _this11.apps = user.sampleData;
+          _this11.appKeys = Object.keys(_this11.apps);
+          //connect
+          _this11.conns = user.dataConnections;
+          _this11.connKeys = Object.keys(_this11.conns);
         }
-      });
-    }]
-  });
-
-  app.SampleDataList = ng.core.Component({
-    selector: 'sample-data-list',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/my-playground/sample-data-list.html'
-  }).Class({
-    constructor: [app.UserService, function (userService) {
-      var _this12 = this;
-
-      this.apps = {};
-      this.appKeys = [];
-      userService.getUser(false, function (user) {
-        _this12.apps = user.sampleData;
-        _this12.appKeys = Object.keys(_this12.apps);
       });
     }]
   });
@@ -595,7 +594,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-delete.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this13 = this;
+      var _this12 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -606,21 +605,21 @@
       this.connection;
       this.isMyData = false;
       userService.getUser(false, function (user) {
-        if (user.myParsedConnections[_this13.connectionId]) {
-          _this13.isMyData = true;
-          _this13.connection = user.myParsedConnections[_this13.connectionId];
+        if (user.myParsedConnections[_this12.connectionId]) {
+          _this12.isMyData = true;
+          _this12.connection = user.myParsedConnections[_this12.connectionId];
         } else {
-          _this13.connection = user.sampleData[_this13.connectionId];
+          _this12.connection = user.sampleData[_this12.connectionId];
         }
-        _this13.myRunningAppCount = user.runningAppCount;
-        _this13.getConnectionInfo(_this13.connectionId);
+        _this12.myRunningAppCount = user.runningAppCount;
+        _this12.getConnectionInfo(_this12.connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this14 = this;
+      var _this13 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this14.onConnectionInfo(connInfo);
+        _this13.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -632,16 +631,16 @@
       }
     },
     deleteAppAndConnection: function deleteAppAndConnection(connectionId) {
-      var _this15 = this;
+      var _this14 = this;
 
       this.connectionStatus = "Deleting";
       this.connectionStatusDetail = "Stopping application.";
       this.dataConnectionService.stopApp(connectionId, function (connInfo) {
-        _this15.connectionStatusDetail = "Deleting application.";
-        _this15.dataConnectionService.deleteConnection(connectionId, function (result) {
+        _this14.connectionStatusDetail = "Deleting application.";
+        _this14.dataConnectionService.deleteConnection(connectionId, function (result) {
           if (result.err) {
-            _this15.connectionStatus = "Error";
-            _this15.connectionStatusDetail = err;
+            _this14.connectionStatus = "Error";
+            _this14.connectionStatusDetail = err;
           } else {
             window.location.pathname = "myplayground/mydata";
           }
@@ -662,10 +661,10 @@
       this.getConnectionInfo(connectionId);
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this16 = this;
+      var _this15 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this16.onConnectionInfo(connInfo);
+        _this15.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -699,7 +698,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-field-explorer.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, ng.core.ChangeDetectorRef, app.UserService, app.DataConnectionService, app.QSocksService, function (route, cdr, userService, dataConnectionService, qsocksService) {
-      var _this17 = this;
+      var _this16 = this;
 
       this.userService = userService;
       this.dataConnectionService = dataConnectionService;
@@ -713,11 +712,11 @@
       this.fieldKeys;
       this.selectedFields = [];
       this.userService.getUser(false, function (user) {
-        _this17.dataConnectionService.getConnectionInfo(_this17.connectionId, function (connInfo) {
-          _this17.qsocksService.connect(connInfo, function (err, global, app) {
+        _this16.dataConnectionService.getConnectionInfo(_this16.connectionId, function (connInfo) {
+          _this16.qsocksService.connect(connInfo, function (err, global, app) {
             if (err) {
-              _this17.connectionStatus = "Error!";
-              _this17.connectionDetail = err;
+              _this16.connectionStatus = "Error!";
+              _this16.connectionDetail = err;
             }
             if (app) {
               var fieldListDef = {
@@ -728,13 +727,13 @@
               };
               app.createSessionObject(fieldListDef).then(function (fieldsObject) {
                 fieldsObject.getLayout().then(function (layout) {
-                  _this17.loading = false;
+                  _this16.loading = false;
                   layout.qFieldList.qItems.forEach(function (item, index) {
-                    _this17.fields[item.qName] = { selected: false };
+                    _this16.fields[item.qName] = { selected: false };
                   });
-                  console.log(_this17.fields);
-                  _this17.fieldKeys = Object.keys(_this17.fields).sort();
-                  _this17.cdr.detectChanges();
+                  console.log(_this16.fields);
+                  _this16.fieldKeys = Object.keys(_this16.fields).sort();
+                  _this16.cdr.detectChanges();
                 });
               });
             }
@@ -758,7 +757,7 @@
     templateUrl: '/views/my-playground/generic-data-detail-templates.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, ng.platformBrowser.DomSanitizationService, function (route, userService, domsanService) {
-      var _this18 = this;
+      var _this17 = this;
 
       this.domsanService = domsanService;
       var connectionId = route.parent.url.value[0].path;
@@ -772,22 +771,22 @@
       }
       userService.getUser(false, function (user) {
         if (user.myParsedConnections[connectionId]) {
-          _this18.isMyData = true;
-          _this18.connection = user.myParsedConnections[connectionId];
+          _this17.isMyData = true;
+          _this17.connection = user.myParsedConnections[connectionId];
         } else {
-          _this18.connection = user.sampleData[connectionId];
+          _this17.connection = user.sampleData[connectionId];
         }
-        _this18.sampleProjects = user.sampleProjects;
-        _this18.sampleProjectKeys = Object.keys(_this18.sampleProjects);
+        _this17.sampleProjects = user.sampleProjects;
+        _this17.sampleProjectKeys = Object.keys(_this17.sampleProjects);
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
 
         try {
-          for (var _iterator = _this18.sampleProjectKeys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          for (var _iterator = _this17.sampleProjectKeys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var p = _step.value;
 
-            _this18.sampleProjects[p].ghdlUrl = _this18.domsanService.bypassSecurityTrustUrl(_this18.ghdlPrefix + '://openRepo/' + _this18.sampleProjects[p]['github-repo']);
+            _this17.sampleProjects[p].ghdlUrl = _this17.domsanService.bypassSecurityTrustUrl(_this17.ghdlPrefix + '://openRepo/' + _this17.sampleProjects[p]['github-repo']);
           }
         } catch (err) {
           _didIteratorError = true;
@@ -821,7 +820,7 @@
     templateUrl: '/views/my-playground/generic-data-detail.html'
   }).Class({
     constructor: [ng.router.ActivatedRoute, app.UserService, app.DataConnectionService, function (route, userService, dataConnectionService) {
-      var _this19 = this;
+      var _this18 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
@@ -831,22 +830,22 @@
       this.connection = {};
       this.isMyData = false;
       userService.getUser(false, function (user) {
-        _this19.myRunningAppCount = user.runningAppCount;
+        _this18.myRunningAppCount = user.runningAppCount;
         if (user.myParsedConnections[connectionId]) {
-          _this19.isMyData = true;
-          _this19.connection = user.myParsedConnections[connectionId];
+          _this18.isMyData = true;
+          _this18.connection = user.myParsedConnections[connectionId];
         } else {
-          _this19.connectionStatus = "Running";
-          _this19.connection = user.sampleData[connectionId];
+          _this18.connectionStatus = "Running";
+          _this18.connection = user.sampleData[connectionId];
         }
-        _this19.getConnectionInfo(connectionId);
+        _this18.getConnectionInfo(connectionId);
       });
     }],
     getConnectionInfo: function getConnectionInfo(connectionId) {
-      var _this20 = this;
+      var _this19 = this;
 
       this.dataConnectionService.getConnectionInfo(connectionId, function (connInfo) {
-        _this20.onConnectionInfo(connInfo);
+        _this19.onConnectionInfo(connInfo);
       });
     },
     onConnectionInfo: function onConnectionInfo(info) {
@@ -858,30 +857,30 @@
       }
     },
     startApp: function startApp(connectionId) {
-      var _this21 = this;
+      var _this20 = this;
 
       this.connectionStatus = "Starting";
       this.connectionStatusDetail = "Starting application.";
       this.dataConnectionService.startApp(connectionId, function (connInfo) {
-        _this21.getConnectionInfo(connectionId);
+        _this20.getConnectionInfo(connectionId);
       });
     },
     stopApp: function stopApp(connectionId) {
-      var _this22 = this;
+      var _this21 = this;
 
       this.connectionStatus = "Stopping";
       this.connectionStatusDetail = "Stopping application.";
       this.dataConnectionService.stopApp(connectionId, function (connInfo) {
-        _this22.getConnectionInfo(connectionId);
+        _this21.getConnectionInfo(connectionId);
       });
     },
     reloadApp: function reloadApp(connectionId) {
-      var _this23 = this;
+      var _this22 = this;
 
       this.connectionStatus = "Reloading";
       this.connectionStatusDetail = "Reloading application.";
       this.dataConnectionService.reloadApp(connectionId, function (connInfo) {
-        _this23.getConnectionInfo(connectionId);
+        _this22.getConnectionInfo(connectionId);
       });
     }
   });
@@ -892,31 +891,6 @@
     templateUrl: '/views/my-playground/my-playground-my-data.html'
   }).Class({
     constructor: function constructor() {}
-  });
-
-  app.MyPlaygroundSampleData = ng.core.Component({
-    selector: 'playground-my-playground-sample-data',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-sample-data.html'
-  }).Class({
-    constructor: function constructor() {}
-  });
-
-  app.MyPlaygroundConnect = ng.core.Component({
-    selector: 'playground-my-playground-connect',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-connect.html'
-  }).Class({
-    constructor: [app.UserService, function (userService) {
-      var _this24 = this;
-
-      this.conns;
-      this.connKeys;
-      userService.getUser(false, function (user) {
-        _this24.conns = user.dataConnections;
-        _this24.connKeys = Object.keys(_this24.conns);
-      });
-    }]
   });
 
   app.ListObject = ng.core.Component({
@@ -934,7 +908,7 @@
       this.genericObject;
     }],
     ngOnInit: function ngOnInit() {
-      var _this25 = this;
+      var _this23 = this;
 
       var def = {
         qInfo: {
@@ -962,60 +936,60 @@
         }
       };
       this.qsocksService.app.createSessionObject(def).then(function (genericObject) {
-        _this25.pubsub.subscribe('update', genericObject.handle, _this25.getLayout.bind(_this25));
-        _this25.pubsub.subscribe('loading', genericObject.handle, _this25.setLoading.bind(_this25));
-        _this25.genericObject = genericObject;
-        _this25.getLayout();
+        _this23.pubsub.subscribe('update', genericObject.handle, _this23.getLayout.bind(_this23));
+        _this23.pubsub.subscribe('loading', genericObject.handle, _this23.setLoading.bind(_this23));
+        _this23.genericObject = genericObject;
+        _this23.getLayout();
       });
     },
     clearAll: function clearAll() {},
     search: function search(field, event) {
-      var _this26 = this;
+      var _this24 = this;
 
       this.pubsub.publish('loading');
       if (event.keyCode === 13) {
         //confirm the search
         event.target.value = "";
         this.genericObject.acceptListObjectSearch("/qListObjectDef", true).then(function (response) {
-          _this26.pubsub.publish('update');
+          _this24.pubsub.publish('update');
         });
       } else if (event.keyCode === 27 || event.target.value.length == 0) {
         //cancel the search
         event.target.value = "";
         this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
-          _this26.pubsub.publish('update');
+          _this24.pubsub.publish('update');
         });
       } else {
         if (event.target.value.length > 0) {
           this.genericObject.searchListObjectFor("/qListObjectDef", event.target.value).then(function (response) {
-            _this26.pubsub.publish('update');
+            _this24.pubsub.publish('update');
           });
         } else {
           this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
-            _this26.pubsub.publish('update');
+            _this24.pubsub.publish('update');
           });
         }
       }
       console.log('searching');
     },
     clearSearch: function clearSearch(field, event) {
-      var _this27 = this;
+      var _this25 = this;
 
       this.pubsub.publish('loading');
       var inputEl = document.getElementById(field + "_search_input");
       if (inputEl) {
         inputEl.value = "";
         this.genericObject.abortListObjectSearch("/qListObjectDef").then(function (response) {
-          _this27.pubsub.publish('update');
+          _this25.pubsub.publish('update');
         });
       }
     },
     clearFieldSelections: function clearFieldSelections() {
-      var _this28 = this;
+      var _this26 = this;
 
       this.pubsub.publish('loading');
       this.genericObject.clearSelections("/qListObjectDef").then(function (response) {
-        _this28.pubsub.publish('update');
+        _this26.pubsub.publish('update');
       });
     },
     setLoading: function setLoading() {
@@ -1025,28 +999,28 @@
       }
     },
     getLayout: function getLayout() {
-      var _this29 = this;
+      var _this27 = this;
 
       this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
-          _this29.listValues.push(row[0]);
+          _this27.listValues.push(row[0]);
         });
-        _this29.cdr.detectChanges();
-        var loadingEl = document.getElementById(_this29.field + "_listbox_loading");
+        _this27.cdr.detectChanges();
+        var loadingEl = document.getElementById(_this27.field + "_listbox_loading");
         if (loadingEl) {
           loadingEl.classList.remove('loading');
         }
       });
     },
     toggleValue: function toggleValue(elemNum, event) {
-      var _this30 = this;
+      var _this28 = this;
 
       this.pubsub.publish('loading');
       this.genericObject.selectListObjectValues("/qListObjectDef", [parseInt(elemNum)], true).then(function (response) {
         event.target.parentElement.scrollTop = 0;
-        _this30.pubsub.publish('update');
+        _this28.pubsub.publish('update');
       });
     }
   });
@@ -1057,12 +1031,51 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.Router, function (userService, route) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+      var _this29 = this;
+
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.myConns;
+      this.myConnKeys;
+      this.route = route;
+      //title block variables
+      this.title = "";
+      this.description = "";
+      this.tab = "";
       userService.getUser(false, function (user) {
         if (!user.user) {
           route.navigate(["/login"]);
           // window.location.pathname = "login";
         }
+        if (user) {
+          if (user.myParsedConnections) {
+            _this29.myConns = user.myParsedConnections;
+            _this29.myConnKeys = Object.keys(_this29.myConns);
+          }
+          if (user.runningAppCount) {
+            _this29.myRunningAppCount = user.runningAppCount;
+          }
+        }
+        route.children[0].params.subscribe(function (route) {
+          _this29.tab = route.tab;
+          switch (route.tab) {
+            case "mydata":
+              _this29.title = "My Data";
+              _this29.description = '\n              Here is a list of your authorized connections. You can authorize as many connections as you would like but you can only have ' + _this29.MAX_RUNNING_APPS + ' active at the same time.\n              <br>\n              <strong class="orange">Connections active (' + _this29.myRunningAppCount + ' of ' + _this29.MAX_RUNNING_APPS + ')</strong>\n              ';
+              break;
+            case "sampledata":
+              _this29.title = "Sample Data";
+              _this29.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+              break;
+            case "connect":
+              _this29.title = "Connect";
+              _this29.description = "Want to create projects using your own data. Below are some connections which you can use.";
+              break;
+            default:
+
+          }
+        });
       });
     }]
   });
@@ -1143,7 +1156,7 @@
       pathMatch: 'full',
       redirectTo: 'mydata'
     }, {
-      path: 'mydata',
+      path: ':tab',
       component: app.MyPlaygroundMyData,
       children: [{
         path: '',
@@ -1189,7 +1202,7 @@
 
   app.AppModule = ng.core.NgModule({
     imports: [ng.platformBrowser.BrowserModule, app.MainRoutingProvider],
-    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Learn, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyPlaygroundSampleData, app.MyPlaygroundConnect, app.MyDataList, app.SampleDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
+    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Learn, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
     providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService, app.QSocksService, app.PubSub],
     bootstrap: [app.AppComponent]
   }).Class({

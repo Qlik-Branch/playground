@@ -588,13 +588,24 @@
     templateUrl: '/views/my-playground/my-data-list.html'
   })
   .Class({
-    constructor: [app.UserService, function(userService){
+    constructor: [ng.router.ActivatedRoute, app.UserService, function(route, userService){
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
-      this.myConns;
-      this.myConnKeys;
+      //my data
+      this.myConns = {};
+      this.myConnKeys = [];
+      //sample data
+      this.apps = {};
+      this.appKeys = [];
+      //connect
+      this.conns = {};
+      this.connKeys = [];
+      route.params.subscribe((route)=>{
+        this.tab = route.tab;
+      });
       userService.getUser(false, (user)=>{
         if(user){
+          //my data
           if(user.myParsedConnections){
             this.myConns = user.myParsedConnections;
             this.myConnKeys = Object.keys(this.myConns);
@@ -602,27 +613,16 @@
           if(user.runningAppCount){
             this.myRunningAppCount = user.runningAppCount;
           }
+          //sample data
+          this.apps = user.sampleData;
+          this.appKeys = Object.keys(this.apps);
+          //connect
+          this.conns = user.dataConnections;
+          this.connKeys = Object.keys(this.conns);
         }
       })
     }
     ]
-  })
-
-  app.SampleDataList = ng.core.Component({
-    selector: 'sample-data-list',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    viewProviders: [],
-    templateUrl: '/views/my-playground/sample-data-list.html'
-  })
-  .Class({
-    constructor: [app.UserService, function(userService){
-      this.apps = {};
-      this.appKeys = [];    
-      userService.getUser(false, (user)=>{
-        this.apps = user.sampleData;
-        this.appKeys = Object.keys(this.apps);
-      });
-    }]
   })
 
   app.GenericDataDetailDelete = ng.core.Component({
@@ -906,33 +906,6 @@
     }
   });
 
-  app.MyPlaygroundSampleData = ng.core.Component({
-    selector: 'playground-my-playground-sample-data',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-sample-data.html'
-  })
-  .Class({
-    constructor: function(){
-
-    }
-  })
-
-  app.MyPlaygroundConnect = ng.core.Component({
-    selector: 'playground-my-playground-connect',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-connect.html'
-  })
-  .Class({
-    constructor: [app.UserService, function(userService){
-      this.conns;
-      this.connKeys;
-      userService.getUser(false, (user)=>{
-        this.conns = user.dataConnections;
-        this.connKeys = Object.keys(this.conns);
-      })
-    }]
-  })
-
 
   app.ListObject = ng.core.Component({
     selector: 'playground-vis-listobject',
@@ -1073,13 +1046,54 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.Router, function (userService, route) {
-      userService.getUser(false, function (user) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.myConns;
+      this.myConnKeys;
+      this.route = route;
+      //title block variables
+      this.title = "";
+      this.description = "";
+      this.tab = "";
+      userService.getUser(false, (user)=>{
         if(!user.user){
           route.navigate(["/login"]);
           // window.location.pathname = "login";
         }
-      });
+        if(user){
+          if(user.myParsedConnections){
+            this.myConns = user.myParsedConnections;
+            this.myConnKeys = Object.keys(this.myConns);
+          }
+          if(user.runningAppCount){
+            this.myRunningAppCount = user.runningAppCount;
+          }
+        }
+        route.children[0].params.subscribe((route)=>{
+          this.tab = route.tab;
+          switch (route.tab) {
+            case "mydata":
+              this.title = "My Data";
+              this.description = `
+              Here is a list of your authorized connections. You can authorize as many connections as you would like but you can only have ${this.MAX_RUNNING_APPS} active at the same time.
+              <br>
+              <strong class="orange">Connections active (${this.myRunningAppCount} of ${this.MAX_RUNNING_APPS})</strong>
+              `;
+              break;
+            case "sampledata":
+              this.title = "Sample Data";
+              this.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+              break;
+            case "connect":
+              this.title = "Connect";
+              this.description = "Want to create projects using your own data. Below are some connections which you can use.";
+              break;
+            default:
+
+          }
+        });
+      })
     }]
   });
 
@@ -1186,7 +1200,7 @@
           redirectTo: 'mydata'
         },
         {
-          path: 'mydata',
+          path: ':tab',
           component: app.MyPlaygroundMyData,
           children: [
             {
@@ -1254,14 +1268,11 @@
       app.FooterList,
       app.Home,
       app.Noobs,
-      app.Learn,    
+      app.Learn,
       app.APIContent,
       app.MyPlayground,
-      app.MyPlaygroundMyData,
-      app.MyPlaygroundSampleData,
-      app.MyPlaygroundConnect,
+      app.MyPlaygroundMyData,  
       app.MyDataList,
-      app.SampleDataList,
       app.GenericDataDetail,
       app.GenericDataDetailDelete,
       app.GenericDataDetailGettingStarted,

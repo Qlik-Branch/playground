@@ -245,7 +245,13 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
     }
   }
   &.section-header--green{
-    border: 15px solid @light-green;
+    border: 15px solid @green;
+  }
+  &.section-header--orange{
+    border: 15px solid @orange;
+  }
+  &.section-header--yellow{
+    border: 15px solid @yellow;
   }
   &.one-line{
     h1{
@@ -272,6 +278,32 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
     left: 0;
     bottom: 0;
     font-weight: bold;
+  }
+}
+
+.sub-section{
+  height: 80px;
+  position: relative;
+  background-color: @header;
+  color: white;
+  border-bottom: 1px solid @menu-border;
+  h1{
+    font-size: 22px;
+    display: inline-block;
+  }
+  .sub-h1{
+    font-size: 16px;
+  }
+  img{
+    display: inline-block;
+    height: 80px;
+  }
+  .sub-section-header{
+    display: inline-block;
+  }
+  .sub-section-buttons{
+    height: 80px;
+    display: inline-block;
   }
 }
 
