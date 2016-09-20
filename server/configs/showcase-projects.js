@@ -2,7 +2,7 @@ module.exports = {
   untappd: {
     id: "untappd",
     name: "Untappd Dashboard",
-    description: "An example dashboard that uses data from the Untappd mobile app",
+    description: "A simple dashboard using sample data from the Untappd beer app.  You can connect to your own Untappd data in the 'My Playground' section.,
     url: "/liveshowcase/untappd/index.html",
     ownData: true,
     connectionId: "untappd",
@@ -13,7 +13,7 @@ module.exports = {
   pokemonApp: {
     id: "pokemonApp",
     name: "Pokemon App",
-    description: "An example web application using data from Pokemon",
+    description: "A very simple web application using data from Pokemon.  Choose a pokemon character and see which other characters share similar traits.",
     url: "/liveshowcase/pokemonApp/index.html",
     ownData: true,
     connectionId: "",
@@ -25,7 +25,7 @@ module.exports = {
   airBnBApp: {
     id: "airBnBApp",
     name: "AirBnB App",
-    description: "An example web application which uses data from AirBnB",
+    description: "An example web application submitted to one of our Hackathons.  This app allows you to see AirBnB locations in certain cities as well as filter those locations and even see local weather.",
     url: "/liveshowcase/airBnBApp/index.html",
     ownData: true,
     connectionId: "",
