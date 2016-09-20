@@ -1,19 +1,5 @@
 <div class="my-playground-main">
-  <div class="my-playground-connections">
-    <div class="row title-block">
-      <div class="col-md-12">
-        <div class="section-header section-header--green one-line">
-          <h1>My Data</h1>
-        </div>
-        <div class="section-description">
-          <p class="section-description-content">
-            You have authorised the following connections. You can authorise as many connections as you would like but you can only have {{MAX_RUNNING_APPS}} active at the same time. To start, stop or see connection info simply click on the connection you would like to use.
-            <br>
-            <strong class="orange">Connections active ({{myRunningAppCount}} of {{MAX_RUNNING_APPS}})</strong>
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="my-playground-connections" *ngIf="tab=='mydata'">
     <div class="row options-cards data-connections-container">
       <div *ngFor="let key of myConnKeys" class="col-md-3">
         <div class="button-card">
@@ -45,4 +31,43 @@
       </div>
     </div>
   </div>
+  <div class="my-playground-sample-data" *ngIf="tab=='sampledata'">
+    <div class="row options-cards sample-data-container">
+      <div *ngFor="let key of appKeys" (click)="showDetail(key, 'sampledata')"  class="col-md-3 ">
+        <div class="button-card">
+          <img src="{{apps[key].icon}}" alt="" />
+          <div class="card-title">
+            {{apps[key].name}}
+          </div>
+          <p class="card-text">
+            {{apps[key].description}}
+          </p>
+          <div class="line-button-container">
+            <a [routerLink]="[key]" class="playground-button playground-button--orange">Play</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="my-playground-connections" *ngIf="tab=='connect'">    
+    <div class="row options-cards data-connections-container">
+      <div *ngFor="let key of connKeys" class="col-md-3">
+        <div class="button-card">
+          <img src="{{conns[key].icon}}" alt="" />
+          <div class="card-title">
+            {{conns[key].name}}
+          </div>
+          <p class="card-text">
+            {{conns[key].description}}
+          </p>
+          <span class="green" *ngIf="conns[key].authorised===true">Authorised</span>
+          <div class="line-button-container">
+            <a *ngIf="!conns[key].authorised" href="/server/authorise/{{key}}" class="playground-button playground-button--orange " type="button" name="button" (click)="authoriseConnection(key)">Authorise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

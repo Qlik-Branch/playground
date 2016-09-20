@@ -536,15 +536,26 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-data-list.html'
   }).Class({
-    constructor: [app.UserService, function (userService) {
+    constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
       var _this11 = this;
 
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
-      this.myConns;
-      this.myConnKeys;
+      //my data
+      this.myConns = {};
+      this.myConnKeys = [];
+      //sample data
+      this.apps = {};
+      this.appKeys = [];
+      //connect
+      this.conns = {};
+      this.connKeys = [];
+      route.params.subscribe(function (route) {
+        _this11.tab = route.tab;
+      });
       userService.getUser(false, function (user) {
         if (user) {
+          //my data
           if (user.myParsedConnections) {
             _this11.myConns = user.myParsedConnections;
             _this11.myConnKeys = Object.keys(_this11.myConns);
@@ -552,6 +563,12 @@
           if (user.runningAppCount) {
             _this11.myRunningAppCount = user.runningAppCount;
           }
+          //sample data
+          _this11.apps = user.sampleData;
+          _this11.appKeys = Object.keys(_this11.apps);
+          //connect
+          _this11.conns = user.dataConnections;
+          _this11.connKeys = Object.keys(_this11.conns);
         }
       });
     }]
@@ -1009,12 +1026,51 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.Router, function (userService, route) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+      var _this31 = this;
+
+      this.MAX_RUNNING_APPS = 3;
+      this.myRunningAppCount = 0;
+      this.myConns;
+      this.myConnKeys;
+      this.route = route;
+      //title block variables
+      this.title = "";
+      this.description = "";
+      this.tab = "";
       userService.getUser(false, function (user) {
         if (!user.user) {
           route.navigate(["/login"]);
           // window.location.pathname = "login";
         }
+        if (user) {
+          if (user.myParsedConnections) {
+            _this31.myConns = user.myParsedConnections;
+            _this31.myConnKeys = Object.keys(_this31.myConns);
+          }
+          if (user.runningAppCount) {
+            _this31.myRunningAppCount = user.runningAppCount;
+          }
+        }
+        route.children[0].params.subscribe(function (route) {
+          _this31.tab = route.tab;
+          switch (route.tab) {
+            case "mydata":
+              _this31.title = "My Data";
+              _this31.description = '\n              Here is a list of your authorized connections. You can authorize as many connections as you would like but you can only have ' + _this31.MAX_RUNNING_APPS + ' active at the same time.\n              <br>\n              <strong class="orange">Connections active (' + _this31.myRunningAppCount + ' of ' + _this31.MAX_RUNNING_APPS + ')</strong>\n              ';
+              break;
+            case "sampledata":
+              _this31.title = "Sample Data";
+              _this31.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+              break;
+            case "connect":
+              _this31.title = "Connect";
+              _this31.description = "Want to create projects using your own data. Below are some connections which you can use.";
+              break;
+            default:
+
+          }
+        });
       });
     }]
   });
@@ -1092,7 +1148,7 @@
       pathMatch: 'full',
       redirectTo: 'mydata'
     }, {
-      path: 'mydata',
+      path: ':tab',
       component: app.MyPlaygroundMyData,
       children: [{
         path: '',

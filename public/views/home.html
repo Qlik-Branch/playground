@@ -3,20 +3,7 @@
     <div class="col-md-12 hero-spot-image">
         <div class="container hero-spot">
           <div class="row">
-            <div class="col-md-6 yellow">
-              <div class="button-card">
-                <img src="/resources/Showcase-Gears.png" alt="" />
-                <div class="card-title">
-                  Showcase
-                </div>
-                <p class="card-text">
-                  Stuck for ideas? Take a look at our showcase items for inspiration.
-                </p>
-                <div class="line-button-container">
-                  <a [routerLink]="['/showcase']" class="playground-button playground-button--yellow " type="button" name="button">View Showcase</a>
-                </div>
-              </div>
-            </div>
+            
             <div class="col-md-6 orange">
               <div class="button-card">
                 <img src="/resources/bulb.png" alt="" />
@@ -24,10 +11,24 @@
                   Learn
                 </div>
                 <p class="card-text">
-                  New to Qlik? Checkout our Noobs page where you can discover just what our technology does.
+                  New to Qlik technologies?  No problem. Start here for introductions to our QIX engine and APIs that deliver a simple path to data driven development. Then, hit the deep dives of our APIs to give you all the tools so you can get playing!
                 </p>
                 <div class="line-button-container">
                   <a [routerLink]="['/learn']" class="playground-button playground-button--orange " type="button" name="button">Noobs start here</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 yellow">
+              <div class="button-card">
+                <img src="/resources/Showcase-Gears.png" alt="" />
+                <div class="card-title">
+                  Showcase
+                </div>
+                <p class="card-text">
+                  Find inspiration for application ideas with existing open source projects—such as tracking your adult beverage preference or navigating your hotel options within large cities. Find the code, make it your own, then become part of the showcase too!
+                </p>
+                <div class="line-button-container">
+                  <a [routerLink]="['/showcase']" class="playground-button playground-button--yellow " type="button" name="button">View Showcase</a>
                 </div>
               </div>
             </div>
@@ -45,9 +46,9 @@
           <img src="/resources/Beaker.png" alt="" />
           <span class="bspot-title">Play</span>
         </div>
-        <p>
-          Want to start using Qlik Playground and working with the Qlik API's?
-          In the 'My Playground' area you can connect to familiar data sources or work with sample data to start building solutions.
+        <p><br />
+          Want to start using Qlik Playground and working with the Qlik API's?<br />
+          Jump right in. It’s time to build your apps—get to it!
         </p>
         <a [routerLink]="['/myplayground']" class="playground-button playground-button--green " type="button" name="button">Start playing</a>
       </div>

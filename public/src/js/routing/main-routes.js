@@ -70,7 +70,7 @@ let mainRoutes = [
         ]
       },
       {
-        path: 'capability',        
+        path: 'capability',
         children: [
           {
             path: '',
@@ -95,7 +95,7 @@ let mainRoutes = [
         redirectTo: 'mydata'
       },
       {
-        path: 'mydata',
+        path: ':tab',
         component: app.MyPlaygroundMyData,
         children: [
           {

@@ -3,12 +3,53 @@ app.MyPlayground = ng.core.Component({
   directives: [ng.router.ROUTER_DIRECTIVES],
   templateUrl: '/views/my-playground/my-playground.html'
 }).Class({
-  constructor: [app.UserService, ng.router.Router, function (userService, route) {
-    userService.getUser(false, function (user) {
+  constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+    this.MAX_RUNNING_APPS = 3;
+    this.myRunningAppCount = 0;
+    this.myConns;
+    this.myConnKeys;
+    this.route = route;
+    //title block variables
+    this.title = "";
+    this.description = "";
+    this.tab = "";
+    userService.getUser(false, (user)=>{
       if(!user.user){
         route.navigate(["/login"]);
         // window.location.pathname = "login";
       }
-    });
+      if(user){
+        if(user.myParsedConnections){
+          this.myConns = user.myParsedConnections;
+          this.myConnKeys = Object.keys(this.myConns);
+        }
+        if(user.runningAppCount){
+          this.myRunningAppCount = user.runningAppCount;
+        }
+      }
+      route.children[0].params.subscribe((route)=>{
+        this.tab = route.tab;
+        switch (route.tab) {
+          case "mydata":
+            this.title = "My Data";
+            this.description = `
+            Here is a list of your authorized connections. You can authorize as many connections as you would like but you can only have ${this.MAX_RUNNING_APPS} active at the same time.
+            <br>
+            <strong class="orange">Connections active (${this.myRunningAppCount} of ${this.MAX_RUNNING_APPS})</strong>
+            `;
+            break;
+          case "sampledata":
+            this.title = "Sample Data";
+            this.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+            break;
+          case "connect":
+            this.title = "Connect";
+            this.description = "Want to create projects using your own data. Below are some connections which you can use.";
+            break;
+          default:
+
+        }
+      });
+    })
   }]
 });
