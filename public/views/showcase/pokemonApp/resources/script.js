@@ -4,7 +4,7 @@ var config = {
     port: "443",
     isSecure: true,
     rejectUnauthorized: false,
-    appname: "d8f60a81-5613-4c01-96a7-7888d8d18262"
+    appname: "2dd3bfd8-fc02-4516-9eb6-c932dc7b6393"
 };
 
 var app;
@@ -12,9 +12,9 @@ var pokeName = "None";
 var pokeInfo;
 
 function authenticate(){
- 
+
     window.location.pathname = "/liveshowcase/pokemonApp/main.html";
-  
+
   // return;
 }
 function main() {

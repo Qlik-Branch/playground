@@ -10,7 +10,8 @@ module.exports = {
     loadscript: "Users:LOAD *; SQL SELECT * FROM User;Repos:LOAD *; SQL SELECT * FROM Repos;",
     projects: [
       "basic-engine-template",
-      "github-search-template"
+      "playground-capabilities-template",
+      "playground-natural-language-vis"
     ]
   },
   untappd:{
@@ -107,6 +108,8 @@ module.exports = {
     `,
     projects: [
       "basic-engine-template",
+      "playground-capabilities-template",
+      "playground-natural-language-vis",
       "untappd-capability-dashboard"
     ]
   },
@@ -263,7 +266,9 @@ module.exports = {
       FROM UserTimeline_Urls;
     `,
     projects: [
-      "basic-engine-template"
+      "basic-engine-template",
+      "playground-capabilities-template",
+      "playground-natural-language-vis"
     ]
   }
 }

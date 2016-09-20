@@ -1,4 +1,15 @@
 <div class="content my-playground">
+  <div class="row title-block">
+    <div class="col-md-12">
+      <div class="section-header section-header--green one-line" [ngClass]="{'two-line':tab=='sampledata'}">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="section-description">
+        <p class="section-description-content" [innerHTML]="description">
+        </p>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <ul class="playground-primary-menu plainlist">
       <li><a [routerLink]="['/myplayground/mydata']" routerLinkActive="active">My Data</a></li>

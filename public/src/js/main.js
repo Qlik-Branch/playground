@@ -17,19 +17,16 @@
   include "./components/login.js"
 
   include "./components/learn/learn.js"
-  include "./components/learn/noobs.js"  
+  include "./components/learn/noobs.js"
   include "./components/learn/api-content.js"
 
   include "./components/my-playground/my-data-list.js"
-  include "./components/my-playground/sample-data-list.js"
   include "./components/my-playground/generic-data-detail-delete.js"
   include "./components/my-playground/generic-data-detail-gettingstarted.js"
   include "./components/my-playground/generic-data-detail-field-explorer.js"
   include "./components/my-playground/generic-data-detail-templates.js"
   include "./components/my-playground/generic-data-detail.js"
-  include "./components/my-playground/my-playground-my-data.js"
-  include "./components/my-playground/my-playground-sample-data.js"
-  include "./components/my-playground/my-playground-connect.js"
+  include "./components/my-playground/my-playground-my-data.js"  
 
   include "./components/vis/list-object.js"
 

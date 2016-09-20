@@ -99,7 +99,7 @@ let mainRoutes = [
         redirectTo: 'mydata'
       },
       {
-        path: 'mydata',
+        path: ':tab',
         component: app.MyPlaygroundMyData,
         children: [
           {
