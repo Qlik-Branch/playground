@@ -17,12 +17,6 @@ module.exports = {
     "github-repo": "https://github.com/Qlik-Branch/playground-github-search-example",
     "clone-url": "https://github.com/Qlik-Branch/playground-github-search-example.git"
   },
-  "airBnB-explorer":{
-    "name": "AirBnB Exploration App",
-    "description": "An app surfacing AirBnB data and allowing exploration of properties in  various cities",
-    "github-repo": "https://github.com/Qlik-Branch/playground-airBnB-explorer",
-    "clone-url": "https://github.com/Qlik-Branch/playground-airBnB-explorer.git"
-  },
   "untappd-capability-dashboard":{
     "name": "Untappd Capability API Dashboard",
     "description": "An example dashboard built using the Capabilities API and a selection of Visualization Extensions found on Qlik Branch",
