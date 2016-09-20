@@ -444,11 +444,10 @@
       this.resourceCenterService = resourceCenterService;
       this.api = this.route.parent.url.value[0].path;
       route.params.subscribe(function (route) {
-        var resourceSubject = route.subject;
-        _this9.getResourceContent(resourceSubject);
+        _this9.getResourceContent(route);
       });
     }],
-    getResourceContent: function getResourceContent(subject) {
+    getResourceContent: function getResourceContent(route) {
       var _this10 = this;
 
       var resourceId = null;
@@ -456,7 +455,7 @@
       this.content = "";
       switch (this.api) {
         case "engine":
-          switch (subject) {
+          switch (route.subject) {
             case "overview":
               resourceId = "57bc65dc99eaed947c8e58c4";
               break;
@@ -480,7 +479,7 @@
           }
           break;
         case "capability":
-          switch (subject) {
+          switch (route.subject) {
             case "overview":
               resourceId = "57b195052fe227f95f07cba4";
               break;
@@ -495,6 +494,21 @@
               break;
             case "filtering":
 
+              break;
+            default:
+
+          }
+          break;
+        case "noobs":
+          switch (route.subject) {
+            case "noobs":
+              console.log(route);
+              break;
+            case "engine-intro":
+              resourceId = "57e03c6371a03625488569c7";
+              break;
+            case "api-overview":
+              resourceId = "57e04f86c374290047df8b49";
               break;
             default:
 
@@ -742,13 +756,19 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/generic-data-detail-templates.html'
   }).Class({
-    constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
+    constructor: [ng.router.ActivatedRoute, app.UserService, ng.platformBrowser.DomSanitizationService, function (route, userService, domsanService) {
       var _this17 = this;
 
+      this.domsanService = domsanService;
       var connectionId = route.parent.url.value[0].path;
       this.connection = {};
       this.sampleProjects = {};
       this.isMyData = false;
+      var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      this.ghdlPrefix = "github-windows";
+      if (isMac) {
+        this.ghdlPrefix = "github-mac";
+      }
       userService.getUser(false, function (user) {
         if (user.myParsedConnections[connectionId]) {
           _this17.isMyData = true;
@@ -757,12 +777,40 @@
           _this17.connection = user.sampleData[connectionId];
         }
         _this17.sampleProjects = user.sampleProjects;
+        _this17.sampleProjectKeys = Object.keys(_this17.sampleProjects);
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = _this17.sampleProjectKeys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var p = _step.value;
+
+            _this17.sampleProjects[p].ghdlUrl = _this17.domsanService.bypassSecurityTrustUrl(_this17.ghdlPrefix + '://openRepo/' + _this17.sampleProjects[p]['github-repo']);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
       });
     }],
     copyToClipboard: function copyToClipboard(index) {
       var itemInput = document.getElementById(index + "_clone_url");
       itemInput.select();
       document.execCommand('copy');
+    },
+    sanitizeUrl: function sanitizeUrl(url) {
+      return this.domsanService.bypassSecurityTrustUrl(url);
     }
   });
 
@@ -1075,6 +1123,9 @@
       }, {
         path: 'intro',
         component: app.Noobs
+      }, {
+        path: ':subject',
+        component: app.APIContent
       }]
     }, {
       path: 'engine',

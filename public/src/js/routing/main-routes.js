@@ -52,6 +52,10 @@ let mainRoutes = [
           {
             path: 'intro',
             component: app.Noobs
+          },
+          {
+            path: ':subject',
+            component: app.APIContent
           }
         ]
       },

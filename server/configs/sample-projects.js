@@ -28,5 +28,11 @@ module.exports = {
     "description": "An example dashboard built using the Capabilities API and a selection of Visualization Extensions found on Qlik Branch",
     "github-repo": "https://github.com/Qlik-Branch/playground-untappd-capability-dashboard",
     "clone-url": "https://github.com/Qlik-Branch/playground-untappd-capability-dashboard.git"
+  },
+  "playground-natural-language-vis":{
+    "name": "NLP Search & Visualise",
+    "description": "A simple search box that allows you to create visualisations on the fly using a more natural language.",
+    "github-repo": "https://github.com/Qlik-Branch/playground-natural-language-vis",
+    "clone-url": "https://github.com/Qlik-Branch/playground-natural-language-vis.git"
   }
 }
