@@ -33,19 +33,7 @@ module.exports = {
     icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/SimpleGray_Earth.svg/256px-SimpleGray_Earth.svg.png",
     api: "Engine API"
 
-  },/*
-  pokemonApp: {
-    id: "pokemonApp",
-    name: "Pokemon App",
-    description: "A very simple web application using data from Pokemon.  Choose a pokemon character and see which other characters share similar traits.",
-    url: "/liveshowcase/pokemonApp/index.html",
-    ownData: true,
-    connectionId: "",
-    sampleProjectId: "pokemon-capability-dashboard",
-    icon: "/resources/pokemon.png",
-    api: "Capability APIs"
-
-  },*/
+  },
   airBnBApp: {
     id: "airBnBApp",
     name: "AirBnB App",
