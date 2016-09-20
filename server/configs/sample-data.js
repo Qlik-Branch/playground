@@ -1,7 +1,7 @@
 module.exports = {
   "airbnb":{
     name: "AirBnB",
-    description: "An extensive dataset detailing AirBnB locations and their various attributes",
+    description: "Data from AirBnB activity",
     icon: "/resources/airbnb-logo.png",
     app: "2b10add1-472f-4192-aac9-44a99125825c",
     projects:[
@@ -12,7 +12,7 @@ module.exports = {
   },
   "pokemon":{
     name: "Pokemon",
-    description: "Data containing everything you'd ever want to know about Pokemon characters (and more)",
+    description: "Pokemon data set",
     icon: "/resources/pokemon.png",
     app: "d8f60a81-5613-4c01-96a7-7888d8d18262",
     projects:[
@@ -22,7 +22,7 @@ module.exports = {
   },
   "injury-data":{
     name: "Injury Data",
-    description: "More cheerful data from the National Electronic Injury Surveillance System (NEISS) detailing the types of injuries reported",
+    description: "Human injury data from the National Electronic Injury Surveillance System (NEISS)",
     icon: "/resources/bandaid.png",
     app: "7dc54f8a-5238-4c20-ad78-fc5965db7150",
     projects:[
