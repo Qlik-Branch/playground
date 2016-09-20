@@ -2,7 +2,7 @@ module.exports = {
   untappd: {
     id: "untappd",
     name: "Untappd Dashboard",
-    description: "A simple dashboard using sample data from the Untappd beer app.  You can connect to your own Untappd data in the 'My Playground' section.,
+    description: "A simple dashboard using sample data from the Untappd beer app.  You can connect to your own Untappd data in the 'My Playground' section.",
     url: "/liveshowcase/untappd/index.html",
     ownData: true,
     connectionId: "untappd",
