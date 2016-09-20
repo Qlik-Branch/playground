@@ -4,13 +4,13 @@ var config = {
 	port: "443",
 	isSecure: true,
 	rejectUnauthorized: false,
-	appname: "2b10add1-472f-4192-aac9-44a99125825c"
+	appname: "a2499054-5dbc-47b7-a5ef-b735a9a7fe32"
 };
 
 function authenticate(){
- 
+
     window.location.pathname = "/liveshowcase/airBnBApp/main.html";
-  
+
   // return;
 }
 
@@ -35,7 +35,7 @@ function main () {
 			//console.log("Connecting to appname: " + config.appname);
 			var app = qlik.openApp( config.appname, config );
 			window.app = app;
-			
+
 			// app.visualization.create( 'piechart', ["country", "=count([listing_id])"],
 			// 	{"title": "airBnB per country"}
 			// ).then( function ( vis ) {
@@ -298,10 +298,3 @@ var makeFlickrRequest = function ( options, cb ) {
 
 	$.get( url, function ( data ) { cb( data ); } );
 };
-
-
-
-
-
-
-
