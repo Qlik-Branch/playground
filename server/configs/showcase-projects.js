@@ -10,6 +10,30 @@ module.exports = {
     icon: "/dictionaries/untappd/icon.png",
     api: "Capability APIs"
   },
+  demoOlympics: {
+    id: "demoOlympics",
+    name: "Olympics Medal Demo",
+    description: "A visualization created by the Qlik Demo team to explore medal counts in the 2016 Olympics",
+    url: "http://webapps.qlik.com/olympics/index.html#/",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "",
+    icon: "https://raw.githubusercontent.com/countnazgul/medalbot--olympic-medal-api/master/icon.png",
+    api: "Capability APIs"
+
+  },
+  diplomaticPulse: {
+    id: "diplomaticPulse",
+    name: "Diplomatic Pulse Demo",
+    description: "A site created for the UN which shows the fast search and filtering capabilities of the Qlik Engine",
+    url: "http://diplomaticpulse.qlik.com/",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "",
+    icon: "http://diplomaticpulse.qlik.com/static/img/logo.png",
+    api: "Engine API"
+
+  },
   pokemonApp: {
     id: "pokemonApp",
     name: "Pokemon App",
