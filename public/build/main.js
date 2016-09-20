@@ -482,17 +482,16 @@
       this.resourceCenterService = resourceCenterService;
       this.api = this.route.parent.url.value[0].path;
       route.params.subscribe((route)=>{
-        let resourceSubject = route.subject;
-        this.getResourceContent(resourceSubject);
+        this.getResourceContent(route);
       });
     }],
-    getResourceContent: function(subject){
+    getResourceContent: function(route){
       let resourceId = null;
       this.resourceTitle = "";
       this.content = "";
       switch (this.api) {
         case "engine":
-          switch (subject) {
+          switch (route.subject) {
             case "overview":
               resourceId = "57bc65dc99eaed947c8e58c4";
               break;
@@ -516,7 +515,7 @@
           }
           break;
         case "capability":
-          switch (subject) {
+          switch (route.subject) {
             case "overview":
               resourceId = "57b195052fe227f95f07cba4";
               break;
@@ -531,6 +530,21 @@
               break;
             case "filtering":
 
+              break;
+            default:
+
+          }
+          break;
+        case "noobs":
+          switch (route.subject) {
+            case "noobs":
+              console.log(route);
+              break;
+            case "engine-intro":
+              resourceId = "57e03c6371a03625488569c7";
+              break;
+            case "api-overview":
+              resourceId = "57e04f86c374290047df8b49";
               break;
             default:
 
@@ -1112,6 +1126,10 @@
             {
               path: 'intro',
               component: app.Noobs
+            },
+            {
+              path: ':subject',
+              component: app.APIContent
             }
           ]
         },
@@ -1130,7 +1148,7 @@
           ]
         },
         {
-          path: 'capability',        
+          path: 'capability',
           children: [
             {
               path: '',

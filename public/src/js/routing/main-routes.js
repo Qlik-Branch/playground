@@ -52,6 +52,10 @@ let mainRoutes = [
           {
             path: 'intro',
             component: app.Noobs
+          },
+          {
+            path: ':subject',
+            component: app.APIContent
           }
         ]
       },
@@ -70,7 +74,7 @@ let mainRoutes = [
         ]
       },
       {
-        path: 'capability',        
+        path: 'capability',
         children: [
           {
             path: '',
