@@ -5,7 +5,6 @@ module.exports = {
     icon: "/resources/airbnb-logo.png",
     app: "2b10add1-472f-4192-aac9-44a99125825c",
     projects:[
-      "airBnB-explorer",
       "basic-engine-template",
       "playground-capabilities-template"
     ]
