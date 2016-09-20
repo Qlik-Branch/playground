@@ -611,7 +611,6 @@
     ]
   })
 
-Error including "public/src/js/components/my-playground/sample-data-list.js".
   app.GenericDataDetailDelete = ng.core.Component({
     selector: 'playground-my-playground-generic-data-detail-delete',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -880,18 +879,6 @@ Error including "public/src/js/components/my-playground/sample-data-list.js".
     }
   });
 
-  app.MyPlaygroundSampleData = ng.core.Component({
-    selector: 'playground-my-playground-sample-data',
-    directives: [ng.router.ROUTER_DIRECTIVES],
-    templateUrl: '/views/my-playground/my-playground-sample-data.html'
-  })
-  .Class({
-    constructor: function(){
-
-    }
-  })
-
-Error including "public/src/js/components/my-playground/my-playground-connect.js".
 
   app.ListObject = ng.core.Component({
     selector: 'playground-vis-listobject',
@@ -1250,14 +1237,11 @@ Error including "public/src/js/components/my-playground/my-playground-connect.js
       app.FooterList,
       app.Home,
       app.Noobs,
-      app.Learn,    
+      app.Learn,
       app.APIContent,
       app.MyPlayground,
-      app.MyPlaygroundMyData,
-      app.MyPlaygroundSampleData,
-      app.MyPlaygroundConnect,
+      app.MyPlaygroundMyData,  
       app.MyDataList,
-      app.SampleDataList,
       app.GenericDataDetail,
       app.GenericDataDetailDelete,
       app.GenericDataDetailGettingStarted,
