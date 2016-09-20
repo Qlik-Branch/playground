@@ -14,7 +14,7 @@
         <button class="copy-to-clipboard lui-button" name="button" (click)="copyToClipboard(i)"><span class="lui-icon lui-icon--copy"></span></button>
       </div>
       <div class="sample-project-buttons">
-        <button class="inline-block playground-button playground-button--yellow" type="button" name="button"><a href="github-mac://openRepo/{{sampleProjects[p]['github-repo']}}">Open in GitHub Desktop</a></button>
+        <button class="inline-block playground-button playground-button--yellow" type="button" name="button"><a [href]="sampleProjects[p].ghdlUrl">Open in GitHub Desktop</a></button>
         <button class="inline-block playground-button playground-button--orange" type="button" name="button"><a href="{{sampleProjects[p]['github-repo']}}/archive/master.zip">Download Zip</a></button>
       </div>
     </li>

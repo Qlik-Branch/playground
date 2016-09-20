@@ -757,13 +757,19 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/generic-data-detail-templates.html'
   }).Class({
-    constructor: [ng.router.ActivatedRoute, app.UserService, function (route, userService) {
+    constructor: [ng.router.ActivatedRoute, app.UserService, ng.platformBrowser.DomSanitizationService, function (route, userService, domsanService) {
       var _this18 = this;
 
+      this.domsanService = domsanService;
       var connectionId = route.parent.url.value[0].path;
       this.connection = {};
       this.sampleProjects = {};
       this.isMyData = false;
+      var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      this.ghdlPrefix = "github-windows";
+      if (isMac) {
+        this.ghdlPrefix = "github-mac";
+      }
       userService.getUser(false, function (user) {
         if (user.myParsedConnections[connectionId]) {
           _this18.isMyData = true;
@@ -772,12 +778,40 @@
           _this18.connection = user.sampleData[connectionId];
         }
         _this18.sampleProjects = user.sampleProjects;
+        _this18.sampleProjectKeys = Object.keys(_this18.sampleProjects);
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = _this18.sampleProjectKeys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var p = _step.value;
+
+            _this18.sampleProjects[p].ghdlUrl = _this18.domsanService.bypassSecurityTrustUrl(_this18.ghdlPrefix + '://openRepo/' + _this18.sampleProjects[p]['github-repo']);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
       });
     }],
     copyToClipboard: function copyToClipboard(index) {
       var itemInput = document.getElementById(index + "_clone_url");
       itemInput.select();
       document.execCommand('copy');
+    },
+    sanitizeUrl: function sanitizeUrl(url) {
+      return this.domsanService.bypassSecurityTrustUrl(url);
     }
   });
 
