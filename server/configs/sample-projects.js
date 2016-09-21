@@ -11,6 +11,12 @@ module.exports = {
     "github-repo": "https://github.com/Qlik-Branch/playground-capabilities-template",
     "clone-url": "https://github.com/Qlik-Branch/playground-capabilities-template.git"
   },
+  "playground-walkingdead":{
+    "name": "Walking Dead Dashboard",
+    "description": "A dashboard using the Capabilities API of walkers killed in the show",
+    "github-repo": "https://github.com/fkabinoff/playground-walkingdead",
+    "clone-url": "https://github.com/fkabinoff/playground-walkingdead.git"
+  },
   "github-search-template":{
     "name": "GitHub Search Template",
     "description": "A simple search page to search your Github data.  A great starting point for understanding Qlik's search capabilities.",

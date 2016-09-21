@@ -10,6 +10,18 @@ module.exports = {
       "playground-capabilities-template"
     ]
   },
+  "playground-walkingDead":{
+    name: "Walking Dead",
+    description: "Contains data for the show Walking Dead enabling exploration of walkers killed in the TV series.",
+    icon: "/resources/walkingdead.png",
+    app: "d8f60a81-5613-4c01-96a7-7888d8d18262",
+    projects:[
+      "playground-walkingdead",
+      "basic-engine-template",
+      "playground-capabilities-template",
+      "playground-natural-language-vis"
+    ]
+  },
   "pokemon":{
     name: "Pokemon",
     description: "Data containing everything you'd ever want to know about Pokemon characters (and more)",

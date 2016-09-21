@@ -10,10 +10,21 @@ module.exports = {
     icon: "/dictionaries/untappd/icon.png",
     api: "Capability APIs"
   },
+  walkingDead: {
+    id: "playground-walkingdead",
+    name: "Walking Dead Dashboard",
+    description: "A simple dashboard created by the Qlik Demo team using the Visualization API to show the number of walkers killed.  This data set and dashboard can also be found in the Sample Data section for you to customize and play with.",
+    url: "/liveshowcase/playground-walkingdead/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "playground-walkingdead",
+    icon: "/resources/walkingdead.png",
+    api: "Capability APIs"
+  },
   demoOlympics: {
     id: "demoOlympics",
     name: "Olympics Medal Demo",
-    description: "A visualization created by the Qlik Demo team to explore medal counts in the 2016 Olympics",
+    description: "A visualization created by the Qlik Demo team to explore medal counts in the 2016 Olympics.  It's using d3js for the visualization and the Capability APIs for the selections and interactions with the data.",
     url: "http://webapps.qlik.com/olympics/index.html#/",
     ownData: true,
     connectionId: "",
