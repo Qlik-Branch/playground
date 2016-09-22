@@ -1001,8 +1001,8 @@
     getLayout: function getLayout() {
       var _this27 = this;
 
-      this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
+        _this27.listValues = [];
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
           _this27.listValues.push(row[0]);

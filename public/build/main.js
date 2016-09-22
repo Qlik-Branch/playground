@@ -964,7 +964,7 @@
 
     },
     search(field, event){
-      this.pubsub.publish('loading');    
+      this.pubsub.publish('loading');
       if(event.keyCode === 13){
         //confirm the search
         event.target.value = "";
@@ -1016,8 +1016,8 @@
       }
     },
     getLayout(){
-      this.listValues = [];
       this.genericObject.getLayout().then((layout)=>{
+        this.listValues = [];
         let matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach((row, index)=>{
           this.listValues.push(row[0]);
