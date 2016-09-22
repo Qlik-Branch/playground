@@ -1031,7 +1031,7 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, ng.router.Router, function (userService, route, router) {
       var _this29 = this;
 
       this.MAX_RUNNING_APPS = 3;
@@ -1045,7 +1045,7 @@
       this.tab = "";
       userService.getUser(false, function (user) {
         if (!user.user) {
-          route.navigate(["/login"]);
+          router.navigate(["/login"]);
           // window.location.pathname = "login";
         }
         if (user) {
