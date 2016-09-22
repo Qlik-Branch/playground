@@ -141,6 +141,10 @@ let mainRoutes = [
   {
     path: "login",
     component: app.Login
+  },
+  {
+    path: "terms",
+    component: app.Terms
   }
 ];
 

@@ -11,10 +11,14 @@
     font-weight: bold;
     display: inline-block;
     width: ~"calc(100% - 35px)";
+    width: ~"-moz-calc(100% - 35px)";
+    width: ~"-webkit-calc(100% - 35px)";
   }
   ul{
     overflow-y: auto;
     height: ~"calc(100% - 30px)";
+    height: ~"-moz-calc(100% - 30px)";
+    height: ~"-webkit-calc(100% - 30px)";
     background-color:white;
     li{
       height: 30px;
@@ -58,6 +62,8 @@
     .playground-listobject-loading-inner{
       position: absolute;
       top: ~"calc(50% - 10px)";
+      top: ~"-moz-calc(50% - 10px)";
+      top: ~"-webkit-calc(50% - 10px)";
       left: 0;
       width: 100%;
       text-align: center;
