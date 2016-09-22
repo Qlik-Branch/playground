@@ -422,6 +422,16 @@
     }]
   });
 
+  app.Terms = ng.core.Component({
+    selector: 'playground-terms',
+    templateUrl: '/views/terms.html'
+  })
+  .Class({
+    constructor: function(){
+      console.log('constructor');
+    }
+  });
+
 
   app.Learn = ng.core.Component({
     selector: 'playground-learn',
@@ -1242,6 +1252,10 @@
     {
       path: "login",
       component: app.Login
+    },
+    {
+      path: "terms",
+      component: app.Terms
     }
   ];
 
@@ -1269,9 +1283,10 @@
       app.Home,
       app.Noobs,
       app.Learn,
+      app.Terms,
       app.APIContent,
       app.MyPlayground,
-      app.MyPlaygroundMyData,  
+      app.MyPlaygroundMyData,
       app.MyDataList,
       app.GenericDataDetail,
       app.GenericDataDetailDelete,

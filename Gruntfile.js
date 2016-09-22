@@ -63,12 +63,24 @@ module.exports = function(grunt) {
   				'public/build/playground.js': 'public/build/main.js'
   			}
   		}
-  	}
+  	},
+    uglify:{
+      options : {
+        beautify : false,
+        mangle   : true
+      },
+      build: {
+        files: {
+          'public/build/playground.min.js': ['public/build/playground.js']
+        }
+      }
+    }
   });
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-express-server');
-  grunt.registerTask('default', ['less', 'includes', 'babel', 'express', 'watch' ] );
+  grunt.registerTask('default', ['less', 'includes', 'babel', 'uglify', 'express', 'watch' ] );
 };

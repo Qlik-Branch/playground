@@ -48,7 +48,7 @@
     bottom: 0;
     right: 0;
     height: 36px;
-    line-height: 40px;
+    line-height: 36px;
     font-size: 13px;
     color: @header-text;
     font-weight: bold;
@@ -59,6 +59,8 @@
       a{
         display: block;
         height: ~"calc(100% + 2px)";
+        height: ~"-moz-calc(100% + 2px)";
+        height: ~"-webkit-calc(100% + 2px)";
       }
       a.active{
         border-bottom: 2px @orange solid;
