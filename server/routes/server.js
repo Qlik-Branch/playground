@@ -55,10 +55,10 @@ router.get('/connectioninfo/:id', function(req, res){
     config.apiKey = req.user.apiKey;
   }
   if(connectionId=="noobs"){
-    config.prefix = "/showcase";
-    config.appname = "5612eefb-818a-4eb6-bd02-c7967c3f2d8e";
-    // config.prefix = "/anon";
-    // config.appname = "45b26db7-fde5-4064-9889-2e7c5dad2589";
+    // config.prefix = "/showcase";
+    // config.appname = "5612eefb-818a-4eb6-bd02-c7967c3f2d8e";
+    config.prefix = "/anon";
+    config.appname = "45b26db7-fde5-4064-9889-2e7c5dad2589";
     res.json(config);
   }
   else if(sampleData[connectionId]){
