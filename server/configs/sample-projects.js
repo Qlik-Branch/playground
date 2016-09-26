@@ -17,6 +17,12 @@ module.exports = {
     "github-repo": "https://github.com/fkabinoff/playground-walkingdead",
     "clone-url": "https://github.com/fkabinoff/playground-walkingdead.git"
   },
+  "playground-beer":{
+    "name": "Global Beer Consumption Dashboard",
+    "description": "A simple page created exploring global beer consumption. Nice examples of using the Visualization API to create charts.",
+    "github-repo": "https://github.com/fkabinoff/playground-beer",
+    "clone-url": "https://github.com/fkabinoff/playground-beer.git"
+  },
   "github-search-template":{
     "name": "GitHub Search Template",
     "description": "A simple search page to search your Github data.  A great starting point for understanding Qlik's search capabilities.",

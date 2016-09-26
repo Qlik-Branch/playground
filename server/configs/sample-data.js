@@ -33,6 +33,18 @@ module.exports = {
       "playground-natural-language-vis"
     ]
   },
+   "playground-beer":{
+    name: "Global Beer Data",
+    description: "Data on global beer consumptions and the volume and brands of the beers",
+    icon: "/resources/beerglass.png",
+    app: "21c7a902-a50e-414c-a8d5-8e72444dac0c",
+    projects:[
+      "playground-beer",
+      "basic-engine-template",
+      "playground-capabilities-template",
+      "playground-natural-language-vis"
+    ]
+  },
   "injury-data":{
     name: "Injury Data",
     description: "More cheerful data from the National Electronic Injury Surveillance System (NEISS) detailing the types of injuries reported",
