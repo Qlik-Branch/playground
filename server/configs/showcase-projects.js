@@ -31,7 +31,6 @@ module.exports = {
     sampleProjectId: "",
     icon: "https://raw.githubusercontent.com/countnazgul/medalbot--olympic-medal-api/master/icon.png",
     api: "Capability APIs"
-
   },
   diplomaticPulse: {
     id: "diplomaticPulse",
