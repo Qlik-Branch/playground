@@ -45,6 +45,17 @@ module.exports = {
     api: "Engine API"
 
   },
+  playground-beer: {
+    id: "playground-beer",
+    name: "Walking Dead Dashboard",
+    description: "Another example created by the Qlik Demo team exploring global beer consumption. This app and project can also be found in the Sample Data section of My Playground.",
+    url: "/liveshowcase/playground-beer/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "playground-beer",
+    icon: "/resources/beerglass.png",
+    api: "Capability APIs"
+  },
   airBnBApp: {
     id: "airBnBApp",
     name: "AirBnB App",
