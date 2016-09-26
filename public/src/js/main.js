@@ -15,6 +15,7 @@
   include "./components/home.js"
   include "./components/showcase.js"
   include "./components/login.js"
+  include "./components/terms.js"
 
   include "./components/learn/learn.js"
   include "./components/learn/noobs.js"
@@ -26,7 +27,7 @@
   include "./components/my-playground/generic-data-detail-field-explorer.js"
   include "./components/my-playground/generic-data-detail-templates.js"
   include "./components/my-playground/generic-data-detail.js"
-  include "./components/my-playground/my-playground-my-data.js"  
+  include "./components/my-playground/my-playground-my-data.js"
 
   include "./components/vis/list-object.js"
 

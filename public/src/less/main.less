@@ -2,6 +2,10 @@
 @import "../../../node_modules/@qlik/leonardo-ui/dist/colors.less";
 @import "./colours.less";
 
+html,body{
+  height: 100%;
+}
+
 body{
   -webkit-font-smoothing: antialiased;
   font-family: proxima-nova, arial, sans-serif;
@@ -106,6 +110,8 @@ button{
 
 .content{
   min-height: ~"calc(100% - 160px)";
+  min-height: ~"-moz-calc(100% - 160px)";
+  min-height: ~"-webkit-calc(100% - 160px)";
   padding: 0 15px;
   box-sizing: border-box;
 }
@@ -240,6 +246,8 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
     position: absolute;
     width: 120px;
     left: ~"calc(50% - 60px)";
+    left: ~"-moz-calc(50% - 60px)";
+    left: ~"-webkit-calc(50% - 60px)";
     .sub-h1{
       font-size: 12px;
     }
@@ -256,11 +264,15 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
   &.one-line{
     h1{
       top: ~"calc(50% - 33px)";
+      top: ~"-moz-calc(50% - 33px)";
+      top: ~"-webkit-calc(50% - 33px)";
     }
   }
   &.two-line{
     h1{
       top: ~"calc(50% - 40px)";
+      top: ~"-moz-calc(50% - 40px)";
+      top: ~"-webkit-calc(50% - 40px)";
     }
   }
 }
@@ -269,6 +281,8 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
   display: inline-block;
   height: 150px;
   width: ~"calc(100% - 300px)";
+  width: ~"-moz-calc(100% - 300px)";
+  width: ~"-webkit-calc(100% - 300px)";
   position: relative;
   .section-description-content{
     color: white;
@@ -374,6 +388,8 @@ a:hover{
       min-height: 44px;
       line-height: 44px;
       width: ~"calc(100% + 15px)";
+      width: ~"-moz-calc(100% + 15px)";
+      width: ~"-webkit-calc(100% + 15px)";
       border-bottom: 1px solid @menu-border;
       >a{
         display: block;
@@ -427,7 +443,11 @@ a:hover{
   padding: 15px 45px;
   margin-left: 250px;
   width: ~"calc(100% - 265px)";
+  width: ~"-moz-calc(100% - 265px)";
+  width: ~"-webkit-calc(100% - 265px)";
   min-height: ~"calc(100% - 377px)";
+  min-height: ~"-moz-calc(100% - 377px)";
+  min-height: ~"-webkit-calc(100% - 377px)";
 }
 
 .playground-hidden{
@@ -506,6 +526,10 @@ playground-my-playground{
         background-image: url(/resources/play_bg.jpg);
         background-position: 0px -150px;
     }
+}
+
+.full-height{
+  // height: ~"calc(100% - 407px)";
 }
 @import "./home.less";
 @import "./coming-soon.less";

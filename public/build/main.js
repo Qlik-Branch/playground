@@ -422,6 +422,16 @@
     }]
   });
 
+  app.Terms = ng.core.Component({
+    selector: 'playground-terms',
+    templateUrl: '/views/terms.html'
+  })
+  .Class({
+    constructor: function(){
+      console.log('constructor');
+    }
+  });
+
 
   app.Learn = ng.core.Component({
     selector: 'playground-learn',
@@ -964,7 +974,7 @@
 
     },
     search(field, event){
-      this.pubsub.publish('loading');    
+      this.pubsub.publish('loading');
       if(event.keyCode === 13){
         //confirm the search
         event.target.value = "";
@@ -1016,8 +1026,8 @@
       }
     },
     getLayout(){
-      this.listValues = [];
       this.genericObject.getLayout().then((layout)=>{
+        this.listValues = [];
         let matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach((row, index)=>{
           this.listValues.push(row[0]);
@@ -1046,7 +1056,7 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, ng.router.Router, function (userService, route, router) {
       this.MAX_RUNNING_APPS = 3;
       this.myRunningAppCount = 0;
       this.myConns;
@@ -1058,7 +1068,7 @@
       this.tab = "";
       userService.getUser(false, (user)=>{
         if(!user.user){
-          route.navigate(["/login"]);
+          router.navigate(["/login"]);
           // window.location.pathname = "login";
         }
         if(user){
@@ -1242,6 +1252,10 @@
     {
       path: "login",
       component: app.Login
+    },
+    {
+      path: "terms",
+      component: app.Terms
     }
   ];
 
@@ -1269,9 +1283,10 @@
       app.Home,
       app.Noobs,
       app.Learn,
+      app.Terms,
       app.APIContent,
       app.MyPlayground,
-      app.MyPlaygroundMyData,  
+      app.MyPlaygroundMyData,
       app.MyDataList,
       app.GenericDataDetail,
       app.GenericDataDetailDelete,

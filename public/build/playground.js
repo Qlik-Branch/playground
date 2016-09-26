@@ -387,6 +387,15 @@
     }]
   });
 
+  app.Terms = ng.core.Component({
+    selector: 'playground-terms',
+    templateUrl: '/views/terms.html'
+  }).Class({
+    constructor: function constructor() {
+      console.log('constructor');
+    }
+  });
+
   app.Learn = ng.core.Component({
     selector: 'playground-learn',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -1001,8 +1010,8 @@
     getLayout: function getLayout() {
       var _this27 = this;
 
-      this.listValues = [];
       this.genericObject.getLayout().then(function (layout) {
+        _this27.listValues = [];
         var matrix = layout.qListObject.qDataPages[0].qMatrix;
         matrix.forEach(function (row, index) {
           _this27.listValues.push(row[0]);
@@ -1031,7 +1040,7 @@
     directives: [ng.router.ROUTER_DIRECTIVES],
     templateUrl: '/views/my-playground/my-playground.html'
   }).Class({
-    constructor: [app.UserService, ng.router.ActivatedRoute, function (userService, route) {
+    constructor: [app.UserService, ng.router.ActivatedRoute, ng.router.Router, function (userService, route, router) {
       var _this29 = this;
 
       this.MAX_RUNNING_APPS = 3;
@@ -1045,7 +1054,7 @@
       this.tab = "";
       userService.getUser(false, function (user) {
         if (!user.user) {
-          route.navigate(["/login"]);
+          router.navigate(["/login"]);
           // window.location.pathname = "login";
         }
         if (user) {
@@ -1187,6 +1196,9 @@
   }, {
     path: "login",
     component: app.Login
+  }, {
+    path: "terms",
+    component: app.Terms
   }];
 
   app.MainRoutingProvider = ng.router.RouterModule.forRoot(mainRoutes);
@@ -1202,7 +1214,7 @@
 
   app.AppModule = ng.core.NgModule({
     imports: [ng.platformBrowser.BrowserModule, app.MainRoutingProvider],
-    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Learn, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
+    declarations: [app.AppComponent, app.Header, app.FooterComponent, app.FooterList, app.Home, app.Noobs, app.Learn, app.Terms, app.APIContent, app.MyPlayground, app.MyPlaygroundMyData, app.MyDataList, app.GenericDataDetail, app.GenericDataDetailDelete, app.GenericDataDetailGettingStarted, app.GenericDataDetailTemplates, app.GenericDataDetailFieldExplorer, app.GenericDataDetail, app.Showcase, app.ListObject, app.Login],
     providers: [ng.http.HTTP_PROVIDERS, app.ResourceCenterService, app.UserService, app.DataConnectionService, app.QSocksService, app.PubSub],
     bootstrap: [app.AppComponent]
   }).Class({
