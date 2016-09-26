@@ -16,11 +16,11 @@ function authenticate(){
   // return;
 }
 function main () {
-	require( ["extensions/br.com.clever.wordcloud/br.com.clever.wordcloud"], function ( Wordcloud ) {
+	require( ["/liveshowcase/airBnB-booze/extensions/br.com.clever.wordcloud/br.com.clever.wordcloud"], function ( Wordcloud ) {
 		require.config( {
 			baseUrl: ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port : "") + config.prefix + "resources",
 			paths: {
-				async: '/resources/async'
+				async: '/showcaseresources/airBnB-booze/resources/async'
 			}
 		} );
 
