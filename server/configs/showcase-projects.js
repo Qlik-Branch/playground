@@ -47,7 +47,7 @@ module.exports = {
   },
   playgroundBeer: {
     id: "playground-beer",
-    name: "Beer Consumption Dashboard",
+    name: "Beer Consumption",
     description: "Ever wondered which country drinks the most beer? Explore the data here.  Also, find the app in our Sample Data section, pull the project down and dig through the code to see the Capabilitites API in action.",
     url: "/liveshowcase/playground-beer/index.html",
     ownData: true,
