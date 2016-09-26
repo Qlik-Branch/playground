@@ -14,7 +14,7 @@ module.exports = {
     name: "Walking Dead",
     description: "Contains data for the show Walking Dead enabling exploration of walkers killed in the TV series.",
     icon: "/resources/walkingdead.png",
-    app: "59c5305d-2bbe-4370-bb1d-d7ea8432d49d",
+    app: "d7ad663d-2413-4088-a3c9-e5ed0283c788",
     projects:[
       "playground-walkingdead",
       "basic-engine-template",
