@@ -1,0 +1,155 @@
+html,
+body {
+    overflow-y: auto;
+    touch-action: auto;
+    background-color: #f4f1ea;
+    background-image: url('penant.png');
+    background-repeat: repeat-x;
+    margin: 0;
+    padding: 0;
+}
+
+/** {
+    -webkit-touch-callout: default !important;
+    -webkit-user-select: all !important;
+    -moz-user-select: all !important;
+    -ms-user-select: all !important;
+    user-select: all !important;
+}*/
+
+h1 {
+	font-size: 28px;
+}
+
+h1, h3 {
+	font-weight: bold;
+}
+h3 {
+    font-size: 22px;
+    color: #aa5d02;
+}
+div.qvobject, div.qvplaceholder {
+    padding: 10px 0;
+    height: 400px;
+}
+.single-label {
+    color: white !important;
+}
+#SRRkTj {
+    height: 300px;
+}
+.container {
+    /*margin-top: 50px;*/
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100% !important;
+}
+
+#header {
+    margin-top: 30px;
+    width: 100%;
+    /*height: 550px !important;*/
+    background-color: #f4f1ea;
+}
+#header .img {
+    min-height: 500px;
+    background-image: url('beer_header_desktop.png');
+    background-repeat: no-repeat;
+    background-position: center; 
+
+}
+/* BOOTSTRAP 3*/
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px){
+    #header .img {
+        background-size:contain;
+        /*min-height: 890px;*/
+        background-image: url('beer_header_smartphone.png');
+        background-repeat: no-repeat;
+        background-position: center; 
+    }
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    div.qvobject, div.qvplaceholder {
+        padding: 0;
+    }
+
+    h3 {
+        margin-top: 10px;
+    }
+}
+#section1 {
+    background-color: white;
+}
+#section3 {
+    background-color: #f4f1ea;
+}
+#section2 {
+    /*background-color: #603a09;*/
+    background-color: #7d5e36;
+    /*background: rgba(96, 58, 9, 0.8); */
+}
+#section2,
+#section2 h3 {
+    color: white;
+}
+#SRRkTj .scroll-content table th,
+#SRRkTj .scroll-content table td {
+    color: white;
+    background-color: #7d5e36; 
+}
+#SRRkTj .scroll-content table {
+    border: 0;
+}
+/*#section2 .qv-pt .cell.left-meta.empty, */
+/*#section2 .qv-pt .cell.top.empty {*/
+#SRRkTj .scroll-content .qv-pt,
+#SRRkTj .scroll-content .cell, 
+#SRRkTj .scroll-content .top, 
+#SRRkTj .scroll-content .empty, 
+#SRRkTj .scroll-content .left-meta,
+#SRRkTj .qv-pt {
+    background-color: #7d5e36 !important;
+    border: 1px solid #7d5e36;
+}
+#footer {
+    background-color: white;
+}
+#footer a {
+    font-size: 18px;
+    color: #603a09;
+}
+#footer p {
+    font-size: 11px;
+    color: darkgray;
+}
+.row {
+	padding-bottom: 20px;
+}
+#footer .row {
+    padding-bottom: 0;
+}
+
+.noMarginPadding {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.noMarginPaddingLeftRight {
+    margin: 25px 0;
+    padding: 0;
+}
+
+.qlik,
+.qlik a,
+.qlik a:hover {
+    color: #65a604 !important;
+}
+
+/* Fix for the icons in the toolbar*/
+.sel-toolbar-span-icon {
+	top: -10px;
+}
