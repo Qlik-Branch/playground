@@ -22,18 +22,6 @@ module.exports = {
       "playground-natural-language-vis"
     ]
   },
-   "playground-beer":{
-    name: "Beer Consumption Data",
-    description: "Ever wondered which country drinks the most beer?  You can find that data here.",
-    icon: "/resources/beerglass.png",
-    app: "21c7a902-a50e-414c-a8d5-8e72444dac0c",
-    projects:[
-      "playground-beer",
-      "basic-engine-template",
-      "playground-capabilities-template",
-      "playground-natural-language-vis"
-    ]
-  },
   "pokemon":{
     name: "Pokemon",
     description: "Data containing everything you'd ever want to know about Pokemon characters (and more)",
