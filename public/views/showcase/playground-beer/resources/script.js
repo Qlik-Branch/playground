@@ -1,9 +1,19 @@
 // Input your config 
-var config = {};
-
-function authenticate() {
-  Playground.authenticate(config);
+var config={
+	host:"playground.qlik.com",
+  prefix: "/showcase/",
+	port:"443",
+	isSecure:true,
+	rejectUnauthorized:false,
+	appname: "0da8c5bf-fcc4-4813-8adb-1f2015d225c9"
 };
+
+function authenticate(){
+
+    window.location.pathname = "/liveshowcase/playground-beer/main.html";
+
+  // return;
+}
 
 function main() {
   
