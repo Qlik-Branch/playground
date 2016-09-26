@@ -1,9 +1,19 @@
-var config = {};
-
+var config={
+	host:"playground.qlik.com",
+  prefix: "/showcase/",
+	port:"443",
+	isSecure:true,
+	rejectUnauthorized:false,
+	appname: "2b10add1-472f-4192-aac9-44a99125825c",
+	appname2: "7cf92dad-43a4-46c5-862a-1b939a6d6ede"
+};
 var clearAll;
 
-function authenticate () {
-	Playground.authenticate( config );
+function authenticate(){
+
+    window.location.pathname = "/liveshowcase/airBnB-booze/main.html";
+
+  // return;
 }
 function main () {
 	require( ["extensions/br.com.clever.wordcloud/br.com.clever.wordcloud"], function ( Wordcloud ) {
