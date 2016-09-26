@@ -26,7 +26,7 @@
         <div class="line-button-container">
           <a href="{{items[key].url}}" target="_blank" class="playground-button playground-button--yellow" type="button" name="button">View</a>
           <a *ngIf="items[key].canUseOwnData" href="{{items[key].url}}?appid={{items[key].appid}}&apikey={{apiKey}}" target="_blank" class="playground-button playground-button--orange" type="button" name="button">View with my data</a>
-          <a *ngIf="items[key].sampleProjectId" href="/myplayground/sampledata/{{items[key].sampleProjectId}}" class="playground-button playground-button--orange" type="button" name="button">Try It Out</a>
+         <!-- <a *ngIf="items[key].sampleProjectId" href="/myplayground/sampledata/{{items[key].sampleProjectId}}" class="playground-button playground-button--orange" type="button" name="button">Try It Out</a>-->
         </div>
       </div>
     </div>
