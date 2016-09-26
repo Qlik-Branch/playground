@@ -40,11 +40,11 @@ app.MyPlayground = ng.core.Component({
             break;
           case "sampledata":
             this.title = "Sample Data";
-            this.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+            this.description = "Use our sample data sets below to create your own projects or use one of our templates.";
             break;
           case "connect":
             this.title = "Connect";
-            this.description = "Want to create projects using your own data. Below are some connections which you can use.";
+            this.description = "Want to create projects using your own data? Below are some connections which you can use.";
             break;
           default:
 

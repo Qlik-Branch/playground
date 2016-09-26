@@ -1075,11 +1075,11 @@
               break;
             case "sampledata":
               _this29.title = "Sample Data";
-              _this29.description = "Want to create projects using our sample data. Below are some data sets you can use.";
+              _this29.description = "Use our sample data sets below to create your own projects or use one of our templates.";
               break;
             case "connect":
               _this29.title = "Connect";
-              _this29.description = "Want to create projects using your own data. Below are some connections which you can use.";
+              _this29.description = "Want to create projects using your own data? Below are some connections which you can use.";
               break;
             default:
 
