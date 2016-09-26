@@ -10,6 +10,12 @@ router.get("/:id/:page", function(req, res){
     case "playground-walkingdead":
       res.sendFile(process.env.appRoot+"/public/views/showcase/playground-walkingdead/"+req.params.page);
       break;
+    case "playground-beer":
+      res.sendFile(process.env.appRoot+"/public/views/showcase/playground-beer/"+req.params.page);
+      break;
+    case "airBnB-booze":
+      res.sendFile(process.env.appRoot+"/public/views/showcase/airBnB-booze/"+req.params.page);
+      break;
     case "pokemonApp":
       res.sendFile(process.env.appRoot+"/public/views/showcase/pokemonApp/"+req.params.page);
       break;
