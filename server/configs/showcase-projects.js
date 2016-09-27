@@ -17,7 +17,7 @@ module.exports = {
     url: "/liveshowcase/playground-walkingdead/index.html",
     ownData: true,
     connectionId: "",
-    sampleProjectId: "playground-walkingdead",
+    sampleProjectId: "playground-walkingDead",
     icon: "/resources/walkingdead.png",
     api: "Capability APIs"
   },
