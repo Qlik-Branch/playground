@@ -8,7 +8,9 @@ module.exports = {
     connectionId: "untappd",
     sampleProjectId: "untappd-capability-dashboard",
     icon: "/dictionaries/untappd/icon.png",
-    api: "Capability APIs"
+    api: "Capability APIs",
+    creator: "Nick Webster",
+    branchUserId: "56728f52d1e497241ae6b299"
   },
   walkingDead: {
     id: "playground-walkingdead",
@@ -19,7 +21,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "playground-walkingDead",
     icon: "/resources/walkingdead.png",
-    api: "Capability APIs"
+    api: "Capability APIs",
+    creator: "",
+    branchUserId: ""
   },
   demoOlympics: {
     id: "demoOlympics",
@@ -30,7 +34,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "",
     icon: "https://raw.githubusercontent.com/countnazgul/medalbot--olympic-medal-api/master/icon.png",
-    api: "Capability APIs"
+    api: "Capability APIs",
+    creator: "Some Guy",
+    branchUserId: ""
   },
   diplomaticPulse: {
     id: "diplomaticPulse",
@@ -41,7 +47,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "",
     icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/SimpleGray_Earth.svg/256px-SimpleGray_Earth.svg.png",
-    api: "Engine API"
+    api: "Engine API",
+    creator: "Alex Karlsson",
+    branchUserId: "56728f52d1e497241ae6b28e"
 
   },
   playgroundBeer: {
@@ -53,7 +61,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "playground-beer",
     icon: "/resources/beerglass.png",
-    api: "Capability APIs"
+    api: "Capability APIs",
+    creator: "",
+    branchUserId: ""
   },
   airBnBApp: {
     id: "airBnBApp",
@@ -64,7 +74,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "airBnBApp-capability-dashboard",
     icon: "/resources/airbnb-logo.png",
-    api: "Capability APIs"
+    api: "Capability APIs",
+    creator: "",
+    branchUserId: ""
 
   }
 }
