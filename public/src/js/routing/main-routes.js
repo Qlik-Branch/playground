@@ -25,11 +25,6 @@ let genericDataDetailRoutes = [
 let mainRoutes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: "home",
     component: app.Home
   },
   {

@@ -181,7 +181,7 @@ button{
   background-color: white;
   padding: 20px;
   margin-bottom: 30px;
-  height: 350px;
+  height: 375px;
   img{
     height: 150px;
     margin: 0 auto;
@@ -191,9 +191,15 @@ button{
     color: @orange;
     font-weight: bold;
     font-size: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .card-text{
     color: @default-text;
+    max-height: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   text-decoration: none;
   &:hover{
@@ -314,9 +320,11 @@ box-shadow:         4px 4px 11px 0px rgba(50, 50, 50, 0.75);
   }
   .sub-section-header{
     display: inline-block;
+    vertical-align: top;
   }
   .sub-section-buttons{
     height: 80px;
+    padding-top: 25px;
     display: inline-block;
   }
 }

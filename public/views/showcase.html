@@ -22,6 +22,12 @@
           {{items[key].description}}
           <br>
           <span><strong>API: </strong>{{items[key].api}}</span>
+          <br>
+          <span *ngIf="items[key].creator!=''">
+            <strong>Created By: </strong>
+            <a *ngIf="items[key].branchUserId!=''" href="http://branch.qlik.com/#!/user/{{items[key].branchUserId}}" target="_blank">{{items[key].creator}}</a>
+            <span *ngIf="items[key].branchUserId==''">{{items[key].creator}}</span>
+          </span>
         </p>
         <div class="line-button-container">
           <a href="{{items[key].url}}" target="_blank" class="playground-button playground-button--yellow" type="button" name="button">View</a>

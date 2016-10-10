@@ -2,7 +2,7 @@ var express = require('express'),
     app = express(),
     passport = require('passport'),
     expressSession = require('express-session'),
-    cookieParser = require('cookie-parser'),    
+    cookieParser = require('cookie-parser'),
     MongoStore = require('connect-mongo')(expressSession),
     mongoose = require('mongoose'),
     favicon = require('serve-favicon');
@@ -75,7 +75,11 @@ app.get('/denied', function(req, res){
 // }
 
 app.get('/', function(req, res){
-  res.redirect('/home');
+  res.render('index.jade', {});
+});
+
+app.get('/home', function(req, res){
+  res.redirect('/');
 });
 
 //all other routes should be dealt with by the client
