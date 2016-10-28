@@ -38,20 +38,6 @@ module.exports = {
     creator: "Some Guy",
     branchUserId: ""
   },
-  diplomaticPulse: {
-    id: "diplomaticPulse",
-    name: "Diplomatic Pulse Demo",
-    description: "A site created for the UN which shows the fast search and filtering capabilities of the Qlik Engine",
-    url: "http://diplomaticpulse.qlik.com/",
-    ownData: true,
-    connectionId: "",
-    sampleProjectId: "",
-    icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/SimpleGray_Earth.svg/256px-SimpleGray_Earth.svg.png",
-    api: "Engine API",
-    creator: "Alex Karlsson",
-    branchUserId: "56728f52d1e497241ae6b28e"
-
-  },
   playgroundBeer: {
     id: "playground-beer",
     name: "Beer Consumption",
