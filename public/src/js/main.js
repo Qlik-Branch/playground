@@ -15,6 +15,7 @@
   include "./components/home.js"
   include "./components/showcase.js"
   include "./components/login.js"
+  include "./components/thanks.js"
   include "./components/terms.js"
 
   include "./components/learn/learn.js"

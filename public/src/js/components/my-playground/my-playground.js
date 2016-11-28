@@ -19,6 +19,9 @@ app.MyPlayground = ng.core.Component({
         // window.location.pathname = "login";
       }
       if(user){
+        if(user.user && user.user.playground_first_visited == null) {
+          router.navigate(["/thanks"]);
+        }
         if(user.myParsedConnections){
           this.myConns = user.myParsedConnections;
           this.myConnKeys = Object.keys(this.myConns);
