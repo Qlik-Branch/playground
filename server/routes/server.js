@@ -141,6 +141,27 @@ router.get('/deleteconnection/:id', function(req, res){
   });
 });
 
+router.get('/visited', function(req, res){
+  if(req.user){
+    mongoHelper.userVisited(req.user._id, function(err, success){
+      if(err){
+        res.json({err});
+      }
+      else{
+        res.json({
+          success: success
+        });
+      }
+    });
+  }
+  else{
+    res.json({
+      success: false
+    });
+  }
+
+});
+
 router.get('/currentuser', function(req, res){
   if(req.user){
     mongoHelper.getUserConnections(req.user._id, function(err, connections){

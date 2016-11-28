@@ -7,6 +7,20 @@ ng.core.Injectable({
     this.http = http;
     this.user;
   }],
+  playgroundVisited: function(callbackFn) {
+    this.http.get('/server/visited').subscribe(response => {
+      if(response._body!=="") {
+        response = JSON.parse(response._body)
+        if(response.success === true) {
+          this.user.user.playground_first_visited = new Date()
+        }
+        callbackFn(response.success)
+      }
+      else {
+        callbackFn(false)
+      }
+    })
+  },
   getUser: function(force, callbackFn){
     if(!this.user || force===true){
       console.log('fetching user info from server');
