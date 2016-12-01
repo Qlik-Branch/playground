@@ -35,6 +35,14 @@ var userProfileSchema = new Schema({
   avatar: Buffer,
   profilepicture: Buffer,
   github_user: String,
+  branch_firstaccess: {
+    type: Boolean,
+    default: false
+  },
+  playground_firstaccess: {
+    type: Boolean,
+    default: false
+  },
   linked_to_github: {
     type: Boolean,
     default: false
