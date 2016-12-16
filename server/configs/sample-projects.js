@@ -23,6 +23,12 @@ module.exports = {
     "github-repo": "https://github.com/fkabinoff/playground-beer",
     "clone-url": "https://github.com/fkabinoff/playground-beer.git"
   },
+  "playground-pokemon":{
+    "name": "Pokemon Dashboard",
+    "description": "A simple dashboard to visualize Pokemon stats. Example of using D3 and Capability API together",
+    "github-repo": "https://github.com/wuzhong-zhu/pokemon-mashup-playground-edition",
+    "clone-url": "https://github.com/wuzhong-zhu/pokemon-mashup-playground-edition.git"
+  },
   "github-search-template":{
     "name": "GitHub Search Template",
     "description": "A simple search page to search your Github data.  A great starting point for understanding Qlik's search capabilities.",

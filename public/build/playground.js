@@ -361,6 +361,7 @@
         }
       });
       this.dataConnectionService.getShowcaseItems(function (items) {
+        console.log(items);
         _this7.items = items;
         _this7.itemKeys = Object.keys(items);
         _this7.userService.getUserConnections(function (connections) {

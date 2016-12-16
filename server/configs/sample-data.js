@@ -28,6 +28,7 @@ module.exports = {
     icon: "/resources/pokemon.png",
     app: "d8f60a81-5613-4c01-96a7-7888d8d18262",
     projects:[
+      "playground-pokemon",
       "basic-engine-template",
       "playground-capabilities-template",
       "playground-natural-language-vis"

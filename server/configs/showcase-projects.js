@@ -64,5 +64,19 @@ module.exports = {
     creator: "",
     branchUserId: ""
 
+  },
+  pokemonApp: {
+    id: "pokemonApp",
+    name: "Pokemon App",
+    description: "Explore pokemon statistically! Is the Strongest Pokemon happy? Is the happiest Pokemon strong? This app allows you to explore correlationship between multiple dimensions...forget it, it's Pokemon time!",
+    url: "/liveshowcase/pokemonApp/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "playground-pokemon",
+    icon: "/resources/pokemon.png",
+    api: "Capability APIs",
+    creator: "",
+    branchUserId: ""
+
   }
 }
