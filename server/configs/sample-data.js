@@ -22,7 +22,7 @@ module.exports = {
       "playground-natural-language-vis"
     ]
   },
-  "pokemon":{
+  "playground-pokemon":{
     name: "Pokemon",
     description: "Data containing everything you'd ever want to know about Pokemon characters (and more)",
     icon: "/resources/pokemon.png",
