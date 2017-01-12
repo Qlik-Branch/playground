@@ -26,8 +26,8 @@ module.exports = {
   "playground-pokemon":{
     "name": "Pokemon Dashboard",
     "description": "A simple dashboard to visualize Pokemon stats. Example of using D3 and Capability API together",
-    "github-repo": "https://github.com/wuzhong-zhu/pokemon-mashup-playground-edition",
-    "clone-url": "https://github.com/wuzhong-zhu/pokemon-mashup-playground-edition.git"
+    "github-repo": "https://github.com/Qlik-Branch/playground-pokemon",
+    "clone-url": "https://github.com/Qlik-Branch/playground-pokemon.git"
   },
   "github-search-template":{
     "name": "GitHub Search Template",
