@@ -51,6 +51,19 @@ module.exports = {
     creator: "",
     branchUserId: ""
   },
+  mapleLeafs: {
+    id: "maple-leafs",
+    name: "Toronto Maple Leafs: 100 Years of Goals",
+    description: "100 Years of Goals with the Maple leafs",
+    url: "/liveshowcase/maple-leafs/index.html",
+    ownData: true,
+    connectionId: "",
+    sampleProjectId: "maple-leafs",
+    icon: "/resources/beerglass.png",
+    api: "Capability APIs",
+    creator: "",
+    branchUserId: ""
+  },
   airBnBApp: {
     id: "airBnBApp",
     name: "AirBnB App",

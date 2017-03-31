@@ -13,6 +13,9 @@ router.get("/:id/:page", function(req, res){
     case "playground-beer":
       res.sendFile(process.env.appRoot+"/public/views/showcase/playground-beer/"+req.params.page);
       break;
+    case "maple-leafs":
+      res.sendFile(process.env.appRoot+"/public/views/showcase/maple-leafs/"+req.params.page);
+      break;
     case "airBnB-booze":
       res.sendFile(process.env.appRoot+"/public/views/showcase/airBnB-booze/"+req.params.page);
       break;

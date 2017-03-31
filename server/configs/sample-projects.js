@@ -23,6 +23,12 @@ module.exports = {
     "github-repo": "https://github.com/fkabinoff/playground-beer",
     "clone-url": "https://github.com/fkabinoff/playground-beer.git"
   },
+  "maple-leafs":{
+    "name": "Toronto Maple Leafs: 100 Years of Goals",
+    "description": "100 years of goals",
+    "github-repo": "https://github.com/fkabinoff/maple-leafs-100-years-of-goals",
+    "clone-url": "https://github.com/fkabinoff/maple-leafs-100-years-of-goals.git"
+  },
   "github-search-template":{
     "name": "GitHub Search Template",
     "description": "A simple search page to search your Github data.  A great starting point for understanding Qlik's search capabilities.",

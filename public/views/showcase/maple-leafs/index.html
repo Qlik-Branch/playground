@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+  <title>100 Years of Maple Leafs Goals</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- jQuery PEP -->
+  <script src="/showcaseresources/maple-leafs/dist/pep.js"></script>
+  <!-- Tether -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Old+Standard+TT" rel="stylesheet">
+  <!--Project code -->
+  <script src="/showcaseresources/maple-leafs/dist/bundle.js"></script>
+  <link rel="stylesheet" href="/showcaseresources/maple-leafs/main.css">
+
+</head>
+<body>
+
+  <div class="jumbo">
+    <div class="container-fluid">
+      <a target="_blank" href="http://www.qlik.com"><img src="/showcaseresources/maple-leafs/img/powered-by-Qlik_white.png" style="width: 140px"></a>
+      <div>
+        <img src="/showcaseresources/maple-leafs/img/banner-title.png">
+        <p>Founded in 1917, the Toronto Maple Leafs have won 13 Stanley Cups, retired the numbers of 19 players, and sent more alumni to the Hall of Fame than any other team. They have also scored a lot of goals. This Maple Leafs app tracks every goal between 1917 and February 28th 2017. Use the filters, click around, and learn more about the history of the Leafs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <div class="states row">
+      <div class="col-auto">
+        <div class="input-container">
+          <input type="radio" name="state" id="player-state-radio" value="PlayerState" checked>
+          <label for="player-state-radio"><span class="radio">Players</span></label>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="input-container">
+          <input type="radio" name="state" id="opponent-state-radio" value="OpponentState">
+          <label for="opponent-state-radio"><span class="radio">Opponents</span></label>  
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-center">
+      <div class="col">
+        <h2>Goals per season</h2>
+      </div>
+      <div class="col-auto">
+        <div class="clear-selections">
+          <button class="btn btn-default">Clear Selections</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters row">
+      <div class="col-auto">
+        <div class="filter" id="subject-filter"></div>
+      </div>
+      <div class="col-auto">
+        <div class="filter" id="season-filter"></div>
+      </div>
+      <div class="col-auto">
+        <div class="filter" id="decade-filter"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+       <div id="season-chart"></div>
+      </div>
+    </div>
+
+    <div class="checkbox-filters player-state">
+      <div class="row">
+        <div class="col">
+          <div class="input-container">
+            <input type="checkbox" id="total-checkbox" class="total checkbox" checked>
+            <label for="total-checkbox"><span class="checkbox">Total Goals</span> - <span class="total-goals-kpi"></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="input-container">
+            <input type="checkbox" id="ev-checkbox" class="type checkbox" value="vEV">
+            <label for="ev-checkbox"><span class="checkbox">Even Strength Goals</span></label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-container">
+            <input type="checkbox" id="pp-checkbox" class="type checkbox" value="vPP">
+            <label for="pp-checkbox"><span class="checkbox">Power-Play Goals</span></label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-container">
+            <input type="checkbox" id="sh-checkbox" class="type checkbox" value="vSH">
+            <label for="sh-checkbox"><span class="checkbox">Shorthanded Goals</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="data-warning row">
+        <div class="col">
+          Data for goal types only available for regular season after 1963-64, and post-season after 1968-69.
+        </div>
+      </div>
+    </div>
+
+    <div class="checkbox-filters opponent-state">
+      <div class="row">
+        <div class="col">
+          <div class="input-container">
+            <input type="checkbox" id="total-checkbox-opp" class="total checkbox" checked>
+            <label for="total-checkbox-opp"><span class="checkbox">Total Goals</span> - <span class="total-goals-kpi"></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subject-chart-area">
+      <div class="subject-chart-area-heading row">
+        <div class="col">
+          <div class="player-state">
+            <div class="dropdown">
+              <div class="dropdown-toggle player-title title" id="player-measure-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="label">Player Total Goals</span> |
+              </div>
+              <ul class="dropdown-menu" aria-labelledby="player-measure-dropdown">
+                <li value="Total">Player Total Goals</li>
+                <li value="EV">Player Even Strength Goals</li>
+                <li value="PP">Player Power-Play Goals</li>
+                <li value="SH">Player Shorthanded Goals</li>
+                <li value="GW">Player Game Winning Goals</li>
+              </ul>
+            </div>
+            <p>The bar chart lists the Maple Leafs players sorted by total number of goals</p>
+          </div>
+          <div class="opponent-state">
+            <div class="title">Opponent Allowed Goals</div>
+            <p>The bar chart lists opposing teams sorted by total goals scored by Maple Leafs</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div id="subject-chart"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span style="font-style: italic">* 2016-17 goal totals through Feb. 28, 2017</span>
+      <a target="_blank" href="http://www.qlik.com"><img src="/showcaseresources/maple-leafs/img/powered-by-Qlik.png"></a>
+    </footer>
+
+  </div>
+</body>
+</html>
