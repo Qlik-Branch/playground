@@ -60,9 +60,9 @@ module.exports = {
     connectionId: "",
     sampleProjectId: "maple-leafs",
     icon: "/resources/maple-leafs.png",
-    api: "Capability APIs",
-    creator: "",
-    branchUserId: ""
+    api: "Engine API",
+    creator: "Francis Kabinoff",
+    branchUserId: "569d60643a0fa8b4169353bb"
   },
   airBnBApp: {
     id: "airBnBApp",
