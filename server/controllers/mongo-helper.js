@@ -1,5 +1,6 @@
 var APIKey = require('../models/apikey');
 var ConnectionString = require('../models/connection-string');
+var UserProfile = require('../models/userprofile')
 module.exports = {
   checkAPIKey: function(userid, callbackFn){
     APIKey.find({userid: userid}, function(err, keys){
@@ -58,6 +59,24 @@ module.exports = {
   getUserConnections: function(userid, callbackFn) {
     ConnectionString.find({userid: userid}, function(err, connections){
       callbackFn(err, connections);
+    })
+  },
+  userVisited: function(userid, callbackFn) {
+    UserProfile.findOne({"_id": userid}, function(err, user) {
+      if (err) {
+        callbackFn(err, null)
+      } else if (user.playground_first_visited) {
+        callbackFn(null, false)
+      } else {
+        user.playground_first_visited = new Date()
+        user.save(function(saveErr, result) {
+          if (saveErr) {
+            callbackFn(saveErr, null)
+          } else {
+            callbackFn(null, true)
+          }
+        })
+      }
     })
   }
 }

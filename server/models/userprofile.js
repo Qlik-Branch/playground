@@ -35,6 +35,14 @@ var userProfileSchema = new Schema({
   avatar: Buffer,
   profilepicture: Buffer,
   github_user: String,
+  branch_firstaccess: {
+    type: Boolean,
+    default: false
+  },
+  playground_firstaccess: {
+    type: Boolean,
+    default: false
+  },
   linked_to_github: {
     type: Boolean,
     default: false
@@ -48,7 +56,8 @@ var userProfileSchema = new Schema({
   },
   createdate_num: Number,
   lastvisit: Date,
-  lastvisit_num: Number
+  lastvisit_num: Number,
+  playground_first_visited: Date
 });
 
 module.exports = mongoose.model('userprofiles', userProfileSchema);

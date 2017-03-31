@@ -1,0 +1,16 @@
+<div class="row relative content page-detail">
+  <div class="col-md-12">
+    <div class='playground-notifier-inner-container grey'>
+      <div *ngIf="connectionStatus=='Starting' || connectionStatus=='Stopping' || connectionStatus=='Reloading'" class='loading'>&#60;&nbsp;&#62;</div>
+      <div class='message-container'>
+        <div>
+          <div class='notifier-title'>Thanks for Signing Up</div>
+          <div class='notifier-message'>Thanks for signing up to Qlik Playground. Please click below to access your playground.</div>
+          <br>
+          <a [routerLink]="['/myplayground']" class="playground-button playground-button--green " type="button" name="button">Start playing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img src="{{trackingPixel}}" width=1 height=1 border=0 />
+</div>

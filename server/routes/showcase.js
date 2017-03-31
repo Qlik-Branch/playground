@@ -20,7 +20,8 @@ router.get("/:id/:page", function(req, res){
       res.sendFile(process.env.appRoot+"/public/views/showcase/airBnB-booze/"+req.params.page);
       break;
     case "pokemonApp":
-      res.sendFile(process.env.appRoot+"/public/views/showcase/pokemonApp/"+req.params.page);
+      // res.sendFile(process.env.appRoot+"/public/views/showcase/pokemonApp/"+req.params.page);
+      res.sendFile(process.env.appRoot+"/public/views/showcase/playground-pokemon/"+req.params.page);
       break;
     case "airBnBApp":
       res.sendFile(process.env.appRoot+"/public/views/showcase/airBnBApp/"+req.params.page);

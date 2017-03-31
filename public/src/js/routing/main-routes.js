@@ -138,6 +138,10 @@ let mainRoutes = [
     component: app.Login
   },
   {
+    path: "thanks",
+    component: app.Thanks
+  },
+  {
     path: "terms",
     component: app.Terms
   }

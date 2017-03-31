@@ -29,6 +29,12 @@ module.exports = {
     "github-repo": "https://github.com/fkabinoff/maple-leafs-100-years-of-goals",
     "clone-url": "https://github.com/fkabinoff/maple-leafs-100-years-of-goals.git"
   },
+  "playground-pokemon":{
+    "name": "Pokemon Dashboard",
+    "description": "A simple dashboard to visualize Pokemon stats. Example of using D3 and Capability API together",
+    "github-repo": "https://github.com/Qlik-Branch/playground-pokemon",
+    "clone-url": "https://github.com/Qlik-Branch/playground-pokemon.git"
+  },
   "github-search-template":{
     "name": "GitHub Search Template",
     "description": "A simple search page to search your Github data.  A great starting point for understanding Qlik's search capabilities.",

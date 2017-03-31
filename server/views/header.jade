@@ -21,20 +21,17 @@ html
     title Qlik Playground
     meta(name="description" content="Qlik Playground is a free programming environment that allows you to use, explore, and quickly test your innovative data driven application ideas using Qlik technology.")
     meta(name="keywords" content="Qlik Playground, Qlik Branch, Qlik APIs, API, Data, Analytics, Javascript, Visualization")
-    base(href="/")             
-  body
-    noscript
-      img(src="https://pubads.g.doubleclick.net/activity;xsp=212190;ord=1?" width="1" height="1" border="0")
+    base(href="/") 
+    
+    //GA tracking
     script.
-      var axel = Math.random() + "";
-      var a = axel * 10000000000000;
-      document.write('<img src="https://pubads.g.doubleclick.net/activity;xsp=212190;ord=' + a + '?" width=1 height=1 border=0/>');
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        (function(i,s,o,g,r,a,m){
+            i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)
+            },i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-84491843-2', 'auto');
-            ga('send', 'pageview');
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');            
+  body
 
     
         

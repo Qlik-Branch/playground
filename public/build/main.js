@@ -105,6 +105,20 @@
       this.http = http;
       this.user;
     }],
+    playgroundVisited: function(callbackFn) {
+      this.http.get('/server/visited').subscribe(response => {
+        if(response._body!=="") {
+          response = JSON.parse(response._body)
+          if(response.success === true) {
+            this.user.user.playground_first_visited = new Date()
+          }
+          callbackFn(response.success)
+        }
+        else {
+          callbackFn(false)
+        }
+      })
+    },
     getUser: function(force, callbackFn){
       if(!this.user || force===true){
         console.log('fetching user info from server');
@@ -419,6 +433,31 @@
         this.loginUrl = user.loginUrl;
         this.returnUrl = user.returnUrl;
       });
+    }]
+  });
+
+  app.Thanks = ng.core.Component({
+    selector: 'playground-thanks',
+    templateUrl: '/views/thanks.html'
+  })
+  .Class({
+    constructor: [app.UserService, ng.router.ActivatedRoute, ng.router.Router, function(userService, route, router){
+      this.trackingPixel
+      userService.getUser(false, (user)=>{
+        if(!user.user){
+          router.navigate(["/login"])
+        } else {
+          userService.playgroundVisited(result => {
+            if(result == null || result === false) {
+              router.navigate(["/myplayground"])
+            } else {
+              var axel = Math.random()+"";
+              var a = axel * 10000000000000;
+              this.trackingPixel = `https://pubads.g.doubleclick.net/activity;xsp=212190;ord=${a}?`
+            }
+          })
+        }
+      })
     }]
   });
 
@@ -1072,6 +1111,9 @@
           // window.location.pathname = "login";
         }
         if(user){
+          if(user.user && user.user.playground_first_visited == null) {
+            router.navigate(["/thanks"]);
+          }
           if(user.myParsedConnections){
             this.myConns = user.myParsedConnections;
             this.myConnKeys = Object.keys(this.myConns);
@@ -1247,6 +1289,10 @@
     {
       path: "login",
       component: app.Login
+    },
+    {
+      path: "thanks",
+      component: app.Thanks
     },
     {
       path: "terms",
