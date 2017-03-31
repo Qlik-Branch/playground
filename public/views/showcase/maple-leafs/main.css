@@ -1,0 +1,312 @@
+html {
+  font-size: 12px;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+}
+body {
+  overflow-x: hidden;
+  padding: 0;
+}
+body, text {
+  font-family: 'Old Standard TT', serif;
+}
+text {
+  /*font-family: Georgia, Times, "Times New Roman", serif;*/
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  cursor: default;
+}
+.container-fluid {
+  max-width: 768px;
+}
+
+.jumbo {
+  background: url(img/banner.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  margin-bottom: 30px;
+}
+.jumbo .container-fluid {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+.jumbo .container-fluid a {
+  position: absolute;
+  top: 2px;
+  right: 0;
+}
+.jumbo .container-fluid h1 {
+  font-size: 4em;
+  text-align: center;
+  padding: 0 10%;
+}
+.jumbo .container-fluid img {
+  max-width: 100%;
+}
+.jumbo .container-fluid p {
+  font-size: 1.1em;
+  text-align: left;
+  border-top: 1px solid white;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+/* Utility classes */
+.align-center {
+  align-items: center;
+}
+.btn-default {
+  color: #013878;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* radio buttons and checkboxes */
+input[type="radio"],
+input[type="checkbox"]{
+  display: none;
+}
+.input-container {
+  display: inline-block;
+  padding-left: 45px;
+  margin-right: 8px; 
+}
+.states .input-container {
+  padding-left: 3.5rem;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+.input-container label {
+  position: relative;
+}
+.input-container span::before,
+.input-container span::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  bottom: 0;
+  margin: auto;
+}
+.input-container span.radio::before {
+  left: -1.5em;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #666;
+  border-radius: 1em;
+}
+.input-container span.radio::after {
+  left: -1.5em;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #666;
+  border-radius: 1em;
+  transition: background-color .25s;
+}
+input[type="radio"]:checked + label span.radio::after {
+  background-color: #013878;
+}
+
+.input-container span.checkbox::before {
+  left: -2em;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #666;
+}
+.input-container span.checkbox::after {
+  left: -2em;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #666;
+  transition: background-color .25s;
+}
+input[type="checkbox"]:checked + label[for="total-checkbox"] span.checkbox::after, input[type="checkbox"]:checked + label[for="total-checkbox-opp"] span.checkbox::after {
+  background-color: #013878;
+}
+input[type="checkbox"]:checked + label[for="ev-checkbox"] span.checkbox::after {
+  background-color: #769fce;
+}
+input[type="checkbox"]:checked + label[for="pp-checkbox"] span.checkbox::after {
+  background-color: #3fb34f;
+}
+input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
+  background-color: #f69331;
+}
+
+#total-checkbox:checked + label, #total-checkbox-opp:checked + label {
+  pointer-events: none;
+}
+#total-checkbox + label, #total-checkbox-opp + label {
+  font-weight: bold;
+}
+
+
+/* filters */
+.filter {
+  margin-right: 10px;
+}
+.show>.dropdown-menu {
+    padding: 0;
+}
+.items {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none;
+    padding: 0;
+}
+.dropdown li.S {
+    background: #52cc52;
+}
+.dropdown li.S span {
+  color: white;
+}
+.dropdown li.A {
+    background: #eee;
+}
+.dropdown li.X, .dropdown li.XS {
+    background: #ccc;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    opacity: 0.5;
+}
+.dropdown-menu>li>input, .dropdown-menu .items li {
+    display: block;
+    width: 100%;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+.dropdown-menu .items li {
+    cursor: pointer;
+}
+.search-icon {
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+
+
+
+/* d3, tooltips, charts */
+.y.axis path, .x.axis path {
+  display: none;
+}
+.y.axis line, .x.axis line {
+  stroke: #ccc;
+}
+div.tooltip {
+  position: absolute;
+  padding: 8px;
+  height: auto;
+  background: #fff;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  pointer-events: none;
+  font-size: 11px;
+  text-align: center;
+}
+div.tooltip:before{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-top: 8px solid #ccc;
+    left: calc(50% - 8px);
+    bottom: -8px;
+}
+div.tooltip:after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    border-top: 6px solid #fff;
+    left: calc(50% - 6px);
+    bottom: -5px;
+}
+
+#season-chart {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+#subject-chart {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  /*overflow-y: scroll;
+  overflow-x: hidden;*/
+}
+.subject-chart-area-heading {
+  /*margin-bottom: 4px;*/
+}
+
+/* misc */
+.dropdown-toggle, .dropdown-menu {
+  cursor: pointer;
+}
+.subject-chart-area .title {
+  font-weight: bold;
+  color: #013878;
+  font-size: 1.4rem;
+}
+.subject-chart-area li {
+  font-size: 1.2em;
+  padding: 2px 1em;
+}
+.opponent-state, .data-warning {
+  display: none;
+}
+.data-warning {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 15px;
+  font-family: arial;
+}
+
+/* layout */
+.states.row {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.filters.row {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.clear-selections {
+  padding-right: 15px;
+}
+.checkbox-filters {
+  margin-top: 15px;
+}
+.subject-chart-area {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.subject-chart-area p {
+  font-family: Georgia, Times, "Times New Roman", serif;
+}
+footer img {
+  float: right;
+}
