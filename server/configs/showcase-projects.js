@@ -59,7 +59,7 @@ module.exports = {
     ownData: true,
     connectionId: "",
     sampleProjectId: "maple-leafs",
-    icon: "/resources/beerglass.png",
+    icon: "/resources/maple-leafs.png",
     api: "Capability APIs",
     creator: "",
     branchUserId: ""

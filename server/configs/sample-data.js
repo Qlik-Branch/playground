@@ -49,7 +49,7 @@ module.exports = {
   "maple-leafs":{
     name: "Toronto Maple Leafs: 100 Years of Goals",
     description: "100 years of goal data for the Toronto Maple Leafs",
-    icon: "/resources/beerglass.png",
+    icon: "/resources/maple-leafs.png",
     app: "fd4acace-d740-49a3-8aa8-850b4ee1cfa6",
     projects:[
       "maple-leafs",
