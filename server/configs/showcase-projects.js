@@ -54,15 +54,15 @@ module.exports = {
   mapleLeafs: {
     id: "maple-leafs",
     name: "Toronto Maple Leafs: 100 Years of Goals",
-    description: "100 Years of Goals with the Maple leafs",
+    description: "The 100 Years of Maple Leafs Goals app lets you explore goal data for the Maple Leafs 100 seasons played. See which years the Maple Leafs scored the most goals, which players scored the most goals, and which teams the Maple Leafs scored the most goals against. Filter down by regular and post season, goal type, and more.",
     url: "/liveshowcase/maple-leafs/index.html",
     ownData: true,
     connectionId: "",
     sampleProjectId: "maple-leafs",
     icon: "/resources/maple-leafs.png",
-    api: "Capability APIs",
-    creator: "",
-    branchUserId: ""
+    api: "Engine API (enigma.js)",
+    creator: "Francis Kabinoff",
+    branchUserId: "569d60643a0fa8b4169353bb"
   },
   airBnBApp: {
     id: "airBnBApp",
