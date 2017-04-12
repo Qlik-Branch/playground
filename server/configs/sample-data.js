@@ -62,7 +62,7 @@ module.exports = {
     name: "NASA Meteorite Landing Data",
     description: "A collection of data from NASA about Meteorite Landings. Data last updated July 20, 2015 and downloaded from https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh",
     icon: "https://upload.wikimedia.org/wikipedia/commons/1/18/Namibie_Hoba_Meteorite_05.JPG",
-    app: "fd4acace-d740-49a3-8aa8-850b4ee1cfa6",
+    app: "5f2ba8ba-3f9b-4ac2-a823-e5c9aea4e18f",
     projects:[
       "basic-engine-template",
       "playground-capabilities-template",
