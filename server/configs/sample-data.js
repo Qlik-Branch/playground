@@ -1,6 +1,6 @@
 module.exports = {
   "starwars":{
-    name: "Star Wars data from SWAPI",
+    name: "SWAPI Star Wars data",
     description: "All the Star Wars data you've ever wanted.",
     icon: "https://ph-files.imgix.net/62758740-d453-4296-ac77-4eea57732bd5?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=576.6515837104072&h=360",
     app: "7225d8ec-b7e2-4464-9e25-b8d80df10d0c",
