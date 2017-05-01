@@ -1,4 +1,14 @@
 module.exports = {
+  "undpko":{
+    name: "UN Peacekeeping Challenge",
+    description: "Data to use in analyzing efforts in peacekeeping in DCO",
+    icon: "http://static.dnaindia.com/sites/default/files/2014/11/08/281784-un-peacekeeping-logo.jpg",
+    app: "6f263378-12ed-4e25-bd95-b5a051229bad",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
   "starwars":{
     name: "SWAPI Star Wars data",
     description: "All the Star Wars data you've ever wanted.",
