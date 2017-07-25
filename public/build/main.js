@@ -433,7 +433,13 @@
         this.loginUrl = user.loginUrl;
         this.returnUrl = user.returnUrl;
       });
-    }]
+    }],
+    ngOnInit: [
+      function() {
+        initInfoqBeaconForCustomer('0', 'dc09199b-7407-452e-b9e1-ec6c400f1a43')
+        logData()
+      }
+    ]
   });
 
   app.Thanks = ng.core.Component({
@@ -458,7 +464,13 @@
           })
         }
       })
-    }]
+    }],
+    ngOnInit: [
+      function() {
+        initInfoqBeaconForCustomer('1', 'dc09199b-7407-452e-b9e1-ec6c400f1a43')
+        logData()
+      }
+    ]
   });
 
   app.Terms = ng.core.Component({
@@ -1359,3 +1371,15 @@
   });
 
 })(window.app || (window.app = {}));
+
+
+window.ga('create', 'UA-87754759-2', 'auto');
+var currentPage = "fakeStartingPage";
+setInterval(function()
+{
+    if (currentPage !== window.location.href)
+    {
+        currentPage = window.location.href;
+        window.ga('send', 'pageview', window.location.href);
+    }
+}, 1000);

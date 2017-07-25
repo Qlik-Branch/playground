@@ -13,5 +13,11 @@ app.Login = ng.core.Component({
       this.loginUrl = user.loginUrl;
       this.returnUrl = user.returnUrl;
     });
-  }]
+  }],
+  ngOnInit: [
+    function() {
+      initInfoqBeaconForCustomer('0', 'dc09199b-7407-452e-b9e1-ec6c400f1a43')
+      logData()
+    }
+  ]
 });

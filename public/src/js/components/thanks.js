@@ -20,5 +20,11 @@ app.Thanks = ng.core.Component({
         })
       }
     })
-  }]
+  }],
+  ngOnInit: [
+    function() {
+      initInfoqBeaconForCustomer('1', 'dc09199b-7407-452e-b9e1-ec6c400f1a43')
+      logData()
+    }
+  ]
 });
