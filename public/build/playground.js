@@ -361,7 +361,6 @@
         }
       });
       this.dataConnectionService.getShowcaseItems(function (items) {
-        console.log(items);
         _this7.items = items;
         _this7.itemKeys = Object.keys(items);
         _this7.userService.getUserConnections(function (connections) {
@@ -400,6 +399,10 @@
         _this8.loginUrl = user.loginUrl;
         _this8.returnUrl = user.returnUrl;
       });
+    }],
+    ngOnInit: [function () {
+      initInfoqBeaconForCustomer('0', 'dc09199b-7407-452e-b9e1-ec6c400f1a43');
+      logData();
     }]
   });
 
@@ -426,6 +429,10 @@
           });
         }
       });
+    }],
+    ngOnInit: [function () {
+      initInfoqBeaconForCustomer('1', 'dc09199b-7407-452e-b9e1-ec6c400f1a43');
+      logData();
     }]
   });
 
@@ -1269,15 +1276,3 @@
     ng.platformBrowserDynamic.platformBrowserDynamic().bootstrapModule(app.AppModule);
   });
 })(window.app || (window.app = {}));
-
-
-window.ga('create', 'UA-87754759-2', 'auto');
-var currentPage = "fakeStartingPage";
-setInterval(function()
-{
-    if (currentPage !== window.location.href)
-    {
-        currentPage = window.location.href;
-        window.ga('send', 'pageview', window.location.href);
-    }
-}, 1000);
