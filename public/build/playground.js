@@ -1276,3 +1276,12 @@
     ng.platformBrowserDynamic.platformBrowserDynamic().bootstrapModule(app.AppModule);
   });
 })(window.app || (window.app = {}));
+
+window.ga('create', 'UA-87754759-2', 'auto');
+var currentPage = "fakeStartingPage";
+setInterval(function () {
+  if (currentPage !== window.location.href) {
+    currentPage = window.location.href;
+    window.ga('send', 'pageview', window.location.href);
+  }
+}, 1000);
