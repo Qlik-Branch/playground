@@ -9,6 +9,16 @@ module.exports = {
       "playground-capabilities-template"
     ]
   },
+  "unoceans":{
+    name: "UN Oceans Challenge",
+    description: "Data used in the UN's Our Oceans Challenge",
+    icon: "http://www.ouroceanschallenge.org/wp-content/uploads/2016/08/our-oceans-challenge-logo.png",
+    app: "46c34154-4e21-4a88-b8bc-6c39bc896676",
+    projects:[
+      "basic-engine-template",
+      "playground-capabilities-template"
+    ]
+  },
   "starwars":{
     name: "SWAPI Star Wars data",
     description: "All the Star Wars data you've ever wanted.",
