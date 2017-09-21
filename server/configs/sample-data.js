@@ -13,7 +13,7 @@ module.exports = {
     name: "UN Oceans Challenge",
     description: "Data used in the UN's Our Oceans Challenge",
     icon: "http://www.ouroceanschallenge.org/wp-content/uploads/2016/08/our-oceans-challenge-logo.png",
-    app: "46c34154-4e21-4a88-b8bc-6c39bc896676",
+    app: "ca884155-3eff-4e30-a2a6-7d6c3a65d8cc",
     projects:[
       "basic-engine-template",
       "playground-capabilities-template"
