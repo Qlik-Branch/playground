@@ -5,7 +5,7 @@ function updateFilterBar(selections) {
       var filters = item.selectedValues
       filters.forEach(filter => {
         $('#filters-bar').append(
-          `<span class="filter"><a href="#" onclick="unclickFilter('${item.fieldName}', '${filter.qName}')" class="delete-filter"><img class="close-icon" src="resources/images/close.png"></a><span> ${filter.qName} </span></span>`
+          `<span class="filter"><a href="#" onclick="unclickFilter('${item.fieldName}', '${filter.qName}')" class="delete-filter"><img class="close-icon" src="/showcaseresources/decode-oct-2017/resources/images/close.png"></a><span> ${filter.qName} </span></span>`
         )
       })
     }
