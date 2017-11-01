@@ -37,6 +37,34 @@ let mainRoutes = [
         redirectTo: 'noobs'
       },
       {
+        path: 'extensions',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: '100. Prereq Qliks Open Ecosystem.html'
+          },
+          {
+            path: ':page',
+            component: app.Extensions
+          }
+        ]
+      },
+      {
+        path: 'engine-tutorial',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: '101. What is QIX and Why Should You Care.html'
+          },
+          {
+            path: ':page',
+            component: app.Engine
+          }
+        ]
+      },
+      {
         path: 'noobs',
         children: [
           {

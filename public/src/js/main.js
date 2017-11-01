@@ -20,6 +20,8 @@
 
   include "./components/learn/learn.js"
   include "./components/learn/noobs.js"
+  include "./components/learn/extensions.js"
+  include "./components/learn/engine.js"
   include "./components/learn/api-content.js"
 
   include "./components/my-playground/my-data-list.js"

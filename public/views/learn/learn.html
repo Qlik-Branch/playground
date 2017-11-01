@@ -46,6 +46,37 @@
             </ul>
           </div>
         </li>
+        <li>
+          <a [routerLink]="['engine-tutorial']" routerLinkActive="active">Engine Tutorial</a>
+          <div class="generic-data-detail-sub-menu" [ngClass]="{'open':isPath('engine-tutorial')}">
+            <ul>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/101. What is QIX and Why Should You Care.html']">What is QIX and why care</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/102. Meet the Engine.html']">Meet the engine</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/103. Talk to the Engine.html']">Talk to the Engine</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/104. Stay in Sync with the Engine.html']">Stay in Sync with the Engine</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/105. Streamline with Enigma.html']">Streamline with Enigma</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/106. Build a Dashboard - Set Up.html']">Build a Dashboard - Set Up</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/107. Creating Filters with ListObjects.html']">Filters with ListObjects</a></li>
+              <li><a routerLinkActive="active" [routerLink]="['engine-tutorial/108. Creating Charts with HyperCubes.html']">Charts with HyperCubes</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a [routerLink]="['extensions']" routerLinkActive="active">Extensions Tutorial</a>
+          <div class="generic-data-detail-sub-menu" [ngClass]="{'open':isPath('extensions')}">
+            <ul>
+              <li><a [routerLink]="['extensions/100. Prereq Qliks Open Ecosystem.html']" routerLinkActive="active">Qlik's open ecosystem</a></li>
+              <li><a [routerLink]="['extensions/101. What Are Extensions.html']" routerLinkActive="active">What are extensions</a></li>
+              <li><a [routerLink]="['extensions/102. Hello World.html']" routerLinkActive="active">Hello World</a></li>
+              <li><a [routerLink]="['extensions/103. Make it Data Driven.html']" routerLinkActive="active">Make it data driven</a></li>
+              <li><a [routerLink]="['extensions/104. Make it Selectable.html']" routerLinkActive="active">Make it selectable</a></li>
+              <li><a [routerLink]="['extensions/105. Make it Stylish.html']" routerLinkActive="active">Make it stylish</a></li>
+              <li><a [routerLink]="['extensions/106. Make it Responsive.html']" routerLinkActive="active">Make it responsive</a></li>
+              <li><a [routerLink]="['extensions/107. Make it Universal.html']" routerLinkActive="active">Make it universal</a></li>
+              <li><a [routerLink]="['extensions/108. Make it Scalable.html']" routerLinkActive="active">Make it scalable</a></li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </div>
     <div class="generic-data-detail-content">
