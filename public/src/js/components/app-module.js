@@ -7,6 +7,8 @@ app.AppModule = ng.core.NgModule({
     app.FooterList,
     app.Home,
     app.Noobs,
+    app.Extensions,
+    app.Engine,
     app.Learn,
     app.Terms,
     app.APIContent,

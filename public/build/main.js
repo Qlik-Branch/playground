@@ -533,6 +533,50 @@
     }]
   });
 
+  app.Extensions = ng.core
+    .Component({
+      selector: 'playground-extensions',
+      templateUrl: '/views/learn/extensions.html',
+      styles: [
+        'iframe { width: 100%; margin-left: -35px; height: 100%; border: 0; }'
+      ]
+    })
+    .Class({
+      constructor: [
+        ng.router.ActivatedRoute,
+        ng.platformBrowser.DomSanitizationService,
+        function(route, sanitizationService) {
+          route.params.subscribe(params => {
+              this.iframesrc = sanitizationService.bypassSecurityTrustResourceUrl(
+                  `https://qlik-branch.github.io/qlik-sense-extension-tutorial/${params.page}`
+                )
+          })
+        }
+      ]
+    })
+
+  app.Engine = ng.core
+  .Component({
+    selector: 'playground-engine',
+    templateUrl: '/views/learn/engine.html',
+    styles: [
+      'iframe { width: 100%; margin-left: -35px; height: 100%; border: 0; }'
+    ]
+  })
+  .Class({
+    constructor: [
+      ng.router.ActivatedRoute,
+      ng.platformBrowser.DomSanitizationService,
+      function(route, sanitizationService) {
+        route.params.subscribe(params => {
+            this.iframesrc = sanitizationService.bypassSecurityTrustResourceUrl(
+                `https://qlik-branch.github.io/qix-engine-tutorial/${params.page}`
+              )
+        })
+      }
+    ]
+  })
+
   app.APIContent = ng.core.Component({
     selector: 'playground-api-content',
     directives: [ng.router.ROUTER_DIRECTIVES],
@@ -1202,6 +1246,34 @@
           redirectTo: 'noobs'
         },
         {
+          path: 'extensions',
+          children: [
+            {
+              path: '',
+              pathMatch: 'full',
+              redirectTo: '100. Prereq Qliks Open Ecosystem.html'
+            },
+            {
+              path: ':page',
+              component: app.Extensions
+            }
+          ]
+        },
+        {
+          path: 'engine-tutorial',
+          children: [
+            {
+              path: '',
+              pathMatch: 'full',
+              redirectTo: '101. What is QIX and Why Should You Care.html'
+            },
+            {
+              path: ':page',
+              component: app.Engine
+            }
+          ]
+        },
+        {
           path: 'noobs',
           children: [
             {
@@ -1335,6 +1407,8 @@
       app.FooterList,
       app.Home,
       app.Noobs,
+      app.Extensions,
+      app.Engine,
       app.Learn,
       app.Terms,
       app.APIContent,
