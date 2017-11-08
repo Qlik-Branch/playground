@@ -2,6 +2,7 @@ var express = require('express'),
     router = express.Router(),
     request = require('request'),
     qs = require('querystring'),
+    dataConnections = require('../configs/data-connections'),
     mongoHelper = require('../controllers/mongo-helper'),
     QRS = require('../controllers/qrs');
 
@@ -15,7 +16,27 @@ router.get('/connection/callback', function(req, res){
     var data = req.query;
     var session = req.session;
     var tokenUrl = session.dictionary.auth_options.oauth_token_url;
-    if(session.dictionary.auth_options.auth_version=="1.0"){
+    var connectionInfo = dataConnections[session.connectionInfo.id]
+    if (connectionInfo && connectionInfo.getAccessToken) {
+      connectionInfo
+        .getAccessToken(
+          data,
+          session.clientId,
+          session.clientSecret,
+          req.user._id,
+          connectionInfo.id
+        )
+        .then(() => {
+          saveConnectionString(req.user._id, connectionInfo.id,null, () => {
+            res.redirect('/myplayground/mydata/' + connectionInfo.id)
+          })
+        })
+        .catch(err => {
+          console.error('Error getting access tokens', err)
+        })
+    }
+    else {
+      if(session.dictionary.auth_options.auth_version=="1.0"){
       var authData = qs.parse(req.body);
       console.log("Received auth data");
       console.log(authData);
@@ -85,6 +106,7 @@ router.get('/connection/callback', function(req, res){
 
         }
       });
+    }
     }
   }
 });

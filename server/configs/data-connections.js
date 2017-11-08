@@ -1,4 +1,24 @@
+let SpotifyWorker = require('../../dictionaries/spotify/worker')
+
 module.exports = {
+  spotify: {
+    id: 'spotify',
+    name: 'Spotify',
+    directory: 'spotify-dictionary-master',
+    endpoint: 'https://api.spotify.com/v1/',
+    description:
+      'Connecting to this dataset will grab all of your GitHub repositories, issues and stars.',
+    dictionary: '/dictionaries/spotify/dictionary.json',
+    icon: '/dictionaries/spotify/icon.png',
+    getAccessToken: SpotifyWorker.getAccessToken,
+    loadscript: SpotifyWorker.createLoadScript,
+    reloadscript: SpotifyWorker.createLoadScript,
+    projects: [
+      'basic-engine-template',
+      'playground-capabilities-template',
+      'playground-natural-language-vis'
+    ]
+  },
   github:{
     id: "github",
     name: "GitHub",

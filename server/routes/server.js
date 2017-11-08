@@ -239,7 +239,10 @@ router.get('/authorise/:connection', function(req, res){
     if(req.session.dictionary.auth_options.oauth_redirect_url_parameter && req.session.dictionary.auth_options.oauth_redirect_url_parameter!=""){
        oauth_redirect_url_parameter = req.session.dictionary.auth_options.oauth_redirect_url_parameter
     }
-    res.redirect(req.session.dictionary.auth_options.oauth_authorize_url+"?client_id="+req.session.clientId+"&"+oauth_redirect_url_parameter+"="+process.env.genericOAuthRedirectUrl);
+    var authUrl = req.session.dictionary.auth_options.oauth_authorize_url+"?client_id="+req.session.clientId+"&"+oauth_redirect_url_parameter+"="+process.env.genericOAuthRedirectUrl
+    if(req.session.dictionary.auth_options.oauth_authorize_params)
+    authUrl += `&${req.session.dictionary.auth_options.oauth_authorize_params}`
+    res.redirect(authUrl);
   }
 });
 
