@@ -1,5 +1,6 @@
 var APIKey = require('../models/apikey');
 var ConnectionString = require('../models/connection-string');
+var AuthToken = require('../models/auth-token')
 var UserProfile = require('../models/userprofile')
 module.exports = {
   checkAPIKey: function(userid, callbackFn){
@@ -16,6 +17,48 @@ module.exports = {
   getUserFromAPIKey: function(apiKey, callbackFn){
     APIKey.find({api_key: apiKey}).populate('userid').exec(function(err, keys){
       callbackFn(err, keys);
+    });
+  },
+  getAuthToken: function(userid, connectionName, callbackFn){
+    AuthToken.find({userid: userid, connection: connectionName}, function(err, authToken){
+      if(err) {
+        console.log("ERROR GETTING AUTH", err)
+      }
+      callbackFn(err, authToken[0]);
+    })
+  },
+  saveAuthToken: function(authTokenId, userid, connectionName, accessToken, refreshToken, callbackFn){
+    var authToken = {
+      userid: userid,
+      connection: connectionName,
+      accessToken: accessToken,
+      refreshToken: refreshToken
+    };
+    if(authTokenId){
+      AuthToken.update(authTokenId, authToken, {upsert: true},  function(err){
+        callbackFn(err);
+      })
+    }
+    else{
+      var conn = new AuthToken(authToken);
+      conn.save(function(err){
+        callbackFn(err);
+      });
+    }
+  },
+  updateAuthToken: function(userid, connectionName, data, returnUpdatedDocument, callbackFn){
+    AuthToken.findOneAndUpdate({userid: userid, connection: connectionName}, data, {returnNewDocument: returnUpdatedDocument}, function(err, authToken){
+      if(err){
+        callbackFn(err);
+      }
+      else{
+        callbackFn(null, authToken);
+      }
+    });
+  },
+  deleteAuthToken: function(userid, connectionName, callbackFn){
+    AuthToken.find({userid: userid, connection: connectionName}).remove().exec(function(err){
+      callbackFn(err);
     });
   },
   getConnectionString: function(userid, connectionName, callbackFn){

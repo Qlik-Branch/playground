@@ -1,0 +1,14 @@
+{
+  "name": "spotify-dictionary",
+  "display_name": "spotify-dictionary",
+  "owner": "rjriel",
+  "auth_method": "OAuth",
+  "auth_options": {
+    "auth_version": "2.0",
+    "oauth_authorize_url": "https://accounts.spotify.com/authorize",
+    "oauth_authorize_params": "response_type=code&scope=user-read-private%20user-read-email%20user-read-recently-played%20user-top-read" ,
+    "oauth_token_url": "https://accounts.spotify.com/api/token"
+  },
+  "base_endpoint": "",
+  "data_element": ""
+}

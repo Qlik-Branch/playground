@@ -50,7 +50,7 @@ module.exports = {
               callbackFn(err);
             }
             else{
-              console.log(ticketResponse);
+              //console.log(ticketResponse);
               var ticket = JSON.parse(ticketResponse);
               if(ticket.Ticket){
                 callbackFn(null, {cookies: null, ticket: ticket.Ticket});
@@ -136,14 +136,26 @@ module.exports = {
             console.log(connectionString.appid);
             global.openDoc(connectionString.appid).then(function(qApp){
               var reloadFinished = false;
-              qApp.doReload().then(function(response){
-                reloadFinished = true;
-                qApp.doSave().then(function(){
-                  qApp.connection.close();
-                  callbackFn(null, connectionString.appid);
+              let reload = () => {
+                qApp.doReload().then(function(response){
+                  reloadFinished = true;
+                  qApp.doSave().then(function(){
+                    qApp.connection.close();
+                    callbackFn(null, connectionString.appid);
+                  });
                 });
-              });
-              getReloadProgress(global);
+                getReloadProgress(global);
+              }
+
+              if(connectionDetails.reloadscript) {
+                connectionDetails.reloadscript(connectionString)
+                .then((script) => {
+                  qApp.setScript(script)
+                  .then(() => reload())
+                })
+              } else {
+                reload()
+              }
 
               function getReloadProgress(g) {
                 g.getProgress(0).then(function (reloadProgress) {
@@ -201,30 +213,39 @@ module.exports = {
                 }
                 else{
                   global.openDoc(newAppId).then(function(qApp){
-                    var reloadFinished = false;
-                    var script = connectionString.connectionString += "; ";
-                    script += connectionDetails.loadscript;
-                    console.log('setting script');
-                    qApp.setScript(script).then(function(){
-                      console.log('reloading');
-                      qApp.doReload().then(function(response){
-                        reloadFinished = true;
-                        qApp.doSave().then(function(){
-                          qApp.connection.close();
-                          callbackFn(null, connectionString.appid);
+                    let loadApp = (script) => {
+                      var reloadFinished = false;
+                      qApp.setScript(script).then(function(){
+                        qApp.doReload().then(function(response){
+                          reloadFinished = true;
+                          qApp.doSave().then(function(){
+                            qApp.connection.close();
+                            callbackFn(null, connectionString.appid);
+                          });
                         });
+                        getReloadProgress(global);
+  
+                        function getReloadProgress(g) {
+                          g.getProgress(0).then(function (reloadProgress) {
+                            // console.log(reloadProgress);
+                            if (!reloadFinished) {
+                              getReloadProgress(g);
+                            }
+                          });
+                        }
                       });
-                      getReloadProgress(global);
+                    }
 
-                      function getReloadProgress(g) {
-                        g.getProgress(0).then(function (reloadProgress) {
-                          // console.log(reloadProgress);
-                          if (!reloadFinished) {
-                            getReloadProgress(g);
-                          }
-                        });
-                      }
-                    });
+                    if(connectionDetails.loadscript instanceof Function) {
+                      connectionDetails.loadscript(connectionString)
+                      .then((script) => {
+                        loadApp(script)
+                      })
+                    } else {
+                      var script = connectionString.connectionString += "; ";
+                      script += connectionDetails.loadscript;
+                      loadApp(script)
+                    }
                   });
                 }
               });
@@ -236,6 +257,9 @@ module.exports = {
             console.log(err);
             callbackFn(err);
           });
+        }, function(err){
+          console.log("error connected", err);
+          callbackFn(err);
         });
       }
     });

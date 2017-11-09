@@ -27,6 +27,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-es6-transpiler": "^1.0.2",
     "guid": "0.0.12",
+    "halyard.js": "^1.3.0",
     "highlightjs": "^8.7.0",
     "jade": "^1.11.0",
     "jquery": "^2.2.3",
