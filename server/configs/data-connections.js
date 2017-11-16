@@ -7,7 +7,7 @@ module.exports = {
     directory: 'spotify-dictionary-master',
     endpoint: 'https://api.spotify.com/v1/',
     description:
-      'Connecting to this dataset will grab all of your GitHub repositories, issues and stars.',
+      'Connecting to this dataset will grab your top tracks, as well as top artists and their albums.',
     dictionary: '/dictionaries/spotify/dictionary.json',
     icon: '/dictionaries/spotify/icon.png',
     getAccessToken: SpotifyWorker.getAccessToken,
