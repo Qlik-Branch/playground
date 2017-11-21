@@ -11,10 +11,10 @@ router.get('/:id/:page', function(req, res) {
           req.params.page
       )
       break
-    case 'playground-walkingdead':
+    case 'playground-zombie':
       res.sendFile(
         process.env.appRoot +
-          '/public/views/showcase/playground-walkingdead/' +
+          '/public/views/showcase/playground-zombie/' +
           req.params.page
       )
       break

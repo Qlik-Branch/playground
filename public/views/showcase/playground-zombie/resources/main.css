@@ -1,0 +1,87 @@
+html, body {
+    overflow: auto;
+}
+    
+@font-face {
+    font-family: "impact";
+    src: url("impact.woff");
+}
+    
+body {
+    touch-action: auto; /* enables scrolling on chrome for android */
+    padding-bottom: 30px;
+    font-weight: bold;
+}
+
+div.qvobject, div.qvplaceholder {
+    padding: 10px 8px 20px 8px;
+    height: 300px;
+    border: 1px solid #ccc;
+}
+    
+.qvobject.kpi {
+    height: 200px;
+}
+
+.kpi .kpi-value{
+    color: #662506 !important;
+}
+    
+/* clear selections button style */
+.clear-selections, 
+.clear-selections:hover, 
+.clear-selections:active,
+.clear-selections:focus,
+.clear-selections:visited {
+    text-decoration: none !important;
+    position: relative;
+    float: right;
+    top: 11px; 
+    padding: 4px 4px;
+    border-radius: 3px;
+    background: #52cc52;
+    color: white;
+    font-family: arial;
+    text-transform: none;
+}
+    
+span.ng-scope.ng-isolate-scope {
+    font-weight: bold;
+    color: rgb(51,51,51);
+}
+    
+/**** JUMBOTRON *****/
+.jumbotron {
+    background: url("jumbo-bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: impact, 'impact', sans-serif;
+    text-transform: uppercase;
+    color: #fff6d9;
+    text-shadow: 0 4px 26px #000;
+    margin-bottom: 0;
+}
+.jumbotron p {
+    line-height: 0px;
+}
+.jumbotron h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 72px;
+}
+.jumbotron h2 {
+    color: rgb(249, 63, 23);
+}
+/**** END JUMBOTRON ****/
+    
+#nav.affix {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index:10;
+}
+
+.tagline {
+    font-size: 20px; 
+    font-weight: normal; 
+    margin-bottom: 20px;
+}
