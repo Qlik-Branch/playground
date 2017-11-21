@@ -11,9 +11,9 @@ module.exports = {
     "github-repo": "https://github.com/Qlik-Branch/playground-capabilities-template",
     "clone-url": "https://github.com/Qlik-Branch/playground-capabilities-template.git"
   },
-  "playground-walkingdead":{
-    "name": "Walking Dead Dashboard",
-    "description": "A dashboard using the Capabilities API of walkers killed in the show",
+  "playground-zombie":{
+    "name": "Zombie Dashboard",
+    "description": "A simple dashboard created by the Qlik Demo team using the Visualization API to show the number of zombies killed. This data set and dashboard can also be found in the Sample Data section for you to customize and play with.",
     "github-repo": "https://github.com/fkabinoff/playground-walkingdead",
     "clone-url": "https://github.com/fkabinoff/playground-walkingdead.git"
   },

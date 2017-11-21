@@ -41,13 +41,13 @@ module.exports = {
       "playground-capabilities-template"
     ]
   },
-  "playground-walkingDead":{
-    name: "Walking Dead",
-    description: "Contains data for the show Walking Dead enabling exploration of walkers killed in the TV series.",
-    icon: "/resources/walkingdead.png",
+  "playground-zombie":{
+    name: "Zombie",
+    description: "Contains data for enabling exploration of walkers killed in a TV series.",
+    icon: "/resources/zombie-hands.jpg",
     app: "d7ad663d-2413-4088-a3c9-e5ed0283c788",
     projects:[
-      "playground-walkingdead",
+      "playground-zombie",
       "basic-engine-template",
       "playground-capabilities-template",
       "playground-natural-language-vis"

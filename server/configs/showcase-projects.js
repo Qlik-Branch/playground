@@ -13,16 +13,16 @@ module.exports = {
     creator: 'Nick Webster',
     branchUserId: '56728f52d1e497241ae6b299'
   },
-  walkingDead: {
-    id: 'playground-walkingdead',
-    name: 'Walking Dead Dashboard',
+  zombie: {
+    id: 'playground-zombie',
+    name: 'Zombie Dashboard',
     description:
       'A simple dashboard created by the Qlik Demo team using the Visualization API to show the number of walkers killed.  This data set and dashboard can also be found in the Sample Data section for you to customize and play with.',
-    url: '/liveshowcase/playground-walkingdead/index.html',
+    url: '/liveshowcase/playground-zombie/index.html',
     ownData: true,
     connectionId: '',
-    sampleProjectId: 'playground-walkingDead',
-    icon: '/resources/walkingdead.png',
+    sampleProjectId: 'playground-zombie',
+    icon: '/resources/zombie-hands.jpg',
     api: 'Capability APIs',
     creator: '',
     branchUserId: ''
