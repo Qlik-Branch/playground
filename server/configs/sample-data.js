@@ -42,7 +42,7 @@ module.exports = {
     ]
   },
   "playground-zombie":{
-    name: "Zombie",
+    name: "Walkers",
     description: "Contains data for enabling exploration of walkers killed in a TV series.",
     icon: "/resources/zombie-hands.jpg",
     app: "d7ad663d-2413-4088-a3c9-e5ed0283c788",

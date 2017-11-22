@@ -15,7 +15,7 @@ module.exports = {
   },
   zombie: {
     id: 'playground-zombie',
-    name: 'Zombie Dashboard',
+    name: 'Walker Dashboard',
     description:
       'A simple dashboard created by the Qlik Demo team using the Visualization API to show the number of walkers killed.  This data set and dashboard can also be found in the Sample Data section for you to customize and play with.',
     url: '/liveshowcase/playground-zombie/index.html',
