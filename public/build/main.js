@@ -686,6 +686,16 @@
     }
   });
 
+  app.reInvent = ng.core.Component({
+      selector: 'playground-reinvent',
+      directives: [ng.router.ROUTER_DIRECTIVES],
+      templateUrl: '/views/reinvent.html'
+    }).Class({
+      constructor: [function(){
+        
+      }]
+    });
+    
 
   app.MyDataList = ng.core.Component({
     selector: 'my-data-list',
@@ -1237,6 +1247,10 @@
       component: app.Home
     },
     {
+      path: 'reinvent',
+      component: app.reInvent
+    },
+    {
       path: 'learn',
       component: app.Learn,
       children: [
@@ -1412,6 +1426,7 @@
       app.Learn,
       app.Terms,
       app.APIContent,
+      app.reInvent,
       app.MyPlayground,
       app.MyPlaygroundMyData,
       app.MyDataList,

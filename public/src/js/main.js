@@ -23,6 +23,7 @@
   include "./components/learn/extensions.js"
   include "./components/learn/engine.js"
   include "./components/learn/api-content.js"
+  include "./components/reinvent.js"
 
   include "./components/my-playground/my-data-list.js"
   include "./components/my-playground/generic-data-detail-delete.js"

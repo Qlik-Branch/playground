@@ -12,6 +12,7 @@ app.AppModule = ng.core.NgModule({
     app.Learn,
     app.Terms,
     app.APIContent,
+    app.reInvent,
     app.MyPlayground,
     app.MyPlaygroundMyData,
     app.MyDataList,
