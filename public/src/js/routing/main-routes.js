@@ -28,6 +28,10 @@ let mainRoutes = [
     component: app.Home
   },
   {
+    path: 'reinvent',
+    component: app.reInvent
+  },
+  {
     path: 'learn',
     component: app.Learn,
     children: [
