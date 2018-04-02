@@ -12,7 +12,7 @@ module.exports = {
   "hackathon-2018":{
     name: "2018 Qonnections Qlik Hack Challenge",
     description: "Developer data-gurus unite and save the world at Qonnections",
-    icon: "https://cdn-images-1.medium.com/max/240/1*DrorIIsVjpPExcxGb7d79Q.jpeg",
+    icon: "https://cdn-images-1.medium.com/max/480/1*DrorIIsVjpPExcxGb7d79Q.jpeg",
     app: "77f622f3-f252-4722-bcdd-59e2f40340c2",
     projects:[
       "basic-engine-template",
