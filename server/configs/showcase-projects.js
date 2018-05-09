@@ -113,5 +113,19 @@ module.exports = {
     api: 'Capability APIs',
     creator: '',
     branchUserId: ''
+  },
+  hackChallengeSlalom: {
+    id: 'hack-challenge-slalom',
+    name: 'Slalom - 2018 Hack Challenge',
+    description:
+      'At Qonnections 2018, we partnered with C40 Cities to see how teams could leverage Qlik technology to help the City of Boston tackle building emissions. This was the amazing project Slalom put forth.',
+    url: '/liveshowcase/hack-challenge-slalom/index.html',
+    ownData: true,
+    connectionId: '',
+    sampleProjectId: '',
+    icon: '/liveshowcase/hack-challenge-slalom/slalom-logo-s.png',
+    api: 'Engine API',
+    creator: 'Slalom',
+    branchUserId: ''
   }
 }

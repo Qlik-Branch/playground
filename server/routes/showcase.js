@@ -32,6 +32,13 @@ router.get('/:id/:page', function(req, res) {
           req.params.page
       )
       break
+      case 'hack-challenge-slalom':
+      res.sendFile(
+        process.env.appRoot +
+          '/public/views/showcase/hack-challenge-slalom/' +
+          req.params.page
+      )
+      break
     case 'decode-oct-2017':
       res.sendFile(
         process.env.appRoot +
