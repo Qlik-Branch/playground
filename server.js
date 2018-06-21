@@ -24,6 +24,15 @@ catch(err){
 
 mongoose.connect(process.env.mongoconnectionstring);
 
+app.use((req, res, next) => {
+  res.header("Content-Security-Policy", "default-src 'unsafe-eval' 'unsafe-inline' *")
+  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.header("Pragma", "no-cache");
+  res.header("Expires", 0);
+  res.header("X-Content-Type-Options","nosniff")
+  next();
+});
+
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/qlik', express.static(__dirname + '/node_modules/@qlik/leonardo-ui/dist'));
 app.use('/css', express.static(__dirname + '/public/build'));
