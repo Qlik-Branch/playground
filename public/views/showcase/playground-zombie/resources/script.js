@@ -1,6 +1,6 @@
 // Input your config 
 var config = {
-	host: "playground.qlik.com",
+	host: "playground-sense.qlik.com",
 	prefix: "/showcase/",
 	port: "443",
 	isSecure: true,
